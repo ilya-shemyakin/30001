@@ -32,7 +32,7 @@ namespace nspace
         std::string &ref;
     };
 
-    struct LabelIO
+    struct DelStrIO
     {
         std::string exp;
     };
@@ -53,9 +53,9 @@ namespace nspace
     std::istream &operator>>(std::istream &in, UllOctIO &&dest);
     std::istream &operator>>(std::istream &in, UllLitIO &&dest);
     std::istream &operator>>(std::istream &in, StringIO &&dest);
-    std::istream &operator>>(std::istream &in, LabelIO &&dest);
+    std::istream &operator>>(std::istream &in, DelStrIO &&dest);
     std::istream &operator>>(std::istream &in, DataStruct &dest);
-    std::ostream &operator<<(std::ostream &out, const DataStruct &dest);
+    std::ostream &operator<<(std::ostream &out, const DataStruct &src);
 }
 
 int main()
@@ -73,8 +73,6 @@ int main()
                 std::back_inserter(data)
         );
     }
-
-
     std::copy(
             std::begin(data),
             std::end(data),
@@ -93,7 +91,7 @@ namespace nspace
         }
         char c = '0';
         in >> c;
-        if (in && (c != dest.exp))
+        if (in && (std::tolower(c) != std::tolower(dest.exp)))
         {
             in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
@@ -132,7 +130,7 @@ namespace nspace
         }
         return std::getline(in >> DelimiterIO{ '"'}, dest.ref, '"');
     }
-    std::istream &operator>>(std::istream &in, LabelIO &&dest)
+    std::istream &operator>>(std::istream &in, DelStrIO &&dest)
     {
         std::istream::sentry sentry(in);
         if (!sentry)
@@ -142,7 +140,6 @@ namespace nspace
         std::string data = "";
         if ((in >> data) && (data != dest.exp))
         {
-            std::cerr << data << " ERROR";
             in.setstate(std::ios::failbit);
         }
         return in;
@@ -157,17 +154,29 @@ namespace nspace
         DataStruct input;
         {
             using sep = DelimiterIO;
-            using label = LabelIO;
+            using sepStr = DelStrIO;
             using ullLit = UllLitIO;
             using ullOct = UllOctIO;
             using str = StringIO;
-            in >> sep{ '(' } >> sep { ':'};
-            in >> label{ "key1" } >> ullLit { input.key1 };
-            in >> sep{ ':' };
-            in >> label{ "key2" } >> ullOct { input.key2 };
-            in >> sep{ ':' };
-            in >> label{ "key3" } >> str { input.key3 };
-            in >> sep{ ':' } >> sep { ')'};
+            in >> DelStrIO{"(:"};
+            int keyNumber = 0;
+            for (size_t i = 0; i < 3 ; i++) {
+                in >> DelStrIO{"key"} >> keyNumber;
+                switch (keyNumber)
+                {
+                    case 1:
+                        in >> ullLit{ input.key1 } >> DelimiterIO{'u'}
+                        >> DelimiterIO{'l'} >> DelimiterIO{'l'};
+                    case 2:
+                        in >> std::oct >> ullOct {input.key2};
+                    case 3:
+                        in >> StringIO{input.key3};
+                    default:
+                        in.setstate(std::ios::failbit);
+                }
+                in >> DelimiterIO{ ':'};
+            }
+            in >> DelimiterIO{ ')'};
         }
         if (in)
         {
