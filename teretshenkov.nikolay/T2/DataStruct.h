@@ -115,10 +115,10 @@ std::istream& operator>>(std::istream& in, DataStruct& dest)
     for (int i = 0; i < 3; ++i)
     {
         std::getline(in, nKey, ' ');
-        std::istringstream valueStream(value);
         if (nKey == "key1")
         {
             std::getline(in, value, ':');
+            std::istringstream valueStream(value);
             if (isCorrectDouble(value))
             {
                 valueStream >> dest.key1;
@@ -131,6 +131,7 @@ std::istream& operator>>(std::istream& in, DataStruct& dest)
         else if (nKey == "key2")
         {
             std::getline(in, value, ':');
+            std::istringstream valueStream(value);
             if (isCorrectULL(value))
             {
                 valueStream >> std::hex >> dest.key2;
@@ -144,7 +145,7 @@ std::istream& operator>>(std::istream& in, DataStruct& dest)
         {
             in.ignore(1);
             std::getline(in, value, '"');
-            dest.key3 = (value + std::string("\""));
+            dest.key3 = (std::string("\"") + value + std::string("\""));
             in.ignore(1);
         }
     }
