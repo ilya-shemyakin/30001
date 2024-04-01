@@ -73,6 +73,17 @@ int main()
                 std::back_inserter(data)
         );
     }
+    std::sort(data.begin(), data.end(), [](const DataStruct& a, const DataStruct& b) {
+        if (a.key1 != b.key1)
+        {
+            return a.key1 < b.key1;
+        }
+        else if (a.key2 != b.key2)
+        {
+            return a.key2 < b.key2;
+        }
+        return a.key3 < b.key3;
+    });
     std::copy(
             std::begin(data),
             std::end(data),
@@ -197,7 +208,7 @@ namespace nspace
         }
         iofmtguard fmtguard(out);
         out << "(:key1 " << src.key1 << "ull";
-        out << ":key2 " << std::oct << std::showbase << src.key2;
+        out << ":key2 0" << std::oct << src.key2;
         out << ":key3 \"" << src.key3 << "\":)";
         return out;
     }
