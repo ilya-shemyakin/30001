@@ -51,8 +51,8 @@ bool isCorrectDouble(const std::string& sourse)
     bool result = true;
     int last = sourse.length() - 1;
 
-    if (last >= 1 && sourse[last] != 'd' && sourse[last] != 'D'
-        || last >= 1 && sourse[last - 1] == '.'
+    if ((last >= 1 && sourse[last] != 'd' && sourse[last] != 'D')
+        || (last >= 1 && sourse[last - 1] == '.')
         || last < 1)
     {
         result = false;
@@ -62,8 +62,8 @@ bool isCorrectDouble(const std::string& sourse)
         int nDots = 0;
         for (int i = 0; i < last && result; ++i)
         {
-            if (not(sourse[i] >= '0' && sourse[i] <= '9'
-                || sourse[i] == '.' && nDots++ == 0))
+            if (not((sourse[i] >= '0' && sourse[i] <= '9')
+                || (sourse[i] == '.' && nDots++ == 0)))
             {
                 result = false;
             }
@@ -79,14 +79,14 @@ bool isCorrectULL(const std::string& sourse)
     bool result = true;
     int size = sourse.length();
     if (size > 2 &&
-        (sourse[0] == '0' && sourse[1] == 'x' ||
-            sourse[0] == '0' && sourse[1] == 'X'))
+        ((sourse[0] == '0' && sourse[1] == 'x') ||
+            (sourse[0] == '0' && sourse[1] == 'X')))
     {
         for (int i = 2; i < size && result; ++i)
         {
-            if (not(sourse[i] >= '0' && sourse[i] <= '9'
-                || sourse[i] >= 'a' && sourse[i] <= 'f'
-                || sourse[i] >= 'A' && sourse[i] <= 'F'))
+            if (not((sourse[i] >= '0' && sourse[i] <= '9')
+                || (sourse[i] >= 'a' && sourse[i] <= 'f')
+                || (sourse[i] >= 'A' && sourse[i] <= 'F')))
             {
                 result = false;
             }
