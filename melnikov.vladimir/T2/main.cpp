@@ -66,7 +66,6 @@ int main()
     {
         std::string input;
         std::getline(std::cin, input);
-        std::cout << input;
         std::istringstream inputStream(input);
         std::copy(
                 std::istream_iterator< DataStruct >(inputStream),
@@ -76,7 +75,6 @@ int main()
     }
 
 
-    std::cout << "Data:\n";
     std::copy(
             std::begin(data),
             std::end(data),
