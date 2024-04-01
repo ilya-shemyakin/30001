@@ -141,7 +141,7 @@ std::istream& operator>>(std::istream& in, DataStruct& dest)
         }
         else if (nKey == "key3")
         {
-            valueStream >> dest.key3;
+            dest.key3 = value;
         }
     }
     in.ignore(1);
