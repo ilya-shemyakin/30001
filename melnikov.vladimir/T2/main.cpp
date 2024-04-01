@@ -158,25 +158,25 @@ namespace nspace
             using ullLit = UllLitIO;
             using ullOct = UllOctIO;
             using str = StringIO;
-            in >> DelStrIO{"(:"};
+            in >> sepStr{"(:"};
             int keyNumber = 0;
             for (size_t i = 0; i < 3 ; i++) {
                 in >> DelStrIO{"key"} >> keyNumber;
                 switch (keyNumber)
                 {
                     case 1:
-                        in >> ullLit{ input.key1 } >> DelimiterIO{'u'}
-                        >> DelimiterIO{'l'} >> DelimiterIO{'l'};
+                        in >> ullLit{ input.key1 } >> sep{'u'}
+                        >> sep{'l'} >> sep{'l'};
                     case 2:
                         in >> std::oct >> ullOct {input.key2};
                     case 3:
-                        in >> StringIO{input.key3};
+                        in >> str{input.key3};
                     default:
                         in.setstate(std::ios::failbit);
                 }
-                in >> DelimiterIO{ ':'};
+                in >> sep{ ':'};
             }
-            in >> DelimiterIO{ ')'};
+            in >> sep{ ')'};
         }
         if (in)
         {
