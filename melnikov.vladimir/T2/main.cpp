@@ -137,10 +137,10 @@ namespace nspace
         {
             return in;
         }
-        std::string data = "";
-        if ((in >> data) && (data != dest.exp))
+        size_t i = 0;
+        while (dest.exp[i] != '\0')
         {
-            in.setstate(std::ios::failbit);
+            in >> DelimiterIO({dest.exp[i++]});
         }
         return in;
     }
@@ -158,21 +158,25 @@ namespace nspace
             using ullLit = UllLitIO;
             using ullOct = UllOctIO;
             using str = StringIO;
-            in >> sepStr{"(:"};
+            in >> sepStr({"(:"});
             int keyNumber = 0;
             for (size_t i = 0; i < 3 ; i++) {
-                in >> DelStrIO{"key"} >> keyNumber;
-                switch (keyNumber)
+                in >> sepStr({"key"}) >> keyNumber;
+                if (keyNumber == 1)
                 {
-                    case 1:
-                        in >> ullLit{ input.key1 } >> sep{'u'}
-                        >> sep{'l'} >> sep{'l'};
-                    case 2:
-                        in >> std::oct >> ullOct {input.key2};
-                    case 3:
-                        in >> str{input.key3};
-                    default:
-                        in.setstate(std::ios::failbit);
+                    in >> ullLit{ input.key1 };
+                }
+                else if (keyNumber == 2)
+                {
+                    in >> std::oct >> ullOct {input.key2};
+                }
+                else if (keyNumber == 3)
+                {
+                    in >> str{input.key3};
+                }
+                else
+                {
+                    in.setstate(std::ios::failbit);
                 }
                 in >> sep{ ':'};
             }
