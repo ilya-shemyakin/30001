@@ -8,7 +8,6 @@ int main()
         std::string sourse;
         std::getline(std::cin, sourse);
         std::istringstream inputStream(sourse);
-
         std::copy(
             std::istream_iterator<DataStruct>(inputStream),
             std::istream_iterator<DataStruct>(),
