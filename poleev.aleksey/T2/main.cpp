@@ -59,7 +59,6 @@ int main()
 {
     std::vector<DataStruct> dataVector;
 
-    // —читываем данные
     std::string line;
     while (std::getline(std::cin, line))
     {
