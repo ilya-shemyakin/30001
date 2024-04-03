@@ -24,7 +24,7 @@ std::istream& operator>>(std::istream& in, UllHexIO&& dest)
         return in;
     }
 
-    return in >> std::hex >> dest.ref; // >>  std::dec
+    return in >> std::hex >> dest.ref;
 }
 
 

@@ -34,7 +34,7 @@ struct DblLitIO
 
 struct StringIO
 {
-    std::string& ref;
+    std::string &ref;
 };
 
 struct DelStrIO
