@@ -78,18 +78,18 @@ std::istream& operator>>(std::istream& in, DataStruct& dest)
     {
         return in;
     }
-    Iofmtguard fmtguard(in);
+    Iofmtguard fmtguard(in);//
 
     DataStruct temp;
     {
-        in >> DelStrIO({ "(:" });
+        in >> DelStrIO({"(:"});
         int nKey = 0;
         for (int i = 0; i < 3; ++i)
         {
-            in >> DelStrIO({ "key" }) >> nKey;
+            in >> DelStrIO({"key"}) >> nKey;
             if (nKey == 1)
             {
-                in >> DblLitIO{ temp.key1 };
+                in >> DblLitIO{temp.key1};
             }
             else if (nKey == 2)
             {
@@ -97,7 +97,7 @@ std::istream& operator>>(std::istream& in, DataStruct& dest)
             }
             else if (nKey == 3)
             {
-                in >> StringIO{ temp.key3 };
+                in >> StringIO{temp.key3};
             }
             else
             {
@@ -127,8 +127,8 @@ std::ostream& operator<<(std::ostream& out, const DataStruct& sourse)
     out << "(:";
     out << "key1 " << std::fixed << std::setprecision(1) << sourse.key1 << "d:";
     out << "key2 0x" << std::hex << std::uppercase << sourse.key2 << std::nouppercase;
-    out << ":key3 " << sourse.key3;
-    out << ":)";
+    out << ":key3 \"" << sourse.key3;
+    out << "\":)";
     return out;
 }
 
