@@ -77,7 +77,9 @@ int main()
 
     for (const auto& data : dataVector)
     {
-        std::cout << "(:key1 " << std::oct << data.key1 << ":key2 #c(" << data.key2.real() << " " << data.key2.imag() << "):key3 '" << data.key3 << "':)" << std::endl;
+        std::cout << "(:key1 " << std::oct << data.key1 << 
+            ":key2 #c(" << data.key2.real() << " " << data.key2.imag() << 
+            "):key3 '" << data.key3 << "':)" << std::endl;
     }
 
     return 0;
