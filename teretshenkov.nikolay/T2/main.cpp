@@ -6,7 +6,7 @@ int main()
     while (std::cin.good())  //завершается после ввода ^Z
     {
         std::copy(
-            std::istream_iterator<DataStruct>(std::cin),  
+            std::istream_iterator<DataStruct>(std::cin),
             std::istream_iterator<DataStruct>(),
             std::back_inserter(dataVector)
         );
@@ -18,9 +18,10 @@ int main()
     }
 
     std::sort(dataVector.begin(), dataVector.end(), sortData);
-    for (const DataStruct& data : dataVector)
-    {
-        std::cout << data << std::endl;
-    }
+    std::copy(
+        std::begin(dataVector),
+        std::end(dataVector),
+        std::ostream_iterator< DataStruct >(std::cout, "\n")
+    );
     return 0;
 }
