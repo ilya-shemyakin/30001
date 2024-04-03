@@ -87,7 +87,7 @@ namespace nspace
                 }
                 else if (keyNumber == 2)
                 {
-                    in >> std::oct >> ullOct {input.key2};
+                    in >> std::oct >> ullOct {input.key2} >> std::dec;
                 }
                 else if (keyNumber == 3)
                 {
