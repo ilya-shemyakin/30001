@@ -16,10 +16,40 @@ struct DataStruct
     std::string key3;
 };
 
-bool isCorrectDouble(const std::string& sourse);
-bool isCorrectULL(const std::string& sourse);
+
+struct DelimiterIO
+{
+    char exp;
+};
+
+struct UllHexIO
+{
+    unsigned long long &ref;
+};
+
+struct DblLitIO
+{
+    double &ref;
+};
+
+struct StringIO
+{
+    std::string& ref;
+};
+
+struct DelStrIO
+{
+    std::string exp;
+};
+
+std::istream& operator>>(std::istream& in, DelimiterIO&& dest);
+std::istream& operator>>(std::istream& in, UllHexIO&& dest);
+std::istream& operator>>(std::istream& in, DblLitIO&& dest);
+std::istream& operator>>(std::istream& in, StringIO&& dest);
+std::istream& operator>>(std::istream& in, DelStrIO&& dest);
 std::istream& operator>>(std::istream& in, DataStruct& dest);
 std::ostream& operator<<(std::ostream& out, const DataStruct& sourse);
 bool sortData(const DataStruct& first, const DataStruct& second);
+
 
 #endif // !DATA_STRUCT_H

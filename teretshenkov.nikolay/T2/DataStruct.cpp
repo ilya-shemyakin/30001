@@ -1,56 +1,73 @@
 #include "DataStruct.h"
 
-bool isCorrectDouble(const std::string& sourse)
+std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
 {
-    bool result = true;
-    int last = sourse.length() - 1;
+    std::istream::sentry sentry(in);
+    if (!sentry)
+    {
+        return in;
+    }
+    char symb = '0';
+    in >> symb;
+    if (in && (std::tolower(symb) != std::tolower(dest.exp)))
+    {
+        in.setstate(std::ios::failbit);
+    }
+    return in;
+}
 
-    if ((last >= 1 && sourse[last] != 'd' && sourse[last] != 'D')
-        || (last >= 1 && sourse[last - 1] == '.')
-        || last < 1)
+std::istream& operator>>(std::istream& in, UllHexIO&& dest)
+{
+    std::istream::sentry sentry(in);
+    if (!sentry)
     {
-        result = false;
+        return in;
     }
-    else
-    {
-        int nDots = 0;
-        for (int i = 0; i < last && result; ++i)
-        {
-            if (not((sourse[i] >= '0' && sourse[i] <= '9')
-                || (sourse[i] == '.' && nDots++ == 0)))
-            {
-                result = false;
-            }
-        }
-    }
-    return result;
+
+    return in >> std::hex >> dest.ref; // >>  std::dec
 }
 
 
-
-bool isCorrectULL(const std::string& sourse)
+std::istream& operator>>(std::istream& in, DblLitIO&& dest)
 {
-    bool result = true;
-    int size = sourse.length();
-    if (size > 2 &&
-        ((sourse[0] == '0' && sourse[1] == 'x') ||
-            (sourse[0] == '0' && sourse[1] == 'X')))
+    std::istream::sentry sentry(in);
+    if (!sentry)
     {
-        for (int i = 2; i < size && result; ++i)
-        {
-            if (not((sourse[i] >= '0' && sourse[i] <= '9')
-                || (sourse[i] >= 'a' && sourse[i] <= 'f')
-                || (sourse[i] >= 'A' && sourse[i] <= 'F')))
-            {
-                result = false;
-            }
-        }
+        return in;
     }
-    else
+
+    in >> dest.ref >> DelimiterIO{ 'd' };
+    if (!in)
     {
-        result = false;
+        in.setstate(std::ios::failbit);
     }
-    return result;
+    return in;
+}
+
+
+std::istream& operator>>(std::istream& in, StringIO&& dest)
+{
+    std::istream::sentry sentry(in);
+    if (!sentry)
+    {
+        return in;
+    }
+    return std::getline(in >> DelimiterIO{ '"' }, dest.ref, '"');
+}
+
+std::istream& operator>>(std::istream& in, DelStrIO&& dest)
+{
+    std::istream::sentry sentry(in);
+    if (!sentry)
+    {
+        return in;
+    }
+    size_t i = 0;
+    while (dest.exp[i] != '\0')
+    {
+        in >> DelimiterIO({ dest.exp[i++] });
+    }
+    return in;
 }
 
 //формат ввода (:key1 50.0d:key2 0xFFFA:key3 "Data":)
@@ -62,47 +79,38 @@ std::istream& operator>>(std::istream& in, DataStruct& dest)
         return in;
     }
     Iofmtguard fmtguard(in);
-    in.ignore(2);
-    std::string nKey;
-    std::string value;
-    for (int i = 0; i < 3; ++i)
+
+    DataStruct temp;
     {
-        std::getline(in, nKey, ' ');
-        if (nKey == "key1")
+        in >> DelStrIO({ "(:" });
+        int nKey = 0;
+        for (int i = 0; i < 3; ++i)
         {
-            std::getline(in, value, ':');
-            std::istringstream valueStream(value);
-            if (isCorrectDouble(value))
+            in >> DelStrIO({ "key" }) >> nKey;
+            if (nKey == 1)
             {
-                valueStream >> dest.key1;
+                in >> DblLitIO{ temp.key1 };
+            }
+            else if (nKey == 2)
+            {
+                in >> std::hex >> UllHexIO{ temp.key2 } >> std::dec;
+            }
+            else if (nKey == 3)
+            {
+                in >> StringIO{ temp.key3 };
             }
             else
             {
-                in.ignore(1000, '\n');
+                in.setstate(std::ios::failbit);
             }
+            in >> DelimiterIO{ ':' };
         }
-        else if (nKey == "key2")
-        {
-            std::getline(in, value, ':');
-            std::istringstream valueStream(value);
-            if (isCorrectULL(value))
-            {
-                valueStream >> std::hex >> dest.key2;
-            }
-            else
-            {
-                in.ignore(1000, '\n');
-            }
-        }
-        else if (nKey == "key3")
-        {
-            in.ignore(1);
-            std::getline(in, value, '"');
-            dest.key3 = (std::string("\"") + value + std::string("\""));
-            in.ignore(1);
-        }
+        in >> DelimiterIO{ ')' };
     }
-    in.ignore(1);
+    if (in)
+    {
+        dest = temp;
+    }
     return in;
 }
 
