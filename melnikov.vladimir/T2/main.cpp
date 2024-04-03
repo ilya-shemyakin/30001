@@ -8,11 +8,19 @@ int main()
 {
     using nspace::DataStruct;
     std::vector< DataStruct > data;
-    std::copy(
-            std::istream_iterator< DataStruct >(std::cin),
-            std::istream_iterator< DataStruct >(),
-            std::back_inserter(data)
-    );
+    while (std::cin.good())
+    {
+        std::copy(
+                std::istream_iterator< DataStruct >(std::cin),
+                std::istream_iterator< DataStruct >(),
+                std::back_inserter(data)
+        );
+        if (std::cin.fail() && !std::cin.eof())
+        {
+            std::cin.clear();
+            std::cin.ignore();
+        }
+    }
     std::sort(data.begin(), data.end(), [](const DataStruct& a, const DataStruct& b) {
         if (a.key1 != b.key1)
         {
