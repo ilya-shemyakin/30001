@@ -1,3 +1,9 @@
+#include <string>
+#include <iterator>
+#include <vector>
+#include <sstream>
+#include <iomanip>
+#include <algorithm>
 #include "DataStruct.h"
 
 int main()
