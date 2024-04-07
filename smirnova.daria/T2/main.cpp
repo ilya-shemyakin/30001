@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -104,7 +102,7 @@ int main()
             std::end(data),
             std::ostream_iterator< DataStruct >(std::cout, "\n")
     );
-    
+
     return 0;
 }
 
@@ -263,7 +261,6 @@ namespace nspace
         return in;
     }
 
-
     std::ostream &operator<<(std::ostream &out, const DataStruct &src)
     {
         std::ostream::sentry sentry(out);
@@ -293,5 +290,3 @@ namespace nspace
         s_.flags(fmt_);
     }
 }
-
-
