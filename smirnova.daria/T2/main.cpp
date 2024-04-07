@@ -1,17 +1,12 @@
 
-// Пример перегрузки ввода/вывода для пользовательского типа Data.
-// Похожим образом можно организовать ввод/вывод в работе 1,
-// но в этом примере имеется ряд упрощений:
-// 1) не поддерживается произвольный порядок полей
-// 2) не поддерживаются строки некорректного формата
 
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <cassert>
 #include <iterator>
 #include <vector>
 #include <iomanip>
+#include <algorithm>
 
 namespace nspace
 {
@@ -109,17 +104,7 @@ int main()
             std::end(data),
             std::ostream_iterator< DataStruct >(std::cout, "\n")
     );
-
-
-
-
-
-
-    //std::cout << "Data:\n";
-    //std::sort(data.begin(), data.end(), );
-
-
-
+    
     return 0;
 }
 
@@ -127,7 +112,7 @@ namespace nspace
 {
     bool isCorrectUllLit(const std::string& resultString) {
         bool isResult = false;
-        for (int i = 0; i <= resultString.length(); i++) {
+        for (long unsigned int i = 0; i <= resultString.length(); i++) {
             if ('0' <= resultString[i] and resultString[i] <= '9') {
                 isResult = true;
             } else {
@@ -143,7 +128,7 @@ namespace nspace
             return false;
         }
         bool isResult = false;
-        for (int i = 2; i <= resultString.length(); i++) {
+        for (long unsigned int i = 2; i <= resultString.length(); i++) {
             if (('0' <= resultString[i] and resultString[i] <= '9') or
                 ('a' <= resultString[i] and resultString[i] <= 'f') or
                 ('A' <= resultString[i] and resultString[i] <= 'F')) {
@@ -308,6 +293,5 @@ namespace nspace
         s_.flags(fmt_);
     }
 }
-
 
 
