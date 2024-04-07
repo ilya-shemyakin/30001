@@ -215,8 +215,6 @@ namespace nspace
             std::string colon;
             using sep = DelimiterIO;
             using label = LabelIO;
-            using ullLit = UllLitIO;
-            using ullHex = UllHexIO;
             using str = StringIO;
             std::string valueOfKey;
             in >> sep{ '(' };
