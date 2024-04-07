@@ -1,3 +1,10 @@
+
+// Пример перегрузки ввода/вывода для пользовательского типа Data.
+// Похожим образом можно организовать ввод/вывод в работе 1,
+// но в этом примере имеется ряд упрощений:
+// 1) не поддерживается произвольный порядок полей
+// 2) не поддерживаются строки некорректного формата
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -8,7 +15,7 @@
 
 namespace nspace
 {
-    struct Data
+    struct DataStruct
     {
         unsigned long long key1;
         unsigned long long key2;
@@ -39,7 +46,7 @@ namespace nspace
     {
         std::string exp;
     };
-    bool sortFunction(const Data& firstElement, const Data& secondElement) {
+    bool sortFunction(const DataStruct& firstElement, const DataStruct& secondElement) {
         bool isResult = false;
         if (firstElement.key1 < secondElement.key1) {
             isResult = true;
@@ -77,30 +84,34 @@ namespace nspace
     std::istream &operator>>(std::istream &in, UllLitIO &&dest);
     std::istream &operator>>(std::istream &in, UllHexIO &&dest);
     std::istream &operator>>(std::istream &in, LabelIO &&dest);
-    std::istream &operator>>(std::istream &in, Data &dest);
-    std::ostream &operator<<(std::ostream &out, const Data &dest);
+    std::istream &operator>>(std::istream &in, DataStruct &dest);
+    std::ostream &operator<<(std::ostream &out, const DataStruct &dest);
 
 }
 
 
 int main()
 {
-    using nspace::Data;
+    using nspace::DataStruct;
     using nspace::sortFunction;
 
-    std::vector< Data > data;
-    std::istringstream iss("( \"key1\": 1ull, \"key2\": 1f )");
+    std::vector< DataStruct > data;
+   // std::istringstream iss("(:\"key1\" 1ull:\"key2\" 1f:\"key3\" \"eto zizn\")");
+
     std::copy(
-            std::istream_iterator< Data >(iss),
-            std::istream_iterator< Data >(),
+            std::istream_iterator< DataStruct >(std::cin),
+            std::istream_iterator< DataStruct >(),
             std::back_inserter(data)
     );
     std::sort(data.begin(), data.end(), sortFunction);
     std::copy(
             std::begin(data),
             std::end(data),
-            std::ostream_iterator< Data >(std::cout, "\n")
+            std::ostream_iterator< DataStruct >(std::cout, "\n")
     );
+
+
+
 
 
 
@@ -146,7 +157,6 @@ namespace nspace
 
     std::istream &operator>>(std::istream &in, DelimiterIO &&dest)
     {
-        // все перегрузки операторов ввода/вывода должны начинаться с проверки экземпляра класса sentry
         std::istream::sentry sentry(in);
         if (!sentry)
         {
@@ -202,22 +212,22 @@ namespace nspace
         {
             return in;
         }
-        std::string data = "";
-        if ((in >> StringIO{ data }) && (data != dest.exp))
+        std::string DataStruct = "";
+        if ((in >> StringIO{ DataStruct }) && (DataStruct != dest.exp))
         {
             in.setstate(std::ios::failbit);
         }
         return in;
     }
 
-    std::istream &operator>>(std::istream &in, Data &dest)
+    std::istream &operator>>(std::istream &in, DataStruct &dest)
     {
         std::istream::sentry sentry(in);
         if (!sentry)
         {
             return in;
         }
-        Data input;
+        DataStruct input;
         {
             std::string colon;
             using sep = DelimiterIO;
@@ -269,7 +279,7 @@ namespace nspace
     }
 
 
-    std::ostream &operator<<(std::ostream &out, const Data &src)
+    std::ostream &operator<<(std::ostream &out, const DataStruct &src)
     {
         std::ostream::sentry sentry(out);
         if (!sentry)
@@ -278,9 +288,9 @@ namespace nspace
         }
         iofmtguard fmtguard(out);
         out << "{ ";
-        out << "\"key1\": " << std::fixed << std::setprecision(1) << src.key1 << "ull, ";
-        out << "\"key2\": " << std::hex << src.key2 ;
-        out << "\"key3\": " << src.key3 ;
+        out << ":\"key1\" " << std::fixed << std::setprecision(1) << src.key1 << "ull, ";
+        out << ":\"key2\" " << std::hex << src.key2 ;
+        out << ":\"key3\" " << src.key3 ;
         return out;
     }
 
@@ -298,5 +308,6 @@ namespace nspace
         s_.flags(fmt_);
     }
 }
+
 
 
