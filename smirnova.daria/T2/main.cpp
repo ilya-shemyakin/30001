@@ -3,9 +3,7 @@
 #include <string>
 #include <iterator>
 #include <vector>
-#include <iomanip>
 #include <algorithm>
-
 namespace nspace
 {
     struct DataStruct
@@ -82,20 +80,25 @@ namespace nspace
 
 }
 
-
 int main()
 {
     using nspace::DataStruct;
     using nspace::sortFunction;
-
     std::vector< DataStruct > data;
-   // std::istringstream iss("(:\"key1\" 1ull:\"key2\" 1f:\"key3\" \"eto zizn\")");
-
-    std::copy(
-            std::istream_iterator< DataStruct >(std::cin),
-            std::istream_iterator< DataStruct >(),
-            std::back_inserter(data)
-    );
+   // std::istringstream iss("(:key1 076:key2 12ull:key3 "Data":)");
+    while (std::cin.good())
+    {
+        std::copy(
+                std::istream_iterator<DataStruct>(std::cin),
+                std::istream_iterator<DataStruct>(),
+                std::back_inserter(data)
+        );
+        if (std::cin.fail() && !std::cin.eof())
+        {
+            std::cin.clear();
+            std::cin.ignore();
+        }
+    }
     std::sort(data.begin(), data.end(), sortFunction);
     std::copy(
             std::begin(data),
@@ -153,7 +156,6 @@ namespace nspace
         }
         return in;
     }
-
 
     std::istream &operator>>(std::istream &in, UllLitIO &&dest)
     {
@@ -216,41 +218,31 @@ namespace nspace
             using sep = DelimiterIO;
             using label = LabelIO;
             using str = StringIO;
+            using ullLit = UllLitIO;
+            using ullHex = UllHexIO;
             std::string valueOfKey;
+            const int MAX_COUNTER = 3;
             in >> sep{ '(' };
-            for (int keyCounter = 0; keyCounter < 3; keyCounter++)
+            for (int keyCounter = 0; keyCounter < MAX_COUNTER; keyCounter++)
             {
                 std::istringstream strStream(colon);
                 if (valueOfKey == "key1")
                 {
-                    if (isCorrectUllLit(colon))
-                    {
-                        strStream >> dest.key1;
-                    }
-                    else
-                    {
-                        in.ignore(100, '\n');
-                    }
+                    in >> ullLit{ input.key1 };
                 }
                 else if (valueOfKey == "key2")
                 {
-                    if (isCorrectUllHex(colon))
-                    {
-                        strStream >> std::hex >> dest.key2;
-                    }
-                    else
-                    {
-                        in.ignore(100, '\n');
-                    }
+                    in >> std::hex >> ullHex{ input.key2 };
                 }
-                else if (valueOfKey == "key3")
+                else if (valueOfKey == "key3") {
+                    in >> str{input.key3};
+                }
+                else
                 {
-                    in >> label{ "key3" } >> sep{ ':' } >> str{ input.key3 };
+                    in.setstate(std::ios::failbit);
                 }
-
             }
             in >> sep{ ':' } >> sep{ ')' };
-
         }
         if (in)
         {
@@ -267,10 +259,9 @@ namespace nspace
             return out;
         }
         iofmtguard fmtguard(out);
-        out << "{ ";
-        out << ":\"key1\" " << std::fixed << std::setprecision(1) << src.key1 << "ull, ";
+        out << "(:\"key1\" " << src.key1 << "ull";
         out << ":\"key2\" " << std::hex << src.key2 ;
-        out << ":\"key3\" " << src.key3 ;
+        out << ":\"key3 " << src.key3 << "\":)";
         return out;
     }
 
@@ -288,3 +279,4 @@ namespace nspace
         s_.flags(fmt_);
     }
 }
+
