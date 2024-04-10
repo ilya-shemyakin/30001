@@ -216,7 +216,6 @@ namespace nspace
         {
             std::string colon;
             using sep = DelimiterIO;
-            using label = LabelIO;
             using str = StringIO;
             using ullLit = UllLitIO;
             using ullHex = UllHexIO;
