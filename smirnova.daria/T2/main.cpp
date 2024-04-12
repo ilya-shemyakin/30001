@@ -61,7 +61,7 @@ namespace nspace
     class iofmtguard
     {
     public:
-        iofmtguard(std::basic_ios< char > &s);
+         iofmtguard(std::basic_ios< char > &s) noexcept;
         ~iofmtguard();
     private:
         std::basic_ios< char > &s_;
@@ -231,7 +231,7 @@ namespace nspace
                 }
                 else if (valueOfKey == "key2")
                 {
-                    in >> std::hex >> ullHex{ input.key2 } >> std::dec;
+                    in >> ullHex{ input.key2 };
                 }
                 else if (valueOfKey == "key3") {
                     in >> str{input.key3};
@@ -240,8 +240,9 @@ namespace nspace
                 {
                     in.setstate(std::ios::failbit);
                 }
+                in >> sep{ ':' };
             }
-            in >> sep{ ':' } >> sep{ ')' };
+            in >> sep{ ')' };
         }
         if (in)
         {
@@ -259,12 +260,12 @@ namespace nspace
         }
         iofmtguard fmtguard(out);
         out << "(:key1 " << src.key1 << "ull";
-        out << ":key2 0x" << std::hex << src.key2 ;
+        out << ":key2 0x" << std::uppercase << std::hex << src.key2 ;
         out << ":key3 \"" << src.key3 << "\":)";
         return out;
     }
 
-    iofmtguard::iofmtguard(std::basic_ios< char > &s) :
+    iofmtguard::iofmtguard(std::basic_ios< char > &s) noexcept:
             s_(s),
             fill_(s.fill()),
             precision_(s.precision()),
