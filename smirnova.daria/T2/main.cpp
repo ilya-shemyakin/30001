@@ -219,12 +219,12 @@ namespace nspace
             using str = StringIO;
             using ullLit = UllLitIO;
             using ullHex = UllHexIO;
-            std::string valueOfKey;
+            std::string valueOfKey = "";
             const int MAX_COUNTER = 3;
-            in >> sep{ '(' };
+            in >> sep{ '(' } >> sep{':'};
             for (int keyCounter = 0; keyCounter < MAX_COUNTER; keyCounter++)
             {
-                std::istringstream strStream(colon);
+                in >> valueOfKey;
                 if (valueOfKey == "key1")
                 {
                     in >> ullLit{ input.key1 };
