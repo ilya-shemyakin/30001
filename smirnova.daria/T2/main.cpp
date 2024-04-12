@@ -38,23 +38,15 @@ namespace nspace
         std::string exp;
     };
     bool sortFunction(const DataStruct& firstElement, const DataStruct& secondElement) {
-        bool isResult = false;
-        if (firstElement.key1 < secondElement.key1) {
-            isResult = true;
-        } else {
-            isResult = false;
+        if (firstElement.key1 != secondElement.key1)
+        {
+            return secondElement.key1 > firstElement.key1;
         }
-        if (firstElement.key2 < secondElement.key2) {
-            isResult = true;
-        } else {
-            isResult = false;
+        if (firstElement.key2 != secondElement.key2)
+        {
+            return secondElement.key2 > firstElement.key2;
         }
-        if (firstElement.key3.length() < secondElement.key3.length()) {
-            isResult = true;
-        } else {
-            isResult = false;
-        }
-        return isResult;
+        return secondElement.key3.length() > firstElement.key3.length();
     }
 
     // scope guard для возврата состояния потока в первоначальное состояние
@@ -85,7 +77,7 @@ int main()
     using nspace::DataStruct;
     using nspace::sortFunction;
     std::vector< DataStruct > data;
-   // std::istringstream iss("(:key1 076:key2 12ull:key3 "Data":)");
+
     while (std::cin.good())
     {
         std::copy(
@@ -175,7 +167,6 @@ namespace nspace
         {
             return in;
         }
-        //return in >> dest.ref >> DelimiterIO{ 'f' };
         return in >> std::hex >> dest.ref;
 
     }
