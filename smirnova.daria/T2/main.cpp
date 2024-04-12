@@ -142,7 +142,7 @@ namespace nspace
         }
         char c = '0';
         in >> c;
-        if (in && (c != dest.exp))
+        if (std::tolower(c) != std::tolower(dest.exp))
         {
             in.setstate(std::ios::failbit);
         }
