@@ -231,7 +231,7 @@ namespace nspace
                 }
                 else if (valueOfKey == "key2")
                 {
-                    in >> std::hex >> ullHex{ input.key2 };
+                    in >> std::hex >> ullHex{ input.key2 } >> std::dec;
                 }
                 else if (valueOfKey == "key3") {
                     in >> str{input.key3};
@@ -258,9 +258,9 @@ namespace nspace
             return out;
         }
         iofmtguard fmtguard(out);
-        out << "(:\"key1\" " << src.key1 << "ull";
-        out << ":\"key2\" " << std::hex << src.key2 ;
-        out << ":\"key3 " << src.key3 << "\":)";
+        out << "(:key1 " << src.key1 << "ull";
+        out << ":key2 0x" << std::hex << src.key2 ;
+        out << ":key3 \"" << src.key3 << "\":)";
         return out;
     }
 
