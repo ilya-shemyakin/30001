@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -58,7 +59,7 @@ namespace nspace
     std::istream &operator>>(std::istream &in, LabelIO &&dest);
     std::istream &operator>>(std::istream &in, DataStruct &dest);
     std::ostream &operator<<(std::ostream &out, const DataStruct &dest);
-    
+
     bool sortFunction(const DataStruct& firstElement, const DataStruct& secondElement) {
         if (firstElement.key1 != secondElement.key1)
         {
@@ -223,7 +224,7 @@ namespace nspace
             return out;
         }
         iofmtguard fmtguard(out);
-        out << "(:key1 " << src.key1 << "ull";
+        out << "(" << ":key1 " << src.key1 << "ull";
         out << ":key2 0x" << std::uppercase << std::hex << src.key2 ;
         out << ":key3 \"" << src.key3 << "\":)";
         return out;
@@ -243,4 +244,3 @@ namespace nspace
         s_.flags(fmt_);
     }
 }
-
