@@ -224,7 +224,7 @@ namespace nspace
             return out;
         }
         iofmtguard fmtguard(out);
-        out << "(" << ":key1 " << src.key1 << "ull";
+        out << "(" << ":key1 " << src.key1 << std::dec << "ull";
         out << ":key2 0x" << std::uppercase << std::hex << src.key2 ;
         out << ":key3 \"" << src.key3 << "\":)";
         return out;
