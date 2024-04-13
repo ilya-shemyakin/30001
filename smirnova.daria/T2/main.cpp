@@ -156,8 +156,12 @@ namespace nspace
         {
             return in;
         }
-        return in >> dest.ref >> DelimiterIO{ 'u' } >> DelimiterIO{ 'l' }
+        in >> dest.ref >> DelimiterIO{ 'u' } >> DelimiterIO{ 'l' }
         >> DelimiterIO{ 'l' };
+        if (!in) {
+            in.setstate(std::ios::failbit);
+        }
+        return in;
     }
 
     std::istream &operator>>(std::istream &in, UllHexIO &&dest)
