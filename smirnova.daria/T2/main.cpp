@@ -199,7 +199,7 @@ namespace nspace
                 }
                 else if (valueOfKey == "key2")
                 {
-                    in >> ullHex{ input.key2 };
+                    in >> std::hex >> ullHex{ input.key2 } >> std::dec;
                 }
                 else if (valueOfKey == "key3") {
                     in >> str{input.key3};
