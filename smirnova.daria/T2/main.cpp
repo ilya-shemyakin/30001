@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -112,7 +111,7 @@ namespace nspace
         }
         char c = '0';
         in >> c;
-        if (in and std::tolower(c) != std::tolower(dest.exp))
+        if (in && std::tolower(c) != std::tolower(dest.exp))
         {
             in.setstate(std::ios::failbit);
         }
@@ -162,10 +161,14 @@ namespace nspace
         {
             return in;
         }
-        std::string DataStruct = "";
-        if ((in >> StringIO{ DataStruct }) && (DataStruct != dest.exp))
-        {
-            in.setstate(std::ios::failbit);
+        //std::string DataStruct = "";
+        //if ((in >> StringIO{ DataStruct }) && (DataStruct != dest.exp))
+        //{
+            //in.setstate(std::ios::failbit);
+        //}
+        size_t i = 0;
+        while (dest.exp[i] != '\0') {
+            in >> DelimiterIO({dest.exp[i++]});
         }
         return in;
     }
@@ -224,7 +227,8 @@ namespace nspace
             return out;
         }
         iofmtguard fmtguard(out);
-        out << "(" << ":key1 " << std::dec << src.key1 << "ull";
+        out << "(";
+        out << ":key1 "  << src.key1 << "ull";
         out << ":key2 0x" << std::uppercase << std::hex << src.key2;
         out << ":key3 \"" << src.key3 << "\":)";
         return out;
