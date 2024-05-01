@@ -43,10 +43,10 @@ namespace nspace
         }
         std::string lit = "ll";
         return in >> dest.ref >> DelimiterIO{ 'l' } >> DelimiterIO{'l'};
-        if (!in)
-        {
-            in.setstate(std::ios::failbit);
-        }
+        //if (!in)
+        //{
+        //    in.setstate(std::ios::failbit);
+        //}
     }
 
     std::istream& operator>>(std::istream& in, StringIO&& dest)
