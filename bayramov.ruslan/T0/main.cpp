@@ -2,5 +2,5 @@
 
 int main()
 {
-	std::cout << "bayramov.re\n";
+    std::cout << "bayramov.re\n";
 }
