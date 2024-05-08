@@ -2,7 +2,10 @@
 #define MELNIKOV_VLADIMIR_POLYGON_H
 #include <vector>
 #include <ios>
-
+#include <iostream>
+#include <algorithm>
+#include <iterator>
+#include <limits>
 namespace melnikov
 {
     struct Point
@@ -17,8 +20,8 @@ namespace melnikov
     {
         char exp;
     };
-    std::istream &operator <<(std::istream & in, Point& dest);
-    std::istream &operator <<(std::istream & in, Polygon& dest);
-    std::istream &operator>>(std::istream &in, DelimiterIO &&dest);
+    std::istream &operator >>(std::istream & in, Point& dest);
+    std::istream &operator >>(std::istream & in, Polygon& dest);
+    std::istream &operator >>(std::istream &in, DelimiterIO &&dest);
 }
 #endif //MELNIKOV_VLADIMIR_POLYGON_H
