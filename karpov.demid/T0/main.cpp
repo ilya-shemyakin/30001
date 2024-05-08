@@ -2,6 +2,6 @@
 
 int main()
 {
-  std::cout << "karpov.demid" << std::endl;
+  std::cout << "karpov.demid" << '\n';
   return 0;
 }
