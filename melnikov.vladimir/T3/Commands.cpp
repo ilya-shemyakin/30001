@@ -187,7 +187,7 @@ namespace melnikov
     size_t inOrderCount(size_t maxCount, size_t& currentCount, const Polygon& current,
                         std::function<bool (const Polygon&)> exp)
     {
-        currentCount = (exp(current) ? ++currentCount : 0);
+        currentCount = (exp(current) ? (currentCount+1) : 0);
         maxCount = maxOfTwo(currentCount, maxCount);
         return maxCount;
     }
