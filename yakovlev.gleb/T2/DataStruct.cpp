@@ -24,8 +24,8 @@ std::istream& operator>>(std::istream& in, DblSciIO&& dest) {
     std::getline(in, temp, ':');
     std::istringstream iss(temp);
 
-    if ((temp.find('E') != std::string::npos || temp.find('e') != std::string::npos)
-    && iss >> dest.ref) {
+    bool findE = (temp.find('E') != std::string::npos || temp.find('e') != std::string::npos);
+    if (findE && iss >> dest.ref) {
     }
     else {
         in.setstate(std::ios::failbit);
@@ -160,8 +160,7 @@ std::string transformIntToBin(int number) {
     return ("0b" + temp);
 }
 
-std::ostream& operator<<(std::ostream& out, const DataStruct& src)
-{
+std::ostream& operator<<(std::ostream& out, const DataStruct& src) {
     std::ostream::sentry sentry(out);
     if (!sentry) {
         return out;
