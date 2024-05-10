@@ -97,7 +97,7 @@ std::istream& operator>>(std::istream& in, DataStruct& dest) {
     }
     Iofmtguard fmtguard(in);
 
-    DataStruct input; 
+    DataStruct input;
     {
         using sep = DelimiterIO;
         using label = LabelIO;
@@ -134,7 +134,7 @@ std::istream& operator>>(std::istream& in, DataStruct& dest) {
 }
 
 std::string showExpForm(double number) {
-    std::stringstream ss; 
+    std::stringstream ss;
     ss << std::setprecision(2) << std::scientific << number;
     std::string str = "";
     ss >> str;
