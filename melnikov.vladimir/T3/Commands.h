@@ -21,5 +21,7 @@ namespace melnikov
                         std::vector< Polygon > & shapes);
     std::ostream & max(std::istream& in, std::ostream& out,
                        std::vector< Polygon > & shapes);
+    std::ostream & min(std::istream& in, std::ostream& out,
+                       std::vector< Polygon > & shapes);
 }
 #endif //MELNIKOV_VLADIMIR_COMMANDS_H

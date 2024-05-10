@@ -21,6 +21,7 @@ int main(int argc, char** argv) {
     void (std::istream &, std::ostream &, std::vector < Polygon > &)>> command;
     command["AREA"] = area;
     command["MAX"] = max;
+    command["MIN"] = min;
     while (!input.eof())
     {
         std::copy(

@@ -87,7 +87,8 @@ namespace melnikov
         return exp(shape1.points.size(), vert1);
     }
 
-    std::ostream & max(std::istream& in, std::ostream& out, std::vector< Polygon > & shapes)
+    std::ostream & max(std::istream& in, std::ostream& out,
+                       std::vector< Polygon > & shapes)
     {
         std::string arg;
         in >> arg;
@@ -104,6 +105,30 @@ namespace melnikov
             auto functor = std::bind(comparedVert, _1, _2, maxOfTwo < size_t >);
             return out << std::accumulate(shapes.begin(), shapes.end(),
                                           3, functor) << '\n';
+        }
+        else
+        {
+            throw std::invalid_argument("Invalid command argument");
+        }
+    }
+    std::ostream & min(std::istream& in, std::ostream& out,
+                       std::vector< Polygon > & shapes)
+    {
+        std::string arg;
+        in >> arg;
+
+        if (!shapes.empty() && arg == "AREA")
+        {
+            out << std::fixed << std::setprecision(1);
+            auto functor = std::bind(comparedArea, _1, _2, minOfTwo < double >);
+            return out << std::accumulate(shapes.begin(), shapes.end(),
+                                          getArea(shapes[0]), functor) << '\n';
+        }
+        else if ( arg == "VERTEXES")
+        {
+            auto functor = std::bind(comparedVert, _1, _2, minOfTwo < size_t >);
+            return out << std::accumulate(shapes.begin(), shapes.end(),
+                                          shapes[0].points.size(), functor) << '\n';
         }
         else
         {
