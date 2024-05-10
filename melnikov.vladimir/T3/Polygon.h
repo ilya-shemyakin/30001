@@ -33,5 +33,7 @@ namespace melnikov
     {
         return (x < y ? x : y);
     }
+    bool operator >(const Point& p1, const Point& p2);
+    bool operator ==(const Point& p1, const Point& p2);
 }
 #endif //MELNIKOV_VLADIMIR_POLYGON_H

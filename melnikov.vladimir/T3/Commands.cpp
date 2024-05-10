@@ -166,4 +166,18 @@ namespace melnikov
             return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
         }
     }
+    bool isPermutation(const Polygon& shape1, const Polygon& shape2)
+    {
+        return std::is_permutation(shape1.points.begin(),
+                                   shape1.points.end(), shape2.points.begin());
+    }
+    std::ostream & perms(std::istream& in, std::ostream& out,
+                         std::vector< Polygon > & shapes)
+    {
+        Polygon arg;
+        in >> arg;
+        std::function< bool(const Polygon&) > temp = std::bind(isPermutation, _1, arg);
+        auto functor = std::bind(counter, _1, _2,temp);
+        return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+    }
 }

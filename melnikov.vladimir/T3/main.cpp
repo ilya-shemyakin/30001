@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     command["MAX"] = max;
     command["MIN"] = min;
     command["COUNT"] = count;
+    command["PERMS"] = perms;
     while (!input.eof())
     {
         std::copy(
