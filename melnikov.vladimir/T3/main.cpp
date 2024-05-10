@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <functional>
 #include "Polygon.h"
 #include "Commands.h"
+#include <map>
 
 int main(int argc, char** argv) {
     using namespace melnikov;
@@ -15,6 +17,9 @@ int main(int argc, char** argv) {
     {
         return 1;
     }
+    std::map < std::string, std::function <
+    void (std::istream &, std::ostream &, std::vector < Polygon > &)>> command;
+    command["AREA"] = area;
     while (!input.eof())
     {
         std::copy(
@@ -28,6 +33,12 @@ int main(int argc, char** argv) {
             input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
-    std::cout << getArea(polygons[0]);
+    std::string cmd;
+    while (std::cin >> cmd)
+    {
+        auto func = command.find(cmd);
+        func->second(std::cin, std::cout, polygons);
+    }
+
     return 0;
 }
