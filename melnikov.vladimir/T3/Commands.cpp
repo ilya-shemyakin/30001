@@ -43,6 +43,10 @@ namespace melnikov
     {
         return shape.points.size() == size;
     }
+    size_t counter(size_t count, const Polygon& shape, std::function< bool(const Polygon&) > exp)
+    {
+        return (exp(shape) ? ++count : count);
+    }
     std::ostream & area(std::istream& in, std::ostream& out, std::vector< Polygon > & shapes)
     {
         out << std::fixed << std::setprecision(1);
@@ -133,6 +137,33 @@ namespace melnikov
         else
         {
             throw std::invalid_argument("Invalid command argument");
+        }
+    }
+    std::ostream & count(std::istream& in, std::ostream& out,
+                         std::vector< Polygon > & shapes)
+    {
+        std::string arg;
+        in >> arg;
+        if (arg == "ODD")
+        {
+            auto functor = std::bind(counter, _1, _2, hasOddPoints);
+            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+        }
+        else if (arg == "EVEN")
+        {
+            auto functor = std::bind(counter, _1, _2, hasEvenPoints);
+            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+        }
+        else
+        {
+            size_t size = std::stoull(arg);
+            if(size < 2)
+            {
+                throw std::invalid_argument("Invalid command argument");
+            }
+            std::function< bool(const Polygon&) > temp = std::bind(hasNumOfPoints, _1, size);
+            auto functor = std::bind(counter, _1, _2, temp);
+            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
         }
     }
 }

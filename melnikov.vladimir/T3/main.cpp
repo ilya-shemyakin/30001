@@ -22,6 +22,7 @@ int main(int argc, char** argv) {
     command["AREA"] = area;
     command["MAX"] = max;
     command["MIN"] = min;
+    command["COUNT"] = count;
     while (!input.eof())
     {
         std::copy(
