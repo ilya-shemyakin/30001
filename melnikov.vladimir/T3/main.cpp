@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
     std::map < std::string, std::function <
     void (std::istream &, std::ostream &, std::vector < Polygon > &)>> command;
     command["AREA"] = area;
+    command["MAX"] = max;
     while (!input.eof())
     {
         std::copy(
