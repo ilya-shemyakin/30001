@@ -39,10 +39,26 @@ int main(int argc, char** argv) {
         }
     }
     std::string cmd;
-    while (std::cin >> cmd)
+    while (!std::cin.eof())
     {
-        auto func = command.find(cmd);
-        func->second(std::cin, std::cout, polygons);
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+        }
+        try
+        {
+            std::cin >> cmd;
+            auto func = command.find(cmd);
+            if (func == command.end()) {
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw std::invalid_argument("");
+            }
+            func->second(std::cin, std::cout, polygons);
+        }
+        catch (...)
+        {
+            std::cout << "INVALID COMMAND";
+        }
     }
 
     return 0;
