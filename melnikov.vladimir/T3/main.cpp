@@ -48,6 +48,10 @@ int main(int argc, char** argv) {
         try
         {
             std::cin >> cmd;
+            if (std::cin.eof())
+            {
+                break;
+            }
             auto func = command.find(cmd);
             if (func == command.end()) {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
