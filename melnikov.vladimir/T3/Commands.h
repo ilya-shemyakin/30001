@@ -30,5 +30,10 @@ namespace melnikov
                    std::function< bool(const Polygon&) > exp);
     std::ostream & perms(std::istream& in, std::ostream& out,
                          std::vector< Polygon > & shapes);
+    std::ostream & maxSeq(std::istream& in, std::ostream& out,
+                         std::vector< Polygon > & shapes);
+    bool toCount(const Polygon& current, const Polygon& arg);
+    size_t inOrderCount(size_t maxCount, size_t& currentCount, const Polygon& current,
+                        std::function<bool (const Polygon&)> exp);
 }
 #endif //MELNIKOV_VLADIMIR_COMMANDS_H

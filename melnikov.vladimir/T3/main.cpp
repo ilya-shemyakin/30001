@@ -24,6 +24,7 @@ int main(int argc, char** argv) {
     command["MIN"] = min;
     command["COUNT"] = count;
     command["PERMS"] = perms;
+    command["MAXSEQ"] = maxSeq;
     while (!input.eof())
     {
         std::copy(

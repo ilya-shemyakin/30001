@@ -180,4 +180,25 @@ namespace melnikov
         auto functor = std::bind(counter, _1, _2,temp);
         return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
     }
+    bool toCount(const Polygon& current, const Polygon& arg)
+    {
+        return arg==current;
+    }
+    size_t inOrderCount(size_t maxCount, size_t& currentCount, const Polygon& current,
+                        std::function<bool (const Polygon&)> exp)
+    {
+        currentCount = (exp(current) ? ++currentCount : 0);
+        maxCount = maxOfTwo(currentCount, maxCount);
+        return maxCount;
+    }
+    std::ostream & maxSeq(std::istream& in, std::ostream& out,
+                          std::vector< Polygon > & shapes)
+    {
+        Polygon arg;
+        in >> arg;
+        size_t currentCount = 0;
+        std::function< bool(const Polygon&) > temp = std::bind(toCount, _1, arg);
+        auto functor = std::bind(inOrderCount, _1, currentCount , _2, temp);
+        return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+    }
 }
