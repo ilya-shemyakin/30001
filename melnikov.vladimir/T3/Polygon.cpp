@@ -51,7 +51,7 @@ namespace melnikov
         }
         return in;
     }
-    const bool operator >(const Point& p1, const Point& p2)
+    bool operator >(const Point& p1, const Point& p2)
     {
         if (p1.x > p2.x)
         {
@@ -66,11 +66,11 @@ namespace melnikov
             return p1.y >= p2.y;
         }
     }
-    const bool operator ==(const Point& p1, const Point& p2)
+    bool operator ==(const Point& p1, const Point& p2)
     {
         return (p1.x == p2.x && p1.y == p2.y);
     }
-    const bool operator ==(const Polygon& p1, const Polygon& p2)
+    bool operator ==(const Polygon& p1, const Polygon& p2)
     {
         return p1.points == p2.points;
     }
