@@ -50,7 +50,7 @@ std::istream& operator>>(std::istream& in, LabelIO&& dest) {
     for (int i = 0; dest.exp[i] != '\0'; i++) {
         in >> DelimiterIO({ dest.exp[i] });
     }
-    
+
     if (!in) {
         in.setstate(std::ios::failbit);
     }
@@ -68,7 +68,7 @@ std::istream& operator>>(std::istream& in, UllBinIO&& dest) {
 
     bool isCorrect = true;
     dest.ref = 0;
-    
+
     if (temp == "") {
         in.setstate(std::ios::failbit);
         return in;
