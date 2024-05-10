@@ -73,7 +73,7 @@ namespace melnikov
             size_t size = std::stoull(arg);
             if(size < 2)
             {
-                throw std::invalid_argument("Invalid command argument");
+                throw std::invalid_argument("");
             }
             std::function< bool(const Polygon&) > temp = std::bind(hasNumOfPoints, _1, size);
             auto functor = std::bind(addArea, _1, _2, temp);
@@ -104,7 +104,7 @@ namespace melnikov
             return out << std::accumulate(shapes.begin(), shapes.end(),
                                           0.0, functor) << '\n';
         }
-        else if ( arg == "VERTEXES")
+        else if (!shapes.empty() && arg == "VERTEXES")
         {
             auto functor = std::bind(comparedVert, _1, _2, maxOfTwo < size_t >);
             return out << std::accumulate(shapes.begin(), shapes.end(),
@@ -112,7 +112,7 @@ namespace melnikov
         }
         else
         {
-            throw std::invalid_argument("Invalid command argument");
+            throw std::invalid_argument("");
         }
     }
     std::ostream & min(std::istream& in, std::ostream& out,
@@ -128,7 +128,7 @@ namespace melnikov
             return out << std::accumulate(shapes.begin(), shapes.end(),
                                           getArea(shapes[0]), functor) << '\n';
         }
-        else if ( arg == "VERTEXES")
+        else if (!shapes.empty() && arg == "VERTEXES")
         {
             auto functor = std::bind(comparedVert, _1, _2, minOfTwo < size_t >);
             return out << std::accumulate(shapes.begin(), shapes.end(),
@@ -136,7 +136,7 @@ namespace melnikov
         }
         else
         {
-            throw std::invalid_argument("Invalid command argument");
+            throw std::invalid_argument("");
         }
     }
     std::ostream & count(std::istream& in, std::ostream& out,
@@ -159,7 +159,7 @@ namespace melnikov
             size_t size = std::stoull(arg);
             if(size < 2)
             {
-                throw std::invalid_argument("Invalid command argument");
+                throw std::invalid_argument("");
             }
             std::function< bool(const Polygon&) > temp = std::bind(hasNumOfPoints, _1, size);
             auto functor = std::bind(counter, _1, _2, temp);

@@ -40,7 +40,9 @@ namespace melnikov
         in >> size;
         if (size < 3)
         {
-            throw std::invalid_argument("Wrong number of vertexes.");
+            in.clear();
+            in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+            return in;
         }
         dest.points.clear();
         std::copy_n(std::istream_iterator< Point >(in), size, std::back_inserter(dest.points));
