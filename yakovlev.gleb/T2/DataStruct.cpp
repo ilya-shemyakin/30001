@@ -67,7 +67,6 @@ std::istream& operator>>(std::istream& in, UllBinIO&& dest) {
     std::getline(in >> LabelIO{ "0b" }, temp, ':');
 
     bool isCorrect = true;
-    dest.ref = 0;
 
     if (temp == "") {
         in.setstate(std::ios::failbit);
@@ -79,7 +78,6 @@ std::istream& operator>>(std::istream& in, UllBinIO&& dest) {
             case '0':
                 break;
             case '1':
-                dest.ref += std::pow(2.0, temp.length()- 1 - i);
                 break;
             default:
                 in.setstate(std::ios::failbit);
@@ -87,6 +85,7 @@ std::istream& operator>>(std::istream& in, UllBinIO&& dest) {
                 break;
         }
     }
+    dest.ref = "0b" + temp;
     return in;
 }
 
@@ -150,16 +149,6 @@ std::string showExpForm(double number) {
     return str.substr(0, str.find('e')+2) + temp;
 }
 
-std::string transformIntToBin(int number) {
-    std::string temp = (number == 0) ? "0" : "";
-    while (number > 0) {
-        temp = ((number % 2) ? "1" : "0") + temp;
-        number /= 2;
-    }
-
-    return ("0b" + temp);
-}
-
 std::ostream& operator<<(std::ostream& out, const DataStruct& src) {
     std::ostream::sentry sentry(out);
     if (!sentry) {
@@ -168,7 +157,7 @@ std::ostream& operator<<(std::ostream& out, const DataStruct& src) {
     Iofmtguard fmtguard(out);
     out << "(:";
     out << "key1 " << showExpForm(src.key1) << ":";
-    out << "key2 " << transformIntToBin(src.key2) << ":";
+    out << "key2 " << src.key2 << ":";
     out << "key3 " << '"' << src.key3 << "\":)";
     return out;
 }

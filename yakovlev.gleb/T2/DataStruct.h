@@ -14,7 +14,7 @@
 
 struct DataStruct {
     double key1;
-    unsigned long long int key2;
+    std::string key2;
     std::string key3;
 };
 
@@ -35,7 +35,7 @@ struct LabelIO {
 };
 
 struct UllBinIO {
-    unsigned long long int& ref;
+    std::string& ref;
 };
 
 std::istream& operator>>(std::istream& in, DelimiterIO&& dest);
