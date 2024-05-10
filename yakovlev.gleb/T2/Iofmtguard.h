@@ -1,6 +1,8 @@
 #ifndef SCOPE_GUARD_H
 #define SCOPE_GUARD_H
 
+#include <iostream>
+
 class Iofmtguard
 {
 public:
