@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "Polygon.h"
-
+#include "Commands.h"
 
 int main(int argc, char** argv) {
     using namespace melnikov;
@@ -28,6 +28,6 @@ int main(int argc, char** argv) {
             input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
-
+    std::cout << getArea(polygons[0]);
     return 0;
 }

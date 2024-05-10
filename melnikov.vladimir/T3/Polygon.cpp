@@ -46,5 +46,4 @@ namespace melnikov
         >> dest.y >> DelimiterIO{ ')' };
         return in;
     }
-
 }
