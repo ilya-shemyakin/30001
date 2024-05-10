@@ -135,7 +135,7 @@ std::istream& operator>>(std::istream& in, DataStruct& dest) {
 
 std::string showExpForm(double number) {
     std::stringstream ss;
-    ss << std::setprecision(2) << std::scientific << number;
+    ss << std::setprecision(1) << std::scientific << number;
     std::string str = "";
     ss >> str;
     bool extraZeros = true;
