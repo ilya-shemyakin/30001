@@ -71,7 +71,7 @@ namespace melnikov
         else
         {
             size_t size = std::stoull(arg);
-            if(size < 2)
+            if(size <= 2)
             {
                 throw std::invalid_argument("");
             }
@@ -157,7 +157,7 @@ namespace melnikov
         else
         {
             size_t size = std::stoull(arg);
-            if(size < 2)
+            if(size <= 2)
             {
                 throw std::invalid_argument("");
             }
