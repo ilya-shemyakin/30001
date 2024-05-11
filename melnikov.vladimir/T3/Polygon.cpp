@@ -26,6 +26,11 @@ namespace melnikov
         {
             return in;
         }
+        if (in.peek() != '(')
+        {
+            in.setstate(std::ios::eofbit);
+        }
+
         return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
         >> dest.y >> DelimiterIO{ ')' };
     }
@@ -50,9 +55,11 @@ namespace melnikov
         {
             dest.points = temp;
             //std::cout << temp.size() << " " << dest.points.size() << " DONE \n";
+        }
+        if (in.eof())
+        {
             in.clear();
         }
-
         return in;
     }
     bool operator >(const Point& p1, const Point& p2)
