@@ -38,6 +38,10 @@ int main(int argc, char** argv) {
             input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
+//    for (auto i : polygons)
+//    {
+//        std::cout << i.points.size() << " " << i.points[0].y <<  '\n';
+//    }
     std::string cmd;
     while (!std::cin.eof())
     {

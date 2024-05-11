@@ -15,7 +15,7 @@ namespace melnikov
         if (in && c != dest.exp)
         {
             in.setstate(std::ios::failbit);
-            //std::cout << "DELIM EXP: " << dest.exp << " GOT : " << c << '\n';
+            std::cout << "DELIM EXP: " << dest.exp << " GOT : " << c << '\n';
         }
         return in;
     }
@@ -51,14 +51,22 @@ namespace melnikov
         std::vector < Point > temp{};
         std::copy(std::istream_iterator< Point >(in), std::istream_iterator< Point >(),
                 std::back_inserter(temp));
-        if (temp.size() == size)
+        if (temp.size() == size && temp.size() >= 3)
         {
             dest.points = temp;
             //std::cout << temp.size() << " " << dest.points.size() << " DONE \n";
         }
+        else if (!in.eof())
+        {
+            in.setstate(std::ios::failbit);
+        }
         if (in.eof())
         {
             in.clear();
+            if (size != dest.points.size())
+            {
+                in.setstate(std::ios::failbit);
+            }
         }
         return in;
     }

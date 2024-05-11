@@ -154,6 +154,7 @@ namespace melnikov
         }
         else if (arg == "EVEN")
         {
+
             auto functor = std::bind(counter, _1, _2, hasEvenPoints);
             return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
         }
@@ -178,10 +179,6 @@ namespace melnikov
                          std::vector< Polygon > & shapes) {
         Polygon arg;
         in >> arg;
-        if (arg.points.size() < 3)
-        {
-            throw std::invalid_argument("");
-        }
         std::function< bool(const Polygon&) > temp = std::bind(isPermutation, _1, arg);
         auto functor = std::bind(counter, _1, _2,temp);
         return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
