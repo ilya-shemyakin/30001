@@ -83,7 +83,10 @@ namespace melnikov
     }
     bool operator ==(const Polygon& p1, const Polygon& p2)
     {
-        return p1.points == p2.points;
+        if (p1.points.size() != p2.points.size())
+        {
+            return false;
+        }
+        return (p1.points == p2.points);
     }
-
 }
