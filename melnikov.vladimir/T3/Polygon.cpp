@@ -15,6 +15,7 @@ namespace melnikov
         if (in && c != dest.exp)
         {
             in.setstate(std::ios::failbit);
+            //std::cout << "DELIM EXP: " << dest.exp << " GOT : " << c << '\n';
         }
         return in;
     }
@@ -25,9 +26,8 @@ namespace melnikov
         {
             return in;
         }
-        in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
+        return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
         >> dest.y >> DelimiterIO{ ')' };
-        return in;
     }
     std::istream &operator>>(std::istream &in, Polygon &dest)
     {
@@ -40,17 +40,19 @@ namespace melnikov
         in >> size;
         if (size < 3)
         {
-            in.clear();
-            in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+            in.setstate(std::ios::failbit);
             return in;
         }
-        dest.points.clear();
-        std::copy_n(std::istream_iterator< Point >(in), size, std::back_inserter(dest.points));
-        if (!in)
+        std::vector < Point > temp{};
+        std::copy(std::istream_iterator< Point >(in), std::istream_iterator< Point >(),
+                std::back_inserter(temp));
+        if (temp.size() == size)
         {
+            dest.points = temp;
+            //std::cout << temp.size() << " " << dest.points.size() << " DONE \n";
             in.clear();
-            in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
+
         return in;
     }
     bool operator >(const Point& p1, const Point& p2)
@@ -65,7 +67,7 @@ namespace melnikov
         }
         else
         {
-            return p1.y >= p2.y;
+            return (p1.y >= p2.y);
         }
     }
     bool operator ==(const Point& p1, const Point& p2)
