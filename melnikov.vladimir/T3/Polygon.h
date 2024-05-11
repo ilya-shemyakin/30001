@@ -11,10 +11,13 @@ namespace melnikov
     struct Point
     {
         int x, y;
+        bool operator ==(const Point& p1) const;
+
     };
     struct Polygon
     {
         std::vector< Point > points;
+        bool operator ==(const Polygon& p1) const;
     };
     struct DelimiterIO
     {
@@ -25,8 +28,7 @@ namespace melnikov
     std::istream &operator >>(std::istream &in, DelimiterIO &&dest);
 
     bool operator >(const Point& p1, const Point& p2);
-    bool operator ==(const Point& p1, const Point& p2);
-    bool operator ==(const Polygon& p1, const Polygon& p2);
+
     template < class T >
     T maxOfTwo(T x, T y)
     {

@@ -77,16 +77,17 @@ namespace melnikov
             return (p1.y >= p2.y);
         }
     }
-    bool operator ==(const Point& p1, const Point& p2)
+
+    bool Polygon::operator ==(const Polygon& p1) const
     {
-        return (p1.x == p2.x && p1.y == p2.y);
-    }
-    bool operator ==(const Polygon& p1, const Polygon& p2)
-    {
-        if (p1.points.size() != p2.points.size())
+        if (p1.points.size() != this->points.size())
         {
             return false;
         }
-        return (p1.points == p2.points);
+        return (p1.points == this->points);
+    }
+
+    bool Point::operator==(const Point &p1) const {
+        return ((p1.x == this->x) && (p1.y == this->y));
     }
 }
