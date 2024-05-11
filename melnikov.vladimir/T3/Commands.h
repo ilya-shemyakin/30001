@@ -35,5 +35,6 @@ namespace melnikov
     bool toCount(const Polygon& current, const Polygon& arg);
     size_t inOrderCount(size_t maxCount, size_t& currentCount, const Polygon& current,
                         std::function<bool (const Polygon&)> exp);
+    bool comparatorPoint (const Point& p1, const Point& p2);
 }
 #endif //MELNIKOV_VLADIMIR_COMMANDS_H

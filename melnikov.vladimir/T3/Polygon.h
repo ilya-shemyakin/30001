@@ -11,13 +11,22 @@ namespace melnikov
     struct Point
     {
         int x, y;
-        bool operator ==(const Point& p1) const;
-
+        bool operator ==(const Point& p1) const
+        {
+            return ((p1.x == this->x) && (p1.y == this->y));
+        }
     };
     struct Polygon
     {
         std::vector< Point > points;
-        bool operator ==(const Polygon& p1) const;
+        bool operator ==(const Polygon& p1) const
+        {
+            if (p1.points.size() != this->points.size())
+            {
+                return false;
+            }
+            return (p1.points == this->points);
+        }
     };
     struct DelimiterIO
     {

@@ -170,10 +170,29 @@ namespace melnikov
             return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
         }
     }
+    bool comparatorPoint (const Point& p1, const Point& p2)
+    {
+        if (p1.x != p2.x)
+        {
+            return (p1.x > p2.x);
+        }
+        else
+        {
+            return (p1.y >= p2.y);
+        }
+    }
+
     bool isPermutation(const Polygon& shape1, const Polygon& shape2)
     {
-        return std::is_permutation(shape1.points.begin(),
-                                   shape1.points.end(), shape2.points.begin());
+        if (shape1.points.size() != shape2.points.size())
+        {
+            return false;
+        }
+        std::vector< Point > temp1 = shape1.points;
+        std::vector< Point > temp2 = shape2.points;
+        std::sort(temp1.begin(), temp1.end(), comparatorPoint);
+        std::sort(temp2.begin(), temp2.end(), comparatorPoint);
+        return temp1 == temp2;
     }
     std::ostream & perms(std::istream& in, std::ostream& out,
                          std::vector< Polygon > & shapes) {
