@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
-#include "Polygon.h"
 #include "Commands.h"
 #include <map>
 
@@ -32,15 +31,14 @@ int main(int argc, char** argv) {
                 std::istream_iterator< Polygon >(),
                 std::back_inserter(polygons)
         );
-        if (input.fail())
+        if (input.fail() && !input.eof())
         {
             input.clear();
-            input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
 //    for (auto i : polygons)
 //    {
-//        std::cout << i.points.size() << " " << i.points[0].y <<  '\n';
+//        std::cout << i.points.size() <<  '\n';
 //    }
     std::string cmd;
     while (!std::cin.eof())
@@ -65,7 +63,7 @@ int main(int argc, char** argv) {
         }
         catch (...)
         {
-            std::cout << "<INVALID COMMAND>" << '\n';
+            std::cout << "<INVALID COMMAND> " << '\n';
         }
     }
 

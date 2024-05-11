@@ -179,9 +179,16 @@ namespace melnikov
                          std::vector< Polygon > & shapes) {
         Polygon arg;
         in >> arg;
-        std::function< bool(const Polygon&) > temp = std::bind(isPermutation, _1, arg);
-        auto functor = std::bind(counter, _1, _2,temp);
-        return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+        if (in.fail())
+        {
+            throw std::invalid_argument("");
+        }
+        else
+        {
+            std::function< bool(const Polygon&) > temp = std::bind(isPermutation, _1, arg);
+            auto functor = std::bind(counter, _1, _2,temp);
+            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+        }
     }
     bool toCount(const Polygon& current, const Polygon& arg)
     {
@@ -199,17 +206,15 @@ namespace melnikov
     {
         Polygon arg;
         in >> arg;
-        size_t currentCount = 0;
-        std::function< bool(const Polygon&) > temp = std::bind(toCount, _1, arg);
-        auto functor = std::bind(inOrderCount, _1, currentCount , _2, temp);
-        size_t res = std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
-        if (res == 0)
+        if (in.fail())
         {
             throw std::invalid_argument("");
         }
-        else
-        {
-            return out << res;
-        }
+
+        size_t currentCount = 0;
+        std::function< bool(const Polygon&) > temp = std::bind(toCount, _1, arg);
+        auto functor = std::bind(inOrderCount, _1, currentCount , _2, temp);
+        size_t res = std::accumulate(shapes.begin(), shapes.end(), 0, functor);
+        return out << res << '\n';
     }
 }

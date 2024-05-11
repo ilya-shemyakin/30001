@@ -1,8 +1,7 @@
 #include "Polygon.h"
-
+#include <sstream>
 namespace melnikov
 {
-
     std::istream &operator>>(std::istream &in, DelimiterIO &&dest)
     {
         std::istream::sentry sentry(in);
@@ -15,7 +14,7 @@ namespace melnikov
         if (in && c != dest.exp)
         {
             in.setstate(std::ios::failbit);
-            std::cout << "DELIM EXP: " << dest.exp << " GOT : " << c << '\n';
+            //std::cout << "DELIM EXP: " << dest.exp << " GOT : " << c << '\n';
         }
         return in;
     }
@@ -25,10 +24,6 @@ namespace melnikov
         if (!sentry)
         {
             return in;
-        }
-        if (in.peek() != '(')
-        {
-            in.setstate(std::ios::eofbit);
         }
 
         return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
@@ -41,32 +36,29 @@ namespace melnikov
         {
             return in;
         }
+        dest.points.clear();
         size_t size = 0;
         in >> size;
-        if (size < 3)
+        std::string str;
+        std::getline(in, str , '\n');
+        std::istringstream input(str);
+        if (!input || size < 3)
         {
             in.setstate(std::ios::failbit);
             return in;
         }
+
         std::vector < Point > temp{};
-        std::copy(std::istream_iterator< Point >(in), std::istream_iterator< Point >(),
+        std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
                 std::back_inserter(temp));
         if (temp.size() == size && temp.size() >= 3)
         {
             dest.points = temp;
             //std::cout << temp.size() << " " << dest.points.size() << " DONE \n";
         }
-        else if (!in.eof())
+        else
         {
             in.setstate(std::ios::failbit);
-        }
-        if (in.eof())
-        {
-            in.clear();
-            if (size != dest.points.size())
-            {
-                in.setstate(std::ios::failbit);
-            }
         }
         return in;
     }
