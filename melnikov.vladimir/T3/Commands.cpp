@@ -64,6 +64,10 @@ namespace melnikov
         }
         else if (arg == "MEAN")
         {
+            if (shapes.size() == 0)
+            {
+                throw std::invalid_argument("");
+            }
             auto functor = std::bind(addEveryArea, _1, _2);
             return out << std::accumulate(shapes.begin(), shapes.end(),
                                           0.0, functor)/shapes.size() << '\n';
@@ -172,10 +176,13 @@ namespace melnikov
                                    shape1.points.end(), shape2.points.begin());
     }
     std::ostream & perms(std::istream& in, std::ostream& out,
-                         std::vector< Polygon > & shapes)
-    {
+                         std::vector< Polygon > & shapes) {
         Polygon arg;
         in >> arg;
+        if (arg.points.size() < 3)
+        {
+            throw std::invalid_argument("");
+        }
         std::function< bool(const Polygon&) > temp = std::bind(isPermutation, _1, arg);
         auto functor = std::bind(counter, _1, _2,temp);
         return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
@@ -199,6 +206,14 @@ namespace melnikov
         size_t currentCount = 0;
         std::function< bool(const Polygon&) > temp = std::bind(toCount, _1, arg);
         auto functor = std::bind(inOrderCount, _1, currentCount , _2, temp);
-        return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+        size_t res = std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+        if (res == 0)
+        {
+            throw std::invalid_argument("");
+        }
+        else
+        {
+            out << res;
+        }
     }
 }
