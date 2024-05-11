@@ -3,7 +3,6 @@
 #include <numeric>
 #include <functional>
 #include <iomanip>
-#include <cstdlib>
 #include <algorithm>
 using namespace std::placeholders;
 namespace melnikov
@@ -213,7 +212,7 @@ namespace melnikov
         }
         else
         {
-            out << res;
+            return out << res;
         }
     }
 }
