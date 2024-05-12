@@ -33,7 +33,17 @@ std::istream& operator>>(std::istream& in, intIO&& dest)
     return in;
 }
 
+std::istream& operator>>(std::istream& in, Point& dest)
+{
+    std::istream::sentry sentry(in);
+    if (!sentry)
+    {
+        return in;
+    }
 
+    return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
+    >> dest.y >> DelimiterIO{ ')' };
+}
 
 //формат ввода      3 (1;1) (1;3) (3;3)
 std::istream& operator>>(std::istream& in, Polygon& dest)
@@ -43,37 +53,28 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     {
         return in;
     }
-    //Iofmtguard fmtguard(in);
+//Iofmtguard fmtguard(in);
 
-    Polygon polygon;
+//Polygon polygon;
 
     int nPoints = 0;
     in >> nPoints;
-    if (nPoints < 3)
+    std::string localString;
+    std::getline(in, localString, '\n');
+    std::istringstream inString(localString);
+    if (!inString || nPoints < 3)
     {
         in.setstate(std::ios::failbit);
         return in;
     }
-    int temp = 0;
-    for (int i = 0; i < nPoints; ++i)
-    {
-        Point point;
-        in >> DelimiterIO{ '(' };
-        in >> intIO{ temp };
-        point.x = temp;
-        in >> DelimiterIO{ ';' };
-        in >> intIO{ temp };
-        point.y = temp;
-        in >> DelimiterIO{ ')' };
-        if (in)
-        {
-            polygon.points.push_back(point);
-        }
-    }
 
-    if (in)
+    std::vector < Point > locPoints{};
+
+    std::copy(std::istream_iterator< Point >(inString), std::istream_iterator< Point >(),
+        std::back_inserter(locPoints));
+    if (locPoints.size() == nPoints && nPoints >= 3)
     {
-        dest = polygon;
+        dest.points = locPoints;
     }
     else
     {

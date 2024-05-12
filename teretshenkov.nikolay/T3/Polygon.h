@@ -6,6 +6,7 @@
 #include <iterator>
 #include <vector>
 #include <limits>
+#include <sstream>
 
 #include "Iofmtguard.h"
 
