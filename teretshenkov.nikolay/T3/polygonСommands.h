@@ -22,6 +22,4 @@ std::ostream& min(std::istream& in, std::ostream& out,
 std::ostream& count(std::istream& in, std::ostream& out,
     std::vector< Polygon >& polygons);
 
-
-
-#endif // !POLYGON_ÑOMMANDS_H
+#endif

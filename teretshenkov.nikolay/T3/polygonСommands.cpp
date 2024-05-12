@@ -84,7 +84,6 @@ std::ostream& area(std::istream& in, std::ostream& out,
         auto functor = std::bind(addAreaCommon, _1, _2);
         return out << std::accumulate(
             polygons.begin(), polygons.end(), 0.0, functor) / polygons.size() << '\n';
-
     }
     else
     {
@@ -286,7 +285,7 @@ bool hasRightAngle(const Polygon& polygon)
         Point a = polygon.points[i];
         Point b = polygon.points[(i + 1) % size];
         Point c = polygon.points[(i + 2) % size];
-        if (isRightAngledTriangle(a, b, c)) 
+        if (isRightAngledTriangle(a, b, c))
         {
             result = true;
         }
