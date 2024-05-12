@@ -7,7 +7,6 @@
 
 using namespace std::placeholders;
 
-
 int getGaussMultiplication(const Point &p1, const Point &p2)
 {
     return (p1.x * p2.y - p1.y * p2.x);
@@ -66,7 +65,7 @@ std::ostream& area(std::istream& in, std::ostream& out,
     std::string mode;
     in >> mode;
     out << std::fixed << std::setprecision(1);
-    if (mode == "EVEN")  //чётный
+    if (mode == "EVEN")//чётный
     {
         auto functor = std::bind(addArea, _1, _2, isNumPointsEven);
         return out << std::accumulate(polygons.begin(), polygons.end(), 0.0, functor) << '\n';
@@ -204,7 +203,6 @@ std::ostream& count(std::istream& in, std::ostream& out,
         std::function< bool(const Polygon&) > tempF = std::bind(isNumPointsCertain, _1, size);
         auto functor = std::bind(counter, _1, _2, tempF);
         return out << std::accumulate(polygons.begin(), polygons.end(), 0, functor) << '\n';
-
     }
 }
 
@@ -258,7 +256,7 @@ double getDistance(const Point& point1, const Point& point2)
 
 bool isEqualDouble(double x, double y)
 {
-    return std::fabs(x - y) < pow(10, -5); // std::numeric_limits<double>::epsilon();
+    return std::fabs(x - y) < pow(10, -5);//std::numeric_limits<double>::epsilon();
 }
 
 bool isRightAngledTriangle(const Point& point1, const Point& point2, const Point& point3)
