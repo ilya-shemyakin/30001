@@ -62,13 +62,13 @@ int main(int nArguments, char** file)
             auto locCom = commands.find(command);
             if (locCom == commands.end()) {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                throw std::invalid_argument("<INVALID COMMAND>");
+                throw std::invalid_argument("");
             }
             locCom->second(std::cin, std::cout, polygons);
         }
-        catch (std::invalid_argument &e)
+        catch (...)
         {
-            std:: cout << e.what() << '\n';
+            std::cout << "<INVALID COMMAND>" << '\n';
         }
     }
 

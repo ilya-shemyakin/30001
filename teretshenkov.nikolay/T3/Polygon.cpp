@@ -49,6 +49,11 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
 
     int nPoints = 0;
     in >> nPoints;
+    if (nPoints < 3)
+    {
+        in.setstate(std::ios::failbit);
+        return in;
+    }
     int temp = 0;
     for (int i = 0; i < nPoints; ++i)
     {
@@ -69,6 +74,10 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     if (in)
     {
         dest = polygon;
+    }
+    else
+    {
+        in.setstate(std::ios::failbit);
     }
     return in;
 }

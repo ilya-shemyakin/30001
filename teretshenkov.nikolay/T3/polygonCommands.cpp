@@ -73,7 +73,7 @@ std::ostream& area(std::istream& in, std::ostream& out,
     {
         if (polygons.size() == 0)
         {
-            throw std::invalid_argument("WRONG SIZE");
+            throw std::invalid_argument("");
         }
         auto functor = std::bind(addAreaCommon, _1, _2);
         return out << std::accumulate(
@@ -84,7 +84,7 @@ std::ostream& area(std::istream& in, std::ostream& out,
         size_t size = std::stoull(mode);
         if (size <= 2)
         {
-            throw std::invalid_argument("WRONG SIZE");
+            throw std::invalid_argument("");
         }
         std::function< bool(const Polygon&) > temp = std::bind(isNumPointsCertain, _1, size);
         auto functor = std::bind(addArea, _1, _2, temp);
@@ -131,7 +131,7 @@ std::ostream& max(std::istream& in, std::ostream& out,
     }
     else
     {
-        throw std::invalid_argument("WRONG MODE");
+        throw std::invalid_argument("");
     }
 }
 
@@ -156,7 +156,7 @@ std::ostream& min(std::istream& in, std::ostream& out,
     }
     else
     {
-        throw std::invalid_argument("WRONG MODE");
+        throw std::invalid_argument("");
     }
 }
 
@@ -190,7 +190,7 @@ std::ostream& count(std::istream& in, std::ostream& out,
         int size = std::stoi(mode);
         if (size <= 2)
         {
-            throw std::invalid_argument("WRONG SIZE");
+            throw std::invalid_argument("");
         }
 
         std::function< bool(const Polygon&) > tempF = std::bind(isNumPointsCertain, _1, size);
@@ -231,7 +231,7 @@ std::ostream& perms(std::istream& in, std::ostream& out,
     in >> local;
     if (!in)
     {
-        throw std::invalid_argument("FAILED");
+        throw std::invalid_argument("");
     }
     else
     {
@@ -269,7 +269,7 @@ bool hasRightAngle(const Polygon& polygon)
 
     if (size <= 2)
     {
-        throw std::invalid_argument("WRONG SIZE");
+        throw std::invalid_argument("");
     }
 
     bool result = false;
@@ -293,7 +293,7 @@ std::ostream& rightShapes(std::istream& in, std::ostream& out,
 {
     if (!in)
     {
-        throw std::invalid_argument("FAILED");
+        throw std::invalid_argument("");
     }
     std::function< bool(const Polygon&) > tempF = std::bind(hasRightAngle, _1);
     auto functor = std::bind(counter, _1, _2, tempF);
