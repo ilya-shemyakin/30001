@@ -9,7 +9,7 @@ std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
     }
     char symb = '0';
     in >> symb;
-    if (in && (std::tolower(symb) != std::tolower(dest.exp)))
+    if (in && symb != dest.exp)
     {
         in.setstate(std::ios::failbit);
     }
@@ -45,6 +45,23 @@ std::istream& operator>>(std::istream& in, Point& dest)
     >> dest.y >> DelimiterIO{ ')' };
 }
 
+bool operator >(const Point& point1, const Point& point2)
+{
+    if (point1.x > point2.x)
+    {
+        return true;
+    }
+    else if (point1.x < point2.x)
+    {
+        return false;
+    }
+    else
+    {
+        return (point1.y >= point2.y);
+    }
+}
+
+
 //формат ввода      3 (1;1) (1;3) (3;3)
 std::istream& operator>>(std::istream& in, Polygon& dest)
 {
@@ -56,8 +73,8 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
 //Iofmtguard fmtguard(in);
 
 //Polygon polygon;
-
-    int nPoints = 0;
+    dest.points.clear();
+    size_t nPoints = 0;
     in >> nPoints;
     std::string localString;
     std::getline(in, localString, '\n');
@@ -82,3 +99,4 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     }
     return in;
 }
+
