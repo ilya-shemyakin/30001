@@ -7,7 +7,7 @@ int main(int nArguments, char** file)
 {
     if (nArguments < 2)
     {
-        return 2;
+        return 1;
     }
 
     std::ifstream inputF(file[1]);
@@ -36,10 +36,10 @@ int main(int nArguments, char** file)
             std::istream_iterator<Polygon>(),
             std::back_inserter(polygons)
         );
-        if (std::cin.fail() && !inputF.eof())
+        if (inputF.fail() && !inputF.eof())
         {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            inputF.clear();
+//            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 
