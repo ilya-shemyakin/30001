@@ -5,6 +5,7 @@
 #include <string>
 #include <iterator>
 #include <vector>
+#include <limits>
 
 #include "Iofmtguard.h"
 

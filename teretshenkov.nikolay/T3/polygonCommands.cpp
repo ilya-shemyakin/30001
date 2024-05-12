@@ -1,9 +1,4 @@
 #include "polygonCommands.h"
-#include <iomanip>
-#include <algorithm>
-#include <numeric>
-#include <cmath>
-#include <limits>
 
 using namespace std::placeholders;
 

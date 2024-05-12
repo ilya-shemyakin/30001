@@ -2,6 +2,10 @@
 #define POLYGON_COMMANDS_H
 
 #include <functional>
+#include <iomanip>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
 #include "Polygon.h"
 
 std::ostream& perms(std::istream& in, std::ostream& out,
