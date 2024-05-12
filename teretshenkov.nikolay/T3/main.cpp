@@ -1,7 +1,7 @@
 #include <fstream>
 #include <map>
 #include "Polygon.h"
-#include "polygon—ommands.h"
+#include "polygonCommands.h"
 
 int main(int nArguments, char** file)
 {

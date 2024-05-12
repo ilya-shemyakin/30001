@@ -1,5 +1,5 @@
-#ifndef POLYGON_ÑOMMANDS_H
-#define POLYGON_ÑOMMANDS_H
+#ifndef POLYGON_COMMANDS_H
+#define POLYGON_COMMANDS_H
 
 #include <functional>
 #include "Polygon.h"

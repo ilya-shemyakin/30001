@@ -14,7 +14,6 @@ int getGaussMultiplication(const Point &p1, const Point &p2)
 
 double getArea(const Polygon& polygon)
 {
-    size_t size = polygon.points.size();
     double area = 0.0;
 
     for (auto i = polygon.points.begin(); i != (polygon.points.end() - 1); i++)
@@ -280,7 +279,7 @@ bool hasRightAngle(const Polygon& polygon)
 
     bool result = false;
 
-    for (int i = 0; i < size && !result; ++i)
+    for (size_t i = 0; i < size && !result; ++i)
     {
         Point a = polygon.points[i];
         Point b = polygon.points[(i + 1) % size];
@@ -297,6 +296,10 @@ bool hasRightAngle(const Polygon& polygon)
 std::ostream& rightShapes(std::istream& in, std::ostream& out,
     std::vector< Polygon >& polygons)
 {
+    if (!in)
+    {
+        throw std::invalid_argument("FAILED");
+    }
     std::function< bool(const Polygon&) > tempF = std::bind(hasRightAngle, _1);
     auto functor = std::bind(counter, _1, _2, tempF);
     return out << std::accumulate(polygons.begin(), polygons.end(), 0, functor) << '\n';
