@@ -6,7 +6,7 @@
 namespace melnikov
 {
     double getArea (const Polygon& shape);
-    int areaHelper(Point point1, Point point2);
+    double areaHelper(const Point& point1, const Point& point2);
     double addArea (double area, const Polygon & shape,
                     std::function< bool(const Polygon&) > exp);
     double addEveryArea (double area, const Polygon & shape);

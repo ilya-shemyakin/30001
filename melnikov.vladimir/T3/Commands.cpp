@@ -8,19 +8,21 @@
 using namespace std::placeholders;
 namespace melnikov
 {
-    int areaHelper(Point point1, Point point2)
+    double areaHelper(const Point& point1,const  Point& point2)
     {
         return (point1.x * point2.y - point1.y * point2.x);
     }
     double getArea (const Polygon& shape)
     {
-        size_t size = shape.points.size();
-        double area = 0.0;
-        for (auto i = shape.points.begin(); i != --shape.points.end(); i++)
+        auto pointTemp = shape.points.begin()++;
+        double area = std::accumulate(shape.points.begin(), --shape.points.end(), 0.0,
+        [&pointTemp](double areaTemp, const Point& point)
         {
-            area += areaHelper(*i, *std::next(i));
-        }
-        area += areaHelper(shape.points[size-1], shape.points[0]);
+            areaTemp += areaHelper(point, *pointTemp);
+            pointTemp++;
+            return areaTemp;
+        });
+        area += areaHelper(*shape.points.end(),*shape.points.begin());
         return std::fabs(area/2.0);
     }
     double addArea (double area, const Polygon & shape, std::function< bool(const Polygon&) > exp)
@@ -71,7 +73,7 @@ namespace melnikov
             }
             auto functor = std::bind(addEveryArea, _1, _2);
             return out << std::accumulate(shapes.begin(), shapes.end(),
-                                          0.0, functor)/shapes.size() << '\n';
+                                          0.0, functor) / shapes.size() << '\n';
         }
         else
         {
