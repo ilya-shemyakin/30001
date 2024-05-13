@@ -14,7 +14,7 @@ namespace melnikov
     }
     double getArea (const Polygon& shape)
     {
-        auto pointTemp = shape.points.begin()++;
+        auto pointTemp = ++shape.points.begin();
         double area = std::accumulate(shape.points.begin(), --shape.points.end(), 0.0,
         [&pointTemp](double areaTemp, const Point& point)
         {
@@ -22,7 +22,7 @@ namespace melnikov
             pointTemp++;
             return areaTemp;
         });
-        area += areaHelper(*shape.points.end(),*shape.points.begin());
+        area += areaHelper(*--shape.points.end(),*shape.points.begin());
         return std::fabs(area/2.0);
     }
     double addArea (double area, const Polygon & shape, std::function< bool(const Polygon&) > exp)
