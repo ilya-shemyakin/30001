@@ -169,28 +169,12 @@ namespace melnikov
             return out << std::count_if(shapes.begin(), shapes.end(), functor) << '\n';
         }
     }
-    bool comparatorPoint (const Point& p1, const Point& p2)
-    {
-        if (p1.x != p2.x)
-        {
-            return (p1.x > p2.x);
-        }
-        else
-        {
-            return (p1.y >= p2.y);
-        }
-    }
-
     bool isPermutation(const Polygon& shape1, const Polygon& shape2)
     {
         if (shape1.points.size() != shape2.points.size())
         {
             return false;
         }
-//        std::vector< Point > temp1 = shape1.points;
-//        std::vector< Point > temp2 = shape2.points;
-//        std::sort(temp1.begin(), temp1.end(), comparatorPoint);
-//        std::sort(temp2.begin(), temp2.end(), comparatorPoint);
         return std::is_permutation(shape1.points.begin(),shape1.points.end(),
                                    shape2.points.begin(), shape2.points.end());
     }
@@ -198,6 +182,7 @@ namespace melnikov
                          std::vector< Polygon > & shapes) {
         Polygon arg;
         in >> arg;
+        Iofmtguard fmtguard(out);
         if (in.fail())
         {
             throw std::invalid_argument("");
@@ -207,17 +192,6 @@ namespace melnikov
             auto functor = std::bind(isPermutation, _1, arg);
             return out << std::count_if(shapes.begin(), shapes.end(),functor) << '\n';
         }
-    }
-    bool toCount(const Polygon& current, const Polygon& arg)
-    {
-        return arg==current;
-    }
-    size_t inOrderCount(size_t maxCount, size_t& currentCount, const Polygon& current,
-                        std::function<bool (const Polygon&)> exp)
-    {
-        currentCount = (exp(current) ? (currentCount+1) : 0);
-        maxCount = maxOfTwo(currentCount, maxCount);
-        return maxCount;
     }
     std::ostream & maxSeq(std::istream& in, std::ostream& out,
                           std::vector< Polygon > & shapes)
@@ -229,10 +203,25 @@ namespace melnikov
             throw std::invalid_argument("");
         }
         Iofmtguard fmtguard(out);
-        size_t currentCount = 0;
-        std::function< bool(const Polygon&) > temp = std::bind(toCount, _1, arg);
-        auto functor = std::bind(inOrderCount, _1, currentCount , _2, temp);
-        size_t res = std::accumulate(shapes.begin(), shapes.end(), 0, functor);
-        return out << res << '\n';
+        bool wasGood = false;
+        auto lengths = std::accumulate(shapes.begin(), shapes.end(), std::vector < size_t >(),
+                                 [&arg, &wasGood]( std::vector< size_t > lengths, const Polygon& p)
+                                 {
+                                        if (p == arg && !wasGood)
+                                        {
+                                            wasGood = true;
+                                            lengths.push_back(1);
+                                        }
+                                        else if (p == arg)
+                                        {
+                                            *(--lengths.end())+=1;
+                                        }
+                                        else
+                                        {
+                                            wasGood = false;
+                                        }
+                                     return lengths;
+                                 });
+        return out << *std::max_element(lengths.begin(), lengths.end());
     }
 }
