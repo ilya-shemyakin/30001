@@ -87,37 +87,32 @@ namespace melnikov
             return out << std::accumulate(shapes.begin(), shapes.end(), 0.0, functor) << '\n';
         }
     }
-    double comparedArea(double area2, const Polygon & shape1,
-                        std::function< double(double, double ) > exp)
+    bool comparedArea(const Polygon & shape1, const Polygon & shape2)
     {
-        return exp(getArea(shape1), area2);
+        return (getArea(shape1) > getArea(shape2));
     }
-    size_t comparedVert(size_t vert1, const Polygon & shape1,
-                        std::function< size_t(size_t, size_t ) > exp)
+    size_t comparedVert(const Polygon & shape1, const Polygon & shape2)
     {
-        return exp(shape1.points.size(), vert1);
+        return shape1.points.size() > shape1.points.size();
     }
 
     std::ostream & max(std::istream& in, std::ostream& out,
                        std::vector< Polygon > & shapes)
     {
+        Iofmtguard fmtguard(out);
         std::string arg;
         in >> arg;
 
         if (!shapes.empty() && arg == "AREA")
         {
-            Iofmtguard fmtguard(out);
             out << std::fixed << std::setprecision(1);
-            auto functor = std::bind(comparedArea, _1, _2, maxOfTwo < double >);
-            return out << std::accumulate(shapes.begin(), shapes.end(),
-                                          0.0, functor) << '\n';
+            auto maxEl = std::max_element(shapes.begin(), shapes.end(), comparedArea);
+            return out << getArea(*maxEl);
         }
         else if (!shapes.empty() && arg == "VERTEXES")
         {
-            Iofmtguard fmtguard(out);
-            auto functor = std::bind(comparedVert, _1, _2, maxOfTwo < size_t >);
-            return out << std::accumulate(shapes.begin(), shapes.end(),
-                                          3, functor) << '\n';
+            auto maxEl = std::max_element(shapes.begin(), shapes.end(), comparedVert);
+            return out << maxEl->points.size();
         }
         else
         {
@@ -129,21 +124,17 @@ namespace melnikov
     {
         std::string arg;
         in >> arg;
-
+        Iofmtguard fmtguard(out);
         if (!shapes.empty() && arg == "AREA")
         {
-            Iofmtguard fmtguard(out);
             out << std::fixed << std::setprecision(1);
-            auto functor = std::bind(comparedArea, _1, _2, minOfTwo < double >);
-            return out << std::accumulate(shapes.begin(), shapes.end(),
-                                          getArea(shapes[0]), functor) << '\n';
+            auto minEl = std::min_element(shapes.begin(), shapes.end(), comparedArea);
+            return out << getArea(*minEl);
         }
         else if (!shapes.empty() && arg == "VERTEXES")
         {
-            Iofmtguard fmtguard(out);
-            auto functor = std::bind(comparedVert, _1, _2, minOfTwo < size_t >);
-            return out << std::accumulate(shapes.begin(), shapes.end(),
-                                          shapes[0].points.size(), functor) << '\n';
+            auto minEl = std::max_element(shapes.begin(), shapes.end(), comparedVert);
+            return out << minEl->points.size();
         }
         else
         {

@@ -14,10 +14,8 @@ namespace melnikov
     bool hasEvenPoints(const Polygon& shape);
     bool hasNumOfPoints(const Polygon& shape, size_t size);
     bool isPermutation(const Polygon& shape1, const Polygon& shape2);
-    double comparedArea(double area2, const Polygon & shape1,
-                        std::function< double(double, double) > exp);
-    size_t comparedVert(size_t vert1, const Polygon & shape1,
-                        std::function< size_t(size_t, size_t ) > exp);
+    bool comparedArea(const Polygon & shape1, const Polygon & shape2);
+    size_t comparedVert(const Polygon & shape1, const Polygon & shape2);
     std::ostream & area(std::istream& in, std::ostream& out,
                         std::vector< Polygon > & shapes);
     std::ostream & max(std::istream& in, std::ostream& out,
