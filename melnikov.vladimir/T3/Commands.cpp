@@ -4,6 +4,7 @@
 #include <functional>
 #include <iomanip>
 #include <algorithm>
+#include "Iofmtguard.h"
 using namespace std::placeholders;
 namespace melnikov
 {
@@ -51,6 +52,7 @@ namespace melnikov
         out << std::fixed << std::setprecision(1);
         std::string arg;
         in >> arg;
+        Iofmtguard fmtguard(out);
         if (arg == "ODD")
         {
             auto functor = std::bind(addArea, _1, _2, hasOddPoints);
@@ -102,6 +104,7 @@ namespace melnikov
 
         if (!shapes.empty() && arg == "AREA")
         {
+            Iofmtguard fmtguard(out);
             out << std::fixed << std::setprecision(1);
             auto functor = std::bind(comparedArea, _1, _2, maxOfTwo < double >);
             return out << std::accumulate(shapes.begin(), shapes.end(),
@@ -109,6 +112,7 @@ namespace melnikov
         }
         else if (!shapes.empty() && arg == "VERTEXES")
         {
+            Iofmtguard fmtguard(out);
             auto functor = std::bind(comparedVert, _1, _2, maxOfTwo < size_t >);
             return out << std::accumulate(shapes.begin(), shapes.end(),
                                           3, functor) << '\n';
@@ -126,6 +130,7 @@ namespace melnikov
 
         if (!shapes.empty() && arg == "AREA")
         {
+            Iofmtguard fmtguard(out);
             out << std::fixed << std::setprecision(1);
             auto functor = std::bind(comparedArea, _1, _2, minOfTwo < double >);
             return out << std::accumulate(shapes.begin(), shapes.end(),
@@ -133,6 +138,7 @@ namespace melnikov
         }
         else if (!shapes.empty() && arg == "VERTEXES")
         {
+            Iofmtguard fmtguard(out);
             auto functor = std::bind(comparedVert, _1, _2, minOfTwo < size_t >);
             return out << std::accumulate(shapes.begin(), shapes.end(),
                                           shapes[0].points.size(), functor) << '\n';
@@ -154,7 +160,7 @@ namespace melnikov
         }
         else if (arg == "EVEN")
         {
-
+            Iofmtguard fmtguard(out);
             auto functor = std::bind(counter, _1, _2, hasEvenPoints);
             return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
         }
@@ -165,6 +171,7 @@ namespace melnikov
             {
                 throw std::invalid_argument("");
             }
+            Iofmtguard fmtguard(out);
             std::function< bool(const Polygon&) > temp = std::bind(hasNumOfPoints, _1, size);
             auto functor = std::bind(counter, _1, _2, temp);
             return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
@@ -204,6 +211,7 @@ namespace melnikov
         }
         else
         {
+            Iofmtguard fmtguard(out);
             std::function< bool(const Polygon&) > temp = std::bind(isPermutation, _1, arg);
             auto functor = std::bind(counter, _1, _2,temp);
             return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
@@ -229,7 +237,7 @@ namespace melnikov
         {
             throw std::invalid_argument("");
         }
-
+        Iofmtguard fmtguard(out);
         size_t currentCount = 0;
         std::function< bool(const Polygon&) > temp = std::bind(toCount, _1, arg);
         auto functor = std::bind(inOrderCount, _1, currentCount , _2, temp);
