@@ -149,16 +149,14 @@ namespace melnikov
     {
         std::string arg;
         in >> arg;
+        Iofmtguard fmtguard(out);
         if (arg == "ODD")
         {
-            auto functor = std::bind(counter, _1, _2, hasOddPoints);
-            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+            return out << std::count_if(shapes.begin(), shapes.end(), hasOddPoints) << '\n';
         }
         else if (arg == "EVEN")
         {
-            Iofmtguard fmtguard(out);
-            auto functor = std::bind(counter, _1, _2, hasEvenPoints);
-            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+            return out << std::count_if(shapes.begin(), shapes.end(), hasEvenPoints) << '\n';
         }
         else
         {
@@ -167,10 +165,8 @@ namespace melnikov
             {
                 throw std::invalid_argument("");
             }
-            Iofmtguard fmtguard(out);
-            std::function< bool(const Polygon&) > temp = std::bind(hasNumOfPoints, _1, size);
-            auto functor = std::bind(counter, _1, _2, temp);
-            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+            auto functor = std::bind(hasNumOfPoints,_1, size);
+            return out << std::count_if(shapes.begin(), shapes.end(), functor) << '\n';
         }
     }
     bool comparatorPoint (const Point& p1, const Point& p2)
