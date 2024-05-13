@@ -3,17 +3,15 @@
 
 #include <iostream>
 #include <string>
-namespace rosenko
+
+struct DataStruct
 {
-    struct DataStruct
-    {
-        double key1;
-        long long key2;
-        std::string key3;
-    };
-    std::istream& operator>>(std::istream& in, DataStruct& dest);
-    std::ostream& operator<<(std::ostream& out, const DataStruct& dest);
-    bool compare(DataStruct& lhs, DataStruct& rhs);
-}
+    double key1;
+    long long key2;
+    std::string key3;
+};
+std::istream& operator>>(std::istream& in, DataStruct& dest);
+std::ostream& operator<<(std::ostream& out, const DataStruct& dest);
+bool compare(DataStruct& lhs, DataStruct& rhs);
 
 #endif

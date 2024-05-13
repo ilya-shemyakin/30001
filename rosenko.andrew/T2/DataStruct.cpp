@@ -4,7 +4,7 @@
 #include "InpOutTypes.h"
 #include "Iofmtguard.h"
 
-std::istream& rosenko::operator>>(std::istream& in, DataStruct& dest)
+std::istream& operator>>(std::istream& in, DataStruct& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry)
@@ -49,14 +49,14 @@ std::istream& rosenko::operator>>(std::istream& in, DataStruct& dest)
     }
     return in;
 }
-std::ostream& rosenko::operator<<(std::ostream& out, const DataStruct& data)
+std::ostream& operator<<(std::ostream& out, const DataStruct& data)
 {
     std::ostream::sentry sentry(out);
     if (!sentry)
     {
         return out;
     }
-    iofmtguard guard(out);
+    Iofmtguard guard(out);
     out << "(";
     out << ":key1 " << DblO{ data.key1 };
     out << ":key2 " << data.key2 << "ll";
@@ -64,7 +64,7 @@ std::ostream& rosenko::operator<<(std::ostream& out, const DataStruct& data)
     out << ":)";
     return out;
 }
-bool rosenko::compare(rosenko::DataStruct& lhs, rosenko::DataStruct& rhs)
+bool compare(DataStruct& lhs, DataStruct& rhs)
 {
     if (rhs.key1 > lhs.key1)
     {

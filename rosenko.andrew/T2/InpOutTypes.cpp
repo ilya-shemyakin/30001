@@ -4,7 +4,7 @@
 #include <iomanip>
 #include "Iofmtguard.h"
 
-std::istream& rosenko::operator>>(std::istream& in, DelimiterIO&& dest)
+std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry)
@@ -19,7 +19,7 @@ std::istream& rosenko::operator>>(std::istream& in, DelimiterIO&& dest)
     }
     return in;
 }
-std::istream& rosenko::operator>>(std::istream& in, LabelIO&& dest)
+std::istream& operator>>(std::istream& in, LabelIO&& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry)
@@ -32,7 +32,7 @@ std::istream& rosenko::operator>>(std::istream& in, LabelIO&& dest)
     }
     return in;
 }
-std::istream& rosenko::operator>>(std::istream& in, StringIO&& dest)
+std::istream& operator>>(std::istream& in, StringIO&& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry)
@@ -41,16 +41,16 @@ std::istream& rosenko::operator>>(std::istream& in, StringIO&& dest)
     }
     return std::getline(in >> DelimiterIO{ '"' }, dest.exp, '"');
 }
-std::istream& rosenko::operator>>(std::istream& in, SllIO&& dest)
+std::istream& operator>>(std::istream& in, SllIO&& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry)
     {
         return in;
     }
-    return in >> dest.num >> rosenko::LabelIO{ "ll" };
+    return in >> dest.num >> LabelIO{ "ll" };
 }
-std::istream& rosenko::operator>>(std::istream& in, DblI&& dest)
+std::istream& operator>>(std::istream& in, DblI&& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry)
@@ -65,10 +65,10 @@ std::istream& rosenko::operator>>(std::istream& in, DblI&& dest)
     dest.num = (mantisa * 1.0 + numb * 0.01) * std::pow(10, pow);
     return in;
 }
-std::ostream& rosenko::operator<<(std::ostream& out, const DblO&& dest)
+std::ostream& operator<<(std::ostream& out, const DblO&& dest)
 {
     std::ostream::sentry sentry(out);
-    iofmtguard guard(out);
+    Iofmtguard guard(out);
     if (!sentry)
     {
         return out;

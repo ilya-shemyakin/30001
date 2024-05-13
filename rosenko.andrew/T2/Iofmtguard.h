@@ -1,22 +1,19 @@
 #ifndef IOFMTGUARD_H
 #define IOFMTGUARD_H
 
-#include <iomanip>
+#include <iostream>
 
-namespace rosenko
+class Iofmtguard
 {
-    class iofmtguard
-    {
-    public:
-        iofmtguard(std::basic_ios< char >& s);
-        ~iofmtguard();
+public:
+    Iofmtguard(std::basic_ios< char >& s);
+    ~Iofmtguard();
 
-    private:
-        std::basic_ios< char >& s_;
-        char fill_;
-        std::streamsize precision_;
-        std::basic_ios< char >::fmtflags fmt_;
-    };
-}
+private:
+    std::basic_ios< char >& s_;
+    char fill_;
+    std::streamsize precision_;
+    std::basic_ios< char >::fmtflags fmt_;
+};
 
 #endif
