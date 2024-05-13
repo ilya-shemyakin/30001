@@ -93,7 +93,7 @@ namespace melnikov
     }
     size_t comparedVert(const Polygon & shape1, const Polygon & shape2)
     {
-        return shape1.points.size() > shape1.points.size();
+        return shape1.points.size() > shape2.points.size();
     }
 
     std::ostream & max(std::istream& in, std::ostream& out,
