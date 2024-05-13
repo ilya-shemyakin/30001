@@ -223,6 +223,6 @@ namespace melnikov
                                      return lengths;
                                  });
         lengths.push_back(0); //если пустой
-        return out << *std::max_element(lengths.begin(), lengths.end());
+        return out << *std::max_element(lengths.begin(), lengths.end()) << '\n';
     }
 }
