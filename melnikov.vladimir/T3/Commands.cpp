@@ -183,16 +183,16 @@ namespace melnikov
 
     bool isPermutation(const Polygon& shape1, const Polygon& shape2)
     {
-//        if (shape1.points.size() != shape2.points.size())
-//        {
-//            return false;
-//        }
+        if (shape1.points.size() != shape2.points.size())
+        {
+            return false;
+        }
 //        std::vector< Point > temp1 = shape1.points;
 //        std::vector< Point > temp2 = shape2.points;
 //        std::sort(temp1.begin(), temp1.end(), comparatorPoint);
 //        std::sort(temp2.begin(), temp2.end(), comparatorPoint);
-        return std::is_permutation(shape1.points.begin(),
-                                   shape1.points.end(), shape2.points.begin());
+        return std::is_permutation(shape1.points.begin(),shape1.points.end(),
+                                   shape2.points.begin(), shape2.points.end());
     }
     std::ostream & perms(std::istream& in, std::ostream& out,
                          std::vector< Polygon > & shapes) {
