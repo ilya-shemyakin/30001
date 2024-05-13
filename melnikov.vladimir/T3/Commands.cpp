@@ -183,15 +183,16 @@ namespace melnikov
 
     bool isPermutation(const Polygon& shape1, const Polygon& shape2)
     {
-        if (shape1.points.size() != shape2.points.size())
-        {
-            return false;
-        }
-        std::vector< Point > temp1 = shape1.points;
-        std::vector< Point > temp2 = shape2.points;
-        std::sort(temp1.begin(), temp1.end(), comparatorPoint);
-        std::sort(temp2.begin(), temp2.end(), comparatorPoint);
-        return temp1 == temp2;
+//        if (shape1.points.size() != shape2.points.size())
+//        {
+//            return false;
+//        }
+//        std::vector< Point > temp1 = shape1.points;
+//        std::vector< Point > temp2 = shape2.points;
+//        std::sort(temp1.begin(), temp1.end(), comparatorPoint);
+//        std::sort(temp2.begin(), temp2.end(), comparatorPoint);
+        return std::is_permutation(shape1.points.begin(),
+                                   shape1.points.end(), shape2.points.begin());
     }
     std::ostream & perms(std::istream& in, std::ostream& out,
                          std::vector< Polygon > & shapes) {
@@ -203,10 +204,8 @@ namespace melnikov
         }
         else
         {
-            Iofmtguard fmtguard(out);
-            std::function< bool(const Polygon&) > temp = std::bind(isPermutation, _1, arg);
-            auto functor = std::bind(counter, _1, _2,temp);
-            return out << std::accumulate(shapes.begin(), shapes.end(), 0, functor) << '\n';
+            auto functor = std::bind(isPermutation, _1, arg);
+            return out << std::count_if(shapes.begin(), shapes.end(),functor) << '\n';
         }
     }
     bool toCount(const Polygon& current, const Polygon& arg)
