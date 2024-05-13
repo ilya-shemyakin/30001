@@ -198,7 +198,7 @@ namespace melnikov
     {
         Polygon arg;
         in >> arg;
-        if (in.fail())
+        if (in.fail() || shapes.size() == 0)
         {
             throw std::invalid_argument("");
         }
@@ -222,6 +222,7 @@ namespace melnikov
                                         }
                                      return lengths;
                                  });
+        lengths.push_back(0); //если пустой
         return out << *std::max_element(lengths.begin(), lengths.end());
     }
 }
