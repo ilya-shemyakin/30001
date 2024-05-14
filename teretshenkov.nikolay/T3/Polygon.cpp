@@ -42,7 +42,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     {
         return in;
     }
-//    Iofmtguard fmtguard(in); 
+//    Iofmtguard fmtguard(in);
 
     Polygon polygon;
     size_t nPoints = 0;
