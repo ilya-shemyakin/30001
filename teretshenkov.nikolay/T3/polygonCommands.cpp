@@ -148,7 +148,7 @@ void count(std::vector< Polygon >& polygons)
 
     if (mode == "EVEN")
     {
-        std::cout << std::count_if(polygons.begin(), polygons.end(), 
+        std::cout << std::count_if(polygons.begin(), polygons.end(),
             [](const Polygon& polygon) { return polygon.points.size() % 2 == 0; }) << std::endl;
     }
     else if (mode == "ODD")
