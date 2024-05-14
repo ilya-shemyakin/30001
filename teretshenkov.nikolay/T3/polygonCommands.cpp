@@ -45,6 +45,10 @@ void area(std::vector< Polygon >& polygons)
     }
     else if (mode == "MEAN")
     {
+        if (polygons.empty())
+        {
+            throw std::invalid_argument("");
+        }
         std::cout << (std::accumulate(polygons.begin(), polygons.end(), 0.0,
             [](double area, const Polygon& polygon)
             {

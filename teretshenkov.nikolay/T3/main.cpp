@@ -18,7 +18,7 @@ int main(int nArguments, char** file)
 
     std::vector< Polygon > polygons;
 
-    while (!inputF.eof()) //inputF
+    while (!inputF.eof())//inputF
     {
         std::copy(
             std::istream_iterator<Polygon>(inputF),//
