@@ -33,34 +33,6 @@ std::istream& operator>>(std::istream& in, intIO&& dest)
     return in;
 }
 
-std::istream& operator>>(std::istream& in, Point& dest)
-{
-    std::istream::sentry sentry(in);
-    if (!sentry)
-    {
-        return in;
-    }
-
-    return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
-    >> dest.y >> DelimiterIO{ ')' };
-}
-
-bool operator >(const Point& point1, const Point& point2)
-{
-    if (point1.x > point2.x)
-    {
-        return true;
-    }
-    else if (point1.x < point2.x)
-    {
-        return false;
-    }
-    else
-    {
-        return (point1.y >= point2.y);
-    }
-}
-
 
 //формат ввода      3 (1;1) (1;3) (3;3)
 std::istream& operator>>(std::istream& in, Polygon& dest)
@@ -70,28 +42,37 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     {
         return in;
     }
-//Iofmtguard fmtguard(in);
+//    Iofmtguard fmtguard(in); 
 
-//Polygon polygon;
-    dest.points.clear();
+    Polygon polygon;
     size_t nPoints = 0;
     in >> nPoints;
-    std::string localString;
-    std::getline(in, localString, '\n');
-    std::istringstream inString(localString);
-    if (!inString || nPoints < 3)
+    if (nPoints < 3)
     {
         in.setstate(std::ios::failbit);
         return in;
     }
 
-    std::vector < Point > locPoints{};
-
-    std::copy(std::istream_iterator< Point >(inString), std::istream_iterator< Point >(),
-        std::back_inserter(locPoints));
-    if (locPoints.size() == nPoints && nPoints >= 3)
+    int temp = 0;
+    for (int i = 0; i < nPoints; ++i)
     {
-        dest.points = locPoints;
+        Point point;
+        in >> DelimiterIO{ '(' };
+        in >> intIO{ temp };
+        point.x = temp;
+        in >> DelimiterIO{ ';' };
+        in >> intIO{ temp };
+        point.y = temp;
+        in >> DelimiterIO{ ')' };
+        if (in)
+        {
+            polygon.points.push_back(point);
+        }
+    }
+
+    if (polygon.points.size() == nPoints)
+    {
+        dest = polygon;
     }
     else
     {
@@ -99,4 +80,3 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     }
     return in;
 }
-

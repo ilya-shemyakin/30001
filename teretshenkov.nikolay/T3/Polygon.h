@@ -12,7 +12,9 @@
 
 struct Point
 {
-    int x, y;
+    int x;
+    int y;
+
     bool operator ==(const Point& other) const
     {
         return ((other.x == this->x) && (other.y == this->y));
@@ -22,14 +24,6 @@ struct Point
 struct Polygon
 {
     std::vector< Point > points;
-    bool operator ==(const Polygon& other) const
-    {
-        if (other.points.size() != this->points.size())
-        {
-            return false;
-        }
-        return (other.points == this->points);
-    }
 };
 
 struct DelimiterIO

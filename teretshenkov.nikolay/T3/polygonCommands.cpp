@@ -10,74 +10,47 @@ int getGaussMultiplication(const Point &p1, const Point &p2)
 double getArea(const Polygon& polygon)
 {
     double area = 0.0;
-
-    for (auto i = polygon.points.begin(); i != (polygon.points.end() - 1); i++)
+    size_t size = polygon.points.size();
+    for (size_t i = 0; i < size; ++i)
     {
-        area += getGaussMultiplication(*i, *(i + 1));
+        area += getGaussMultiplication(polygon.points[i], polygon.points[(i + 1) % size]);
     }
+    area = std::fabs(area / 2.0);
 
-    area += getGaussMultiplication(polygon.points.back(), polygon.points.front());
-
-    return std::fabs(area / 2.0);
-}
-
-double addArea(double area, const Polygon& polygon, std::function< bool(const Polygon&) > foo)
-{
-    if (foo(polygon))
-    {
-        area += getArea(polygon);
-    }
     return area;
 }
 
-bool isNumPointsOdd(const Polygon& polygon)
-{
-    return polygon.points.size() % 2 != 0;
-}
-
-bool isNumPointsEven(const Polygon& polygon)
-{
-    return polygon.points.size() % 2 == 0;
-}
-
-bool isNumPointsCertain(const Polygon& polygon, size_t size)
-{
-    return polygon.points.size() == size;
-}
-
-
-double addAreaCommon(double area, const Polygon& polygon)
-{
-    area += getArea(polygon);
-    return area;
-}
-
-
-std::ostream& area(std::istream& in, std::ostream& out,
-    std::vector< Polygon >& polygons)
+void area(std::vector< Polygon >& polygons)
 {
     std::string mode;
-    in >> mode;
-    out << std::fixed << std::setprecision(1);
+    std::cin >> mode;
+    std::cout << std::fixed << std::setprecision(1);
     if (mode == "EVEN")//чётный
     {
-        auto functor = std::bind(addArea, _1, _2, isNumPointsEven);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0.0, functor) << '\n';
+        std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
+            [](double area, const Polygon& polygon)
+            {
+                area += (polygon.points.size() % 2 == 0) ? getArea(polygon) : 0.0;
+                return area;
+            }) << std::endl;
     }
     else if (mode == "ODD")
     {
-        auto functor = std::bind(addArea, _1, _2, isNumPointsOdd);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0.0, functor) << '\n';
+        std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
+            [](double area, const Polygon& polygon)
+            {
+                area += (polygon.points.size() % 2 != 0) ? getArea(polygon) : 0.0;
+                return area;
+            }) << std::endl;
     }
     else if (mode == "MEAN")
     {
-        if (polygons.size() == 0)
-        {
-            throw std::invalid_argument("");
-        }
-        auto functor = std::bind(addAreaCommon, _1, _2);
-        return out << std::accumulate(
-            polygons.begin(), polygons.end(), 0.0, functor) / polygons.size() << '\n';
+        std::cout << (std::accumulate(polygons.begin(), polygons.end(), 0.0,
+            [](double area, const Polygon& polygon)
+            {
+                area += getArea(polygon);
+                return area;
+            })) / polygons.size() << std::endl;
     }
     else
     {
@@ -86,48 +59,45 @@ std::ostream& area(std::istream& in, std::ostream& out,
         {
             throw std::invalid_argument("");
         }
-        std::function< bool(const Polygon&) > temp = std::bind(isNumPointsCertain, _1, size);
-        auto functor = std::bind(addArea, _1, _2, temp);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0.0, functor) << '\n';
+        std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
+            [size](double area, const Polygon& polygon)
+            {
+                area += (polygon.points.size() == size) ? getArea(polygon) : 0.0;
+                return area;
+            }) << std::endl;
     }
 }
 
-double compareArea(double area2, const Polygon& polygon1, bool isLess)
-{
-    double area1 = getArea(polygon1);
-    if (isLess)
-    {
-        return ((area1 < area2) ? area1 : area2);
-    }
-    return ((area1 > area2) ? area1 : area2);
-}
-
-size_t compareVert(size_t size2, const Polygon& polygon1, bool isLess)
-{
-    size_t size1 = polygon1.points.size();
-    if (isLess)
-    {
-        return ((size1 < size2) ? size1 : size2);
-    }
-    return ((size1 > size2) ? size1 : size2);
-}
-
-std::ostream& max(std::istream& in, std::ostream& out,
-    std::vector< Polygon >& polygons)
+void max(std::vector< Polygon >& polygons)
 {
     std::string mode;
-    in >> mode;
+    std::cin >> mode;
 
     if (!polygons.empty() && mode == "AREA")
     {
-        out << std::fixed << std::setprecision(1);
-        auto functorArea = std::bind(compareArea, _1, _2, false);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0.0, functorArea) << '\n';
+        std::vector<Polygon>::iterator result;
+
+        result = std::max_element(polygons.begin(), polygons.end(),
+            [](const Polygon& polygon1, const Polygon& polygon2)
+            {
+                return getArea(polygon1) < getArea(polygon2);
+            });
+
+        std::cout << std::fixed << std::setprecision(1);
+        std::cout << getArea(*result) << std::endl;
+
     }
     else if (!polygons.empty() && mode == "VERTEXES")
     {
-        auto functorVert = std::bind(compareVert, _1, _2, false);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 3, functorVert) << '\n';
+        std::vector<Polygon>::iterator result;
+
+        result = std::max_element(polygons.begin(), polygons.end(),
+            [](const Polygon& polygon1, const Polygon& polygon2)
+            {
+                return polygon1.points.size() < polygon2.points.size();
+            });
+
+        std::cout << (*result).points.size() << std::endl;
     }
     else
     {
@@ -135,24 +105,35 @@ std::ostream& max(std::istream& in, std::ostream& out,
     }
 }
 
-std::ostream& min(std::istream& in, std::ostream& out,
-    std::vector< Polygon >& polygons)
+void min(std::vector< Polygon >& polygons)
 {
     std::string mode;
-    in >> mode;
+    std::cin >> mode;
 
     if (!polygons.empty() && mode == "AREA")
     {
-        out << std::fixed << std::setprecision(1);
-        auto functor = std::bind(compareArea, _1, _2, true);
-        return out << std::accumulate(
-            polygons.begin(), polygons.end(), getArea(polygons[0]), functor) << '\n';
+        std::vector<Polygon>::iterator result;
+
+        result = std::min_element(polygons.begin(), polygons.end(),
+            [](const Polygon& polygon1, const Polygon& polygon2)
+            {
+                return getArea(polygon1) < getArea(polygon2);
+            });
+
+        std::cout << std::fixed << std::setprecision(1);
+        std::cout << getArea(*result) << std::endl;
     }
     else if (!polygons.empty() && mode == "VERTEXES")
     {
-        auto functor = std::bind(compareVert, _1, _2, true);
-        return out << std::accumulate(
-            polygons.begin(), polygons.end(), polygons[0].points.size(), functor) << '\n';
+        std::vector<Polygon>::iterator result;
+
+        result = std::min_element(polygons.begin(), polygons.end(),
+            [](const Polygon& polygon1, const Polygon& polygon2)
+            {
+                return polygon1.points.size() < polygon2.points.size();
+            });
+
+        std::cout << (*result).points.size() << std::endl;
     }
     else
     {
@@ -160,30 +141,20 @@ std::ostream& min(std::istream& in, std::ostream& out,
     }
 }
 
-size_t counter(size_t count, const Polygon& polygon, std::function< bool(const Polygon&) > foo)
-{
-    if (foo(polygon))
-    {
-        ++count;
-    }
-    return count;
-}
-
-std::ostream& count(std::istream& in, std::ostream& out,
-    std::vector< Polygon >& polygons)
+void count(std::vector< Polygon >& polygons)
 {
     std::string mode;
-    in >> mode;
+    std::cin >> mode;
 
     if (mode == "EVEN")
     {
-        auto functor = std::bind(counter, _1, _2, isNumPointsEven);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0, functor) << '\n';
+        std::cout << std::count_if(polygons.begin(), polygons.end(), 
+            [](const Polygon& polygon) { return polygon.points.size() % 2 == 0; }) << std::endl;
     }
     else if (mode == "ODD")
     {
-        auto functor = std::bind(counter, _1, _2, isNumPointsOdd);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0, functor) << '\n';
+        std::cout << std::count_if(polygons.begin(), polygons.end(),
+            [](const Polygon& polygon) { return polygon.points.size() % 2 != 0; }) << std::endl;
     }
     else
     {
@@ -193,52 +164,27 @@ std::ostream& count(std::istream& in, std::ostream& out,
             throw std::invalid_argument("");
         }
 
-        std::function< bool(const Polygon&) > tempF = std::bind(isNumPointsCertain, _1, size);
-        auto functor = std::bind(counter, _1, _2, tempF);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0, functor) << '\n';
+        std::cout << std::count_if(polygons.begin(), polygons.end(),
+            [size](const Polygon& polygon) { return polygon.points.size() == size; }) << std::endl;
     }
 }
 
-bool comparePoints(const Point& point1, const Point& point2)
-{
-    if (point1.x != point2.x)
-    {
-        return (point1.x > point2.x);
-    }
-    else
-    {
-        return (point1.y >= point2.y);
-    }
-}
-
-bool isCoordPermutation(const Polygon& polygon1, const Polygon& polygon2)
-{
-    if (polygon1.points.size() == polygon2.points.size())
-    {
-        std::vector< Point > points1 = polygon1.points;
-        std::vector< Point > points2 = polygon2.points;
-        std::sort(points1.begin(), points1.end(), comparePoints);
-        std::sort(points2.begin(), points2.end(), comparePoints);
-        return points1 == points2;
-    }
-    return false;
-}
-
-std::ostream& perms(std::istream& in, std::ostream& out,
-    std::vector< Polygon >& polygons)
+void perms(std::vector< Polygon >& polygons)
 {
     Polygon local;
-    in >> local;
-    if (!in)
+    std::cin >> local;
+    if (!std::cin)
     {
         throw std::invalid_argument("");
     }
     else
     {
-        std::function< bool(const Polygon&) > tempF = std::bind(isCoordPermutation, _1, local);
-        auto functor = std::bind(counter, _1, _2, tempF);
-        return out << std::accumulate(polygons.begin(), polygons.end(), 0, functor) << '\n';
-        return out;
+        std::cout << std::count_if(polygons.begin(), polygons.end(),
+            [&local](const Polygon& polygon) 
+            { 
+                return std::is_permutation(polygon.points.begin(), polygon.points.end(),
+                local.points.begin(), local.points.end());
+            }) << std::endl;
     }
 }
 
@@ -284,18 +230,10 @@ bool hasRightAngle(const Polygon& polygon)
             result = true;
         }
     }
-
     return result;
 }
 
-std::ostream& rightShapes(std::istream& in, std::ostream& out,
-    std::vector< Polygon >& polygons)
+void rightShapes(std::vector< Polygon >& polygons)
 {
-    if (!in)
-    {
-        throw std::invalid_argument("");
-    }
-    std::function< bool(const Polygon&) > tempF = std::bind(hasRightAngle, _1);
-    auto functor = std::bind(counter, _1, _2, tempF);
-    return out << std::accumulate(polygons.begin(), polygons.end(), 0, functor) << '\n';
+    std::cout << std::count_if(polygons.begin(), polygons.end(), hasRightAngle) << std::endl;
 }

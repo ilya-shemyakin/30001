@@ -16,30 +16,19 @@ int main(int nArguments, char** file)
         return 1;
     }
 
-    std::map < std::string, std::function <
-        void(std::istream&, std::ostream&, std::vector < Polygon >&)>> commands;
-
-    commands["PERMS"] = perms;
-    commands["RIGHTSHAPES"] = rightShapes;
-    commands["AREA"] = area;
-    commands["MAX"] = max;
-    commands["MIN"] = min;
-    commands["COUNT"] = count;
-
     std::vector< Polygon > polygons;
 
-
-    while (!inputF.eof())
+    while (!inputF.eof()) //inputF
     {
         std::copy(
-            std::istream_iterator<Polygon>(inputF),
+            std::istream_iterator<Polygon>(inputF),//
             std::istream_iterator<Polygon>(),
             std::back_inserter(polygons)
         );
-        if (inputF.fail() && !inputF.eof())
+        if (inputF.fail() && !inputF.eof())////
         {
-            inputF.clear();
-//            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            inputF.clear();//
+            inputF.ignore(std::numeric_limits<std::streamsize>::max(), '\n');//
         }
     }
 
@@ -53,6 +42,7 @@ int main(int nArguments, char** file)
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
+
         try
         {
             std::cin >> command;
@@ -60,12 +50,35 @@ int main(int nArguments, char** file)
             {
                 break;
             }
-            auto locCom = commands.find(command);
-            if (locCom == commands.end()) {
+            if (command == "PERMS")
+            {
+                perms(polygons);
+            }
+            else if (command == "RIGHTSHAPES")
+            {
+                rightShapes(polygons);
+            }
+            else if (command == "AREA")
+            {
+                area(polygons);
+            }
+            else if (command == "MAX")
+            {
+                max(polygons);
+            }
+            else if (command == "MIN")
+            {
+                min(polygons);
+            }
+            else if (command == "COUNT")
+            {
+                count(polygons);
+            }
+            else
+            {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 throw std::invalid_argument("");
             }
-            locCom->second(std::cin, std::cout, polygons);
         }
         catch (...)
         {
