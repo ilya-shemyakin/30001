@@ -54,7 +54,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     }
 
     int temp = 0;
-    for (int i = 0; i < nPoints; ++i)
+    for (size_t i = 0; i < nPoints; ++i)
     {
         Point point;
         in >> DelimiterIO{ '(' };

@@ -158,7 +158,7 @@ void count(std::vector< Polygon >& polygons)
     }
     else
     {
-        int size = std::stoi(mode);
+        size_t size = std::stoi(mode);
         if (size <= 2)
         {
             throw std::invalid_argument("");
