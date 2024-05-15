@@ -43,7 +43,7 @@ namespace nspace
         std::getline(in >> DelimiterIO{ '0' } >> DelimiterIO{ 'b' } >> DelimiterIO{ '0' }, ullBin, ':');
         bool isTrue = true;
         unsigned long long number = 0;
-        for (int i = 0; i < ullBin.length() and isTrue; ++i)
+        for (size_t i = 0; i < ullBin.length() and isTrue; ++i)
         {
             if (ullBin[i] == '1')
             {
