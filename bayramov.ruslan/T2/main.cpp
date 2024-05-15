@@ -7,19 +7,13 @@
 #include <iomanip>
 #include <algorithm>
 #include "DataStruct.h"
-
-
 using std::cout;
 using std::endl;
-
-
 int main()
 {
     using namespace nspace;
-
     setlocale(LC_ALL, "rus");
     std::vector<DataStruct> data;
-
     while (std::cin.good())
     {
         std::copy(
@@ -32,8 +26,6 @@ int main()
             std::cin.ignore();
         }
     }
-
-
     std::sort(data.begin(), data.end(), [](const DataStruct& first, const DataStruct& second)
         {
             if (first.key1 != second.key1)
@@ -47,9 +39,6 @@ int main()
             return second.key3.length() > first.key3.length();
         }
     );
-    
-    
-
     std::copy(
         std::begin(data),
         std::end(data),

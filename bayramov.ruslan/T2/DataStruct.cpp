@@ -1,16 +1,13 @@
 #include "DataStruct.h"
 #include "DataStruct.h"
 #include <cmath>
-
 using std::string;
 using std::istream;
 using std::ostream;
 using std::cout;
 using std::endl;
-
 namespace nspace
 {
-
     istream& operator>>(istream& in, DelimiterIO&& dest)
     {
         istream::sentry sentry(in);
@@ -26,7 +23,6 @@ namespace nspace
         }
         return in;
     }
-
     istream& operator>>(istream& in, ULLLitIO&& dest)
     {
         istream::sentry sentry(in);
@@ -36,7 +32,6 @@ namespace nspace
         }
         return in >> dest.ref >> DelimiterIO{ 'u' } >> DelimiterIO{ 'l' } >> DelimiterIO{ 'l' };
     }
-
     istream& operator>>(istream& in, ULLBinIO&& dest)
     {
         istream::sentry sentry(in);
@@ -44,11 +39,8 @@ namespace nspace
         {
             return in;
         }
-        
-
         string ullBin = "";
         std::getline(in >> DelimiterIO{ '0' } >> DelimiterIO{ 'b' } >> DelimiterIO{ '0' }, ullBin, ':');
-
         bool isTrue = true;
         unsigned long long number = 0;
         for (int i = 0; i < ullBin.length() and isTrue; ++i)
@@ -67,12 +59,9 @@ namespace nspace
                 in.setstate(std::ios::failbit);
             }
         }
-        
-        dest.ref = number; // (:key1 89ull:key2 0b01111:key3 "Data":)
-
+        dest.ref = number;
         return in;
     }
-
     std::istream& operator>>(std::istream& in, StringIO&& dest)
     {
         std::istream::sentry sentry(in);
@@ -81,8 +70,6 @@ namespace nspace
         }
         return std::getline(in >> DelimiterIO{ '"' }, dest.ref, '"');
     }
-
-
     istream& operator>>(istream& in, DataStruct& dest)
     {
         istream::sentry sentry(in);
@@ -96,7 +83,6 @@ namespace nspace
             using ullLit = ULLLitIO;
             using ullBin = ULLBinIO;
             using str = StringIO;
-
             in >> skip{ '(' };
             in >> skip{ ':' };
             int numberOfKey = 0;
@@ -105,14 +91,13 @@ namespace nspace
                 in >> skip{ 'k' };
                 in >> skip{ 'e' };
                 in >> skip{ 'y' };
-
                 in >> numberOfKey;
                 if (numberOfKey == 1)
                 {
                     in >> ullLit{ input.key1 } >> skip{ ':' };
                 }
                 else if (numberOfKey == 2)
-                {                    
+                {
                     in >> ullBin{ input.key2 };
                 }
                 else if (numberOfKey == 3)
@@ -132,7 +117,6 @@ namespace nspace
         }
         return in;
     }
-
     ostream& operator<<(ostream& out, const DataStruct& src)
     {
         ostream::sentry sentry(out);
@@ -143,7 +127,6 @@ namespace nspace
         iofmtguard fmtguard(out);
         out << "(:";
         out << "key1 " << src.key1 << "ull:";
-
         string temp = "";
         unsigned long long int tempInt = src.key2;
         if (tempInt == 0)
@@ -165,20 +148,17 @@ namespace nspace
                 tempInt /= 2;
             }
         }
-        
         out << "key2 " << "0b0" + temp + ':';
         out << "key3 \"" << src.key3;
         out << "\":)";
         return out;
     }
-
     iofmtguard::iofmtguard(std::basic_ios< char >& s) :
         s_(s),
         fill_(s.fill()),
         precision_(s.precision()),
         fmt_(s.flags())
     {}
-
     iofmtguard::~iofmtguard()
     {
         s_.fill(fill_);

@@ -8,13 +8,11 @@
 #include <iterator>
 #include <vector>
 #include <iomanip>
-
 using std::string;
 using std::istream;
 using std::basic_ios;
 using std::streamsize;
 using std::ostream;
-
 namespace nspace
 {
     struct DataStruct
@@ -39,7 +37,6 @@ namespace nspace
     {
         string& ref;
     };
-
     class iofmtguard
     {
     public:
@@ -51,12 +48,10 @@ namespace nspace
         streamsize precision_;
         basic_ios< char >::fmtflags fmt_;
     };
-
     istream& operator>>(istream& in, DelimiterIO&& dest);
     istream& operator>>(istream& in, ULLLitIO&& dest);
     istream& operator>>(istream& in, ULLBinIO&& dest);
     istream& operator>>(istream& in, DataStruct& dest);
     ostream& operator<<(ostream& out, const DataStruct& dest);
 }
-
 #endif
