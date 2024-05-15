@@ -129,7 +129,6 @@ namespace nspace
         out << "key1 " << src.key1 << "ull:";
         string temp = "";
         unsigned long long int tempInt = src.key2;
-        cout << tempInt << endl;
         if (tempInt == 0)
         {
             ;
