@@ -129,11 +129,7 @@ namespace nspace
         out << "key1 " << src.key1 << "ull:";
         string temp = "";
         unsigned long long int tempInt = src.key2;
-        if (tempInt == 0)
-        {
-            ;
-        }
-        else
+        if (tempInt != 0)
         {
             while (tempInt > 0)
             {
