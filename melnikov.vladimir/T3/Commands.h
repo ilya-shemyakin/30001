@@ -24,8 +24,6 @@ namespace melnikov
                        std::vector< Polygon > & shapes);
     std::ostream & count(std::istream& in, std::ostream& out,
                        std::vector< Polygon > & shapes);
-    size_t counter(size_t count, const Polygon& shape,
-                   std::function< bool(const Polygon&) > exp);
     std::ostream & perms(std::istream& in, std::ostream& out,
                          std::vector< Polygon > & shapes);
     std::ostream & maxSeq(std::istream& in, std::ostream& out,

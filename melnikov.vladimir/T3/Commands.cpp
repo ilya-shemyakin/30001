@@ -10,12 +10,10 @@ namespace melnikov
 {
     double areaHelper(const Point& point1,const  Point& point2)
     {
-        //std::cout << point1.x << " " << point1.y << " " << point2.x << " " << point2.y << " \n";
         return (point1.x * point2.y - point1.y * point2.x);
     }
     double getArea (const Polygon& shape)
     {
-        //std::cout << "AREA CALC: \n";
         auto pointTemp = ++shape.points.begin();
         double area = std::accumulate(shape.points.begin(), --shape.points.end(), 0.0,
         [&pointTemp](double areaTemp, const Point& point)
@@ -25,7 +23,6 @@ namespace melnikov
             return areaTemp;
         });
         area += areaHelper(*--shape.points.end(),*shape.points.begin());
-        //std::cout << std::fabs(area/2.0) << '\n';
         return std::fabs(area/2.0);
     }
     double addArea (double area, const Polygon & shape, std::function< bool(const Polygon&) > exp)
@@ -47,10 +44,6 @@ namespace melnikov
     bool hasNumOfPoints(const Polygon& shape, size_t size)
     {
         return shape.points.size() == size;
-    }
-    size_t counter(size_t count, const Polygon& shape, std::function< bool(const Polygon&) > exp)
-    {
-        return (exp(shape) ? ++count : count);
     }
     std::ostream & area(std::istream& in, std::ostream& out, std::vector< Polygon > & shapes)
     {
@@ -205,7 +198,7 @@ namespace melnikov
         Iofmtguard fmtguard(out);
         bool wasGood = false;
         auto lengths = std::accumulate(shapes.begin(), shapes.end(), std::vector < size_t >(),
-                                 [&arg, &wasGood]( std::vector< size_t > lengths, const Polygon& p)
+                                 [&arg, &wasGood]( std::vector< size_t > &lengths, const Polygon& p)
                                  {
                                         if (p == arg && !wasGood)
                                         {
@@ -214,7 +207,7 @@ namespace melnikov
                                         }
                                         else if (p == arg)
                                         {
-                                            *(--lengths.end())+=1;
+                                            *(--lengths.end()) += 1;
                                         }
                                         else
                                         {
