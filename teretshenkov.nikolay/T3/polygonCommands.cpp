@@ -82,10 +82,7 @@ void max(std::vector< Polygon >& polygons)
         std::vector<Polygon>::iterator result;
 
         result = std::max_element(polygons.begin(), polygons.end(),
-            [](const Polygon& polygon1, const Polygon& polygon2)
-            {
-                return getArea(polygon1) < getArea(polygon2);
-            });
+            std::bind(std::less<double>{}, std::bind(getArea, _1), std::bind(getArea, _2)));
 
         std::cout << std::fixed << std::setprecision(1);
         std::cout << getArea(*result) << std::endl;
@@ -96,10 +93,10 @@ void max(std::vector< Polygon >& polygons)
         std::vector<Polygon>::iterator result;
 
         result = std::max_element(polygons.begin(), polygons.end(),
-            [](const Polygon& polygon1, const Polygon& polygon2)
-            {
-                return polygon1.points.size() < polygon2.points.size();
-            });
+            std::bind(std::less<double>{}, 
+                std::bind(&std::vector< Point >::size, std::bind(&Polygon::points, _1)),
+                std::bind(&std::vector< Point >::size, std::bind(&Polygon::points, _2))));
+
 
         std::cout << (*result).points.size() << std::endl;
     }
@@ -119,10 +116,7 @@ void min(std::vector< Polygon >& polygons)
         std::vector<Polygon>::iterator result;
 
         result = std::min_element(polygons.begin(), polygons.end(),
-            [](const Polygon& polygon1, const Polygon& polygon2)
-            {
-                return getArea(polygon1) < getArea(polygon2);
-            });
+            std::bind(std::less<double>{}, std::bind(getArea, _1), std::bind(getArea, _2)));
 
         std::cout << std::fixed << std::setprecision(1);
         std::cout << getArea(*result) << std::endl;
@@ -132,10 +126,9 @@ void min(std::vector< Polygon >& polygons)
         std::vector<Polygon>::iterator result;
 
         result = std::min_element(polygons.begin(), polygons.end(),
-            [](const Polygon& polygon1, const Polygon& polygon2)
-            {
-                return polygon1.points.size() < polygon2.points.size();
-            });
+            std::bind(std::less<double>{},
+                std::bind(&std::vector< Point >::size, std::bind(&Polygon::points, _1)),
+                std::bind(&std::vector< Point >::size, std::bind(&Polygon::points, _2))));
 
         std::cout << (*result).points.size() << std::endl;
     }
