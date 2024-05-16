@@ -93,7 +93,7 @@ void max(std::vector< Polygon >& polygons)
         std::vector<Polygon>::iterator result;
 
         result = std::max_element(polygons.begin(), polygons.end(),
-            std::bind(std::less<double>{}, 
+            std::bind(std::less<double>{},
                 std::bind(&std::vector< Point >::size, std::bind(&Polygon::points, _1)),
                 std::bind(&std::vector< Point >::size, std::bind(&Polygon::points, _2))));
 
