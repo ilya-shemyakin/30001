@@ -119,7 +119,7 @@ void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
 {
     if (polygons.empty())
     {
-        throw std::invalid_argument("INVALID COMMAND");
+        throw std::logic_error("INVALID COMMAND");
     }
     using namespace std::placeholders;
     using Command = std::function< void() >;
@@ -140,7 +140,7 @@ void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
 {
     if (polygons.empty())
     {
-        throw std::invalid_argument("INVALID COMMAND");
+        throw std::logic_error("INVALID COMMAND");
     }
     std::string string;
     in >> string;
@@ -185,7 +185,7 @@ void rmecho(std::vector< Polygon >& polygons, std::istream& in, std::ostream& ou
     if (polygons.empty()  or !in || in.peek() != '\n')
     {
         in.setstate(std::ios::failbit);
-        throw std::invalid_argument("INVALID COMMAND");
+        throw std::logic_error("INVALID COMMAND");
     }
     auto identical = std::bind(EqualFigures {figure}, _1, _2);
     auto last = std::unique(polygons.begin(), polygons.end(), identical);
