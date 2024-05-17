@@ -110,7 +110,7 @@ void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream
 {
     iofmtguard guard(out);
     std::string string;
-    //
+    in >> string;
     out << std::fixed << std::setprecision(1);
     getAreaOfFigure(string, std::cout, polygons);
 }

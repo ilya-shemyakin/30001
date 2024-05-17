@@ -1,6 +1,11 @@
 #include "Polygon.h"
 #include "commandOfFigure.h"
 #include <numeric>
+#include <iterator>
+#include <cmath>
+#include <algorithm>
+#include <iostream>
+
 std::istream& operator>>(std::istream& in, Polygon& polygon)
 {
     std::istream::sentry sentry(in);
