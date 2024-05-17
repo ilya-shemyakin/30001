@@ -18,7 +18,7 @@ int main()
 {
     std::vector< Polygon > polygons;
 
-    using input_it_t = std::istream_iterator< Polygon >;
+   //using input_it_t = std::istream_iterator< Polygon >;
 
     using namespace std::placeholders;
     std::map< std::string, std::function< void(std::istream&, std::ostream&, const std::vector< Polygon >&) > > commands;

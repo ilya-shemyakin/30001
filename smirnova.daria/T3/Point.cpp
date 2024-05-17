@@ -3,6 +3,7 @@
 #include <functional>
 #include <iterator>
 #include <numeric>
+#include <cmath>
 #include "Delimeter.h"
 std::istream& operator>>(std::istream& in, Point& point)
 {

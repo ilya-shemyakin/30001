@@ -8,7 +8,7 @@
 char ERROR_IN_COMMAND[] = "INVALID COMMAND";
 struct PolygonArea {
     Point p1;
-    double operator()(double area, const Point& p2, const Point& p3);
+    double operator()(double area, const Point& p2);
 };
 
 void getAreaOfFigure(const std::string& command, std::ostream& out, const std::vector< Polygon >& polygons);
