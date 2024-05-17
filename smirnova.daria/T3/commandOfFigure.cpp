@@ -5,10 +5,11 @@
 #include <iostream>
 #include "iofmtguard.h"
 
-double PolygonArea::operator()(double areaOfFigure, const Point& p2)
+double PolygonArea::operator()(double areaOfFigure, const Point& p2, const Point& p3)
 {
-    areaOfFigure += std::abs((p2.x - p1.y) * (p2.y - p1.x));
-    return areaOfFigure;
+   areaOfFigure += std::abs((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
+   p1 = p2;
+   return areaOfFigure;
 }
 
 void getAreaOfFigure(const std::string& commands, std::ostream& out, const std::vector< Polygon >& polygons)
