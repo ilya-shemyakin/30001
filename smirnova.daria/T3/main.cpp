@@ -39,7 +39,7 @@ int main()
         }
         catch (const std::exception&)
         {
-            std::cout << "INVALID COMMAND" << std::endl;
+            //std::cout << "INVALID COMMAND" << std::endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
