@@ -47,9 +47,7 @@ int main(int argc, char** argv)
     commands["COUNT"] = std::bind(area, std::cref(polygons), _1, _2);
     commands["RMECHO"] = std::bind(rmecho, std::ref(polygons), _1, _2);
     commands["INTERSECTIONS"] = std::bind(intersections, std::cref(polygons), _1, _2);
-
-    std::string command = "";
-    
+    std::string command = "";    
     while (std::cin >> command)
     {
         try
