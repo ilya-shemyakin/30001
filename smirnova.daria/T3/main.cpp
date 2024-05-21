@@ -27,17 +27,6 @@ int main(int argc, char** argv)
         return 1;
     }
     //using input_it_t = std::istream_iterator< Polygon >;
-
-    using namespace std::placeholders;
-    std::map< std::string, std::function< void(std::istream&, std::ostream&, const std::vector< Polygon >&) > > commands;
-    commands["AREA"] = std::bind(area, std::cref(polygons), _1, _2);
-    commands["MAX"] = std::bind(max, std::cref(polygons), _1, _2);
-    commands["MIN"] = std::bind(min, std::cref(polygons), _1, _2);
-    commands["COUNT"] = std::bind(area, std::cref(polygons), _1, _2);
-    commands["RMECHO"] = std::bind(rmecho, std::ref(polygons), _1, _2);
-    commands["INTERSECTIONS"] = std::bind(intersections, std::cref(polygons), _1, _2);
-
-    std::string command = "";
     while (!input.eof())
     {
         std::copy(
@@ -48,8 +37,20 @@ int main(int argc, char** argv)
         if (input.fail() && !input.eof())
         {
             input.clear();
+            input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
+    using namespace std::placeholders;
+    std::map< std::string, std::function< void(std::istream&, std::ostream&, const std::vector< Polygon >&) > > commands;
+    commands["AREA"] = std::bind(area, std::cref(polygons), _1, _2);
+    commands["MAX"] = std::bind(max, std::cref(polygons), _1, _2);
+    commands["MIN"] = std::bind(min, std::cref(polygons), _1, _2);
+    commands["COUNT"] = std::bind(area, std::cref(polygons), _1, _2);
+    commands["RMECHO"] = std::bind(rmecho, std::ref(polygons), _1, _2);
+    commands["INTERSECTIONS"] = std::bind(intersections, std::cref(polygons), _1, _2);
+
+    std::string command = "";
+    
     while (std::cin >> command)
     {
         try
