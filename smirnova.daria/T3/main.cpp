@@ -14,11 +14,19 @@
 #include <limits>
 #include <exception>
 
-int main()
+int main(int argc, char** argv)
 {
     std::vector< Polygon > polygons;
-
-   //using input_it_t = std::istream_iterator< Polygon >;
+    if (argc < 2)
+    {
+        return 1;
+    }
+    std::ifstream input(argv[1]);
+    if (!input)
+    {
+        return 1;
+    }
+    //using input_it_t = std::istream_iterator< Polygon >;
 
     using namespace std::placeholders;
     std::map< std::string, std::function< void(std::istream&, std::ostream&, const std::vector< Polygon >&) > > commands;
@@ -30,6 +38,18 @@ int main()
     commands["INTERSECTIONS"] = std::bind(intersections, std::cref(polygons), _1, _2);
 
     std::string command = "";
+    while (!input.eof())
+    {
+        std::copy(
+                std::istream_iterator< Polygon >(input),
+                std::istream_iterator< Polygon >(),
+                std::back_inserter(polygons)
+        );
+        if (input.fail() && !input.eof())
+        {
+            input.clear();
+        }
+    }
     while (std::cin >> command)
     {
         try
@@ -39,12 +59,9 @@ int main()
         }
         catch (const std::exception&)
         {
-            //std::cout << "INVALID COMMAND" << std::endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
-
     return 0;
 }
-
