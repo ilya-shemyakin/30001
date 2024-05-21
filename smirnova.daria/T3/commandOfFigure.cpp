@@ -60,8 +60,8 @@ size_t numOfVertexes(const std::string& command, const std::vector< Polygon >& p
     using Command = std::function< bool(const Polygon&) >;
     std::map< std::string, Command > commands;
     {
-        commands["EVEN"] = std::bind(isEvenOddCountFunctor, _1);
-        commands["ODD"] = std::bind(isEvenOddCountFunctor, _1);
+        commands["EVEN"] = std::bind(isEven, _1);
+        commands["ODD"] = std::bind(isOdd, _1);
     }
     Command counter;
     counter = commands.at(command);
