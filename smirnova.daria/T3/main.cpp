@@ -13,16 +13,15 @@
 #include <map>
 #include <limits>
 #include <exception>
+
 int main(int argc, char** argv)
 {
     std::vector< Polygon > polygons;
-    if (argc < 2)
-    {
+    if (argc < 2) {
         return 1;
     }
     std::ifstream input(argv[1]);
-    if (!input)
-    {
+    if (!input) {
         return 1;
     }
     //using input_it_t = std::istream_iterator< Polygon >;
@@ -47,7 +46,7 @@ int main(int argc, char** argv)
     commands["COUNT"] = std::bind(area, std::cref(polygons), _1, _2);
     commands["RMECHO"] = std::bind(rmecho, std::ref(polygons), _1, _2);
     commands["INTERSECTIONS"] = std::bind(intersections, std::cref(polygons), _1, _2);
-    std::string command = "";    
+    std::string command = "";
     while (std::cin >> command)
     {
         try
