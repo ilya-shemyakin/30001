@@ -13,7 +13,6 @@
 #include <map>
 #include <limits>
 #include <exception>
-
 int main(int argc, char** argv)
 {
     std::vector< Polygon > polygons;
