@@ -24,6 +24,7 @@ int main(int argc, char** argv)
     if (!input) {
         return 1;
     }
+    //using input_it_t = std::istream_iterator< Polygon >;
     while (!input.eof())
     {
         std::copy(
@@ -56,6 +57,7 @@ int main(int argc, char** argv)
         {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+            std::cout << "<INVALID COMMAND>" << '\n';
         }
     }
     return 0;
