@@ -6,11 +6,11 @@
 #include <string>
 #include "Polygon.h"
 double sumOfArea(double sum, const Polygon& polygon);
-double getPolygonAreas(const Point &p1, const Point &p2);
 double getArea(const Polygon& polygon);
 void getAreaOfFigure(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons);
 void evenAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output);
 void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output);
+double calculatePolygonAreaRec(const Polygon& polygon, size_t i, double area);
 void cmdCount(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output);
 void vertexArea(size_t num, const std::vector< Polygon >& polygons, std::ostream& output);
 void minArea(const std::vector< Polygon >& polygons, std::ostream& output);

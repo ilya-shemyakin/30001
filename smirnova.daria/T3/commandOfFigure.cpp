@@ -13,21 +13,22 @@ double sumOfArea(double sum, const Polygon& polygon)
     sum += getArea(polygon);
     return sum;
 }
-double getPolygonAreas(const Point &p1, const Point &p2)
+
+double calculatePolygonAreaRec(const Polygon& polygon, size_t i, double area)
 {
-    return (p1.x * p2.y - p1.y * p2.x);
+    const size_t numPoints = polygon.points_.size();
+    if (i >= numPoints)
+    {
+        return area;
+    }
+    const Point& p1 = polygon.points_[i];
+    const Point& p2 = polygon.points_[(i + 1) % numPoints];
+    return calculatePolygonAreaRec(polygon, i + 1, area + (p1.x * p2.y - p2.x * p1.y));
 }
+
 double getArea(const Polygon& polygon)
 {
-    double area = 0.0;
-    size_t size = polygon.points_.size();
-    for (size_t i = 0; i < size; ++i)
-    {
-        area += getPolygonAreas(polygon.points_[i], polygon.points_[(i + 1) % size]);
-    }
-    area = std::abs(area / 2.0);
-
-    return area;
+    return 0.5 * std::abs(calculatePolygonAreaRec(polygon, 0, 0.0));
 }
 void evenAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output)
 {
@@ -69,7 +70,7 @@ void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outp
         output << std::fixed << std::setprecision(1) << sumArea << "\n";
     }
 }
-
+//cmdarea
 void getAreaOfFigure(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
 {
     using namespace std::placeholders;
