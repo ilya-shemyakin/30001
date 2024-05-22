@@ -70,7 +70,7 @@ void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outp
     }
 }
 
-void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
+void getAreaOfFigure(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
 {
     using namespace std::placeholders;
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) >> command;

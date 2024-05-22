@@ -8,7 +8,7 @@
 double sumOfArea(double sum, const Polygon& polygon);
 double getPolygonAreas(const Point &p1, const Point &p2);
 double getArea(const Polygon& polygon);
-void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons);
+void getAreaOfFigure(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons);
 void evenAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output);
 void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output);
 void cmdCount(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output);
