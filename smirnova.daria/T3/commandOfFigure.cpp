@@ -125,39 +125,6 @@ void maxArea(const std::vector< Polygon >& polygons, std::ostream& output)
     std::sort(areasOfPolygons.begin(), areasOfPolygons.end());
     output << std::fixed << std::setprecision(1) << areasOfPolygons[areasOfPolygons.size() - 1] << "\n";
 }
-void cmdCount(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
-{
-    using namespace std::placeholders;
-    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsCount;
-    cmdsCount["EVEN"] = std::bind(countEven, _1, _2);
-    cmdsCount["ODD"] = std::bind(countOdd, _1, _2);
-    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
-    std::string countType;
-    input >> countType;
-    try
-    {
-        cmdsCount.at(countType)(polygons, output);
-    }
-    catch (const std::out_of_range& e)
-    {
-        if (std::isdigit(countType[0]))
-        {
-            size_t num = std::stoull(countType);
-            if (num < 3)
-            {
-                warningInvCom(output);
-            }
-            else
-            {
-                vertexCount(num, polygons, output);
-            }
-        }
-        else
-        {
-            throw std::invalid_argument("<INVALID COMMAND>\n");
-        }
-    }
-}
 
 void maxVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
 {
@@ -299,23 +266,16 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
     {
         cmdsCount.at(countType)(polygons, output);
     }
-    catch (const std::out_of_range& e)
-    {
-        if (std::isdigit(countType[0]))
-        {
+    catch (const std::out_of_range& e) {
+        if (std::isdigit(countType[0])) {
             size_t num = std::stoull(countType);
-            if (num < 3)
-            {
+            if (num < 3) {
                 warningInvCom(output);
-            }
-            else
-            {
+            } else {
                 vertexCount(num, polygons, output);
             }
-        }
-        else
-        {
-            warningInvCom(output);
+        } else {
+            throw std::invalid_argument("<INVALID COMMAND>\n");
         }
     }
 }
