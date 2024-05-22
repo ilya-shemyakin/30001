@@ -21,7 +21,10 @@ void minVertexes(const std::vector< Polygon >& polygons, std::ostream& output);
 void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
 void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
 void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
-void count(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
+void vertexCount(size_t num, const std::vector< Polygon >& polygons, std::ostream& output);
+void countEven(const std::vector< Polygon >& polygons, std::ostream& output);
+void countOdd(const std::vector< Polygon >& polygons, std::ostream& output);
+void count(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output);
 void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
 void rmecho(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
 #endif

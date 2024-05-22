@@ -1,10 +1,10 @@
 #include "commandOfFigure.h"
-#include <iterator>
 #include <algorithm>
 #include <iomanip>
 #include <numeric>
 #include <iostream>
 #include "iofmtguard.h"
+
 
 double sumOfArea(double sum, const Polygon& polygon)
 {
@@ -247,13 +247,6 @@ void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
     minCommand = commands.at(string);
     minCommand();
 }
-void count(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
-{
-    iofmtguard guard(out);
-    std::string string;
-    in >> string;
-    out << numOfVertexes(string, polygons);
-}
 
 void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
@@ -264,6 +257,71 @@ void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream
     getAreaOfFigure(string, std::cin, std::cout, polygons);
 }
 
+void countEven(const std::vector< Polygon >& polygons, std::ostream& output)
+{
+    size_t result = std::count_if
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    [](const Polygon& pol) { return pol.points_.size() % 2 == 0; }
+            );
+    output << result << "\n";
+}
+
+void countOdd(const std::vector< Polygon >& polygons, std::ostream& output)
+{
+    size_t result = std::count_if
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    [](const Polygon& pol) { return pol.points_.size() % 2 != 0; }
+            );
+    output << result << "\n";
+}
+
+void vertexCount(size_t num, const std::vector< Polygon >& polygons, std::ostream& output)
+{
+    size_t result = std::count_if
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    [num](const Polygon& pol) { return pol.points_.size() == num; }
+            );
+    output << result << "\n";
+}
+
+void count(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
+{
+    using namespace std::placeholders;
+    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsCount;
+    cmdsCount["EVEN"] = std::bind(countEven, _1, _2);
+    cmdsCount["ODD"] = std::bind(countOdd, _1, _2);
+    std::string countType;
+    input >> countType;
+    try
+    {
+        cmdsCount.at(countType)(polygons, output);
+    }
+    catch (const std::out_of_range& e)
+    {
+        if (std::isdigit(countType[0]))
+        {
+            size_t num = std::stoull(countType);
+            if (num < 3)
+            {
+                throw std::logic_error("INVALID COMMAND");
+            }
+            else
+            {
+                vertexCount(num, polygons, output);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("<INVALID COMMAND>\n");
+        }
+    }
+}
 void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
     Polygon polygon;
