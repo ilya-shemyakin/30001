@@ -284,15 +284,15 @@ void warning(std::ostream& output, const std::string& mes)
 }
 
 void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
-{
+{   
+    using namespace std::placeholders;
     Polygon polygon;
     in >> polygon;
-
+    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     if (polygons.empty() or (in.peek() != '\n' or !in))
     {
-        throw std::invalid_argument("<INVALID COMMAND>\n");
+        warningInvCom(out);
     }
-    using namespace std::placeholders;
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
     out << std::count_if(polygons.cbegin(), polygons.cend(), intersectPredicate);
 }
