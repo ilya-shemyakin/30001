@@ -242,7 +242,7 @@ void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream
     std::string string;
     in >> string; //
     out << std::fixed << std::setprecision(1);
-    getAreaOfFigure(string, std::cin, std::cout, polygons);
+    getAreaOfFigure(std::cin, std::cout, polygons);
 }
 
 void countEven(const std::vector< Polygon >& polygons, std::ostream& output)
