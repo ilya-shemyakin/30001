@@ -59,37 +59,15 @@ void oddAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outpu
 void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output)
 {
     auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
-    if (polygons.empty())
+    if(polygons.empty())
     {
         warningInvCom(output);
-
     }
     else
     {
         double sumArea = std::accumulate(polygons.begin(), polygons.end(), 0.0, sumOfArea) / polygons.size();
         output << std::fixed << std::setprecision(1) << sumArea << "\n";
     }
-}
-
-size_t numOfVertexes(const std::string& command, const std::vector< Polygon >& polygons)
-{
-    using namespace std::placeholders;
-    using Command = std::function< bool(const Polygon&) >;
-    std::map< std::string, Command > commands;
-    {
-        commands["EVEN"] = std::bind(isEven, _1);
-        commands["ODD"] = std::bind(isOdd, _1);
-    }
-    Command counter;
-    counter = commands.at(command);
-    //Интерпретирует целое число без знака в строке str
-    size_t number = std::stoull(command);
-    if (number < 3)
-    {
-        throw std::invalid_argument("");
-    }
-
-    return std::count_if(polygons.cbegin(),polygons.cend(),std::bind(countFunctor, _1, number));
 }
 
 void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
@@ -117,7 +95,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
             }
             else
             {
-                numOfVertexes(commands, polygons);
+                vertexArea(num, polygons, out);
             }
         }
         else
@@ -126,14 +104,18 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
         }
     }
 }
-bool countFunctor(const Polygon& polygon, std::size_t size)
+void vertexArea(size_t num, const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    return polygon.points_.size() == size;
-}
-
-bool isEvenOddCountFunctor(const Polygon& polygon)
-{
-    return polygon.points_.size() % 2;
+    std::vector< Polygon > needPolygons;
+    std::copy_if
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    std::back_inserter(needPolygons),
+                    [num](const Polygon& pol) { return pol.points_.size() == num; }
+            );
+    double sumArea = std::accumulate(needPolygons.begin(), needPolygons.end(), 0.0, sumOfArea);
+    output << std::fixed << std::setprecision(1) << sumArea << "\n";
 }
 void maxArea(const std::vector< Polygon >& polygons, std::ostream& output)
 {
@@ -141,6 +123,39 @@ void maxArea(const std::vector< Polygon >& polygons, std::ostream& output)
     std::transform(polygons.begin(), polygons.end(), std::back_inserter(areasOfPolygons), getArea);
     std::sort(areasOfPolygons.begin(), areasOfPolygons.end());
     output << std::fixed << std::setprecision(1) << areasOfPolygons[areasOfPolygons.size() - 1] << "\n";
+}
+void cmdCount(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
+{
+    using namespace std::placeholders;
+    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsCount;
+    cmdsCount["EVEN"] = std::bind(countEven, _1, _2);
+    cmdsCount["ODD"] = std::bind(countOdd, _1, _2);
+    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
+    std::string countType;
+    input >> countType;
+    try
+    {
+        cmdsCount.at(countType)(polygons, output);
+    }
+    catch (const std::out_of_range& e)
+    {
+        if (std::isdigit(countType[0]))
+        {
+            size_t num = std::stoull(countType);
+            if (num < 3)
+            {
+                warningInvCom(output);
+            }
+            else
+            {
+                vertexCount(num, polygons, output);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("<INVALID COMMAND>\n");
+        }
+    }
 }
 
 void maxVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
