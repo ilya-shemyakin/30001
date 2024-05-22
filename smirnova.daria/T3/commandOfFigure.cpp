@@ -24,7 +24,7 @@ double getArea(const Polygon& polygon)
     {
         area += getPolygonAreas(polygon.points_[i], polygon.points_[(i + 1) % size]);
     }
-    area = std::fabs(area / 2.0);
+    area = std::abs(area / 2.0);
 
     return area;
 }
