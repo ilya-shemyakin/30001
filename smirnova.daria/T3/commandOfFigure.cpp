@@ -290,7 +290,7 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
 
     if (polygons.empty() or (in.peek() != '\n' or !in))
     {
-        throw std::invalid_argument("");
+        throw std::invalid_argument("<INVALID COMMAND>\n");
     }
     using namespace std::placeholders;
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
