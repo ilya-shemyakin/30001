@@ -16,48 +16,53 @@
 
 int main(int argc, char** argv)
 {
-    std::vector< Polygon > polygons;
-    if (argc < 2) {
+    if (argc != 2)
+    {
+        std::cerr << "Wrong input\n";
         return 1;
     }
+    using input_it_t = std::istream_iterator< Polygon >;
     std::ifstream input(argv[1]);
-    if (!input) {
-        return 1;
-    }
-    //using input_it_t = std::istream_iterator< Polygon >;
+    std::vector< Polygon > polygons;
+
     while (!input.eof())
     {
-        std::copy(
-                std::istream_iterator< Polygon >(input),
-                std::istream_iterator< Polygon >(),
-                std::back_inserter(polygons)
-        );
-        if (input.fail() && !input.eof())
+        std::copy(input_it_t{ input }, input_it_t{}, std::back_inserter(polygons));
+        if (input.fail())
         {
             input.clear();
             input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
-    using namespace std::placeholders;
-    std::map< std::string, std::function< void(std::istream&, std::ostream&, const std::vector< Polygon >&) > > commands;
-    commands["AREA"] = std::bind(area, std::cref(polygons), _1, _2);
-    commands["MAX"] = std::bind(max, std::cref(polygons), _1, _2);
-    commands["MIN"] = std::bind(min, std::cref(polygons), _1, _2);
-    commands["COUNT"] = std::bind(count, std::cref(polygons), _1, _2);
-    commands["RMECHO"] = std::bind(rmecho, std::ref(polygons), _1, _2);
-    commands["INTERSECTIONS"] = std::bind(intersections, std::cref(polygons), _1, _2);
-    std::string command = "";
-    while (std::cin >> command)
+
+    std::map< std::string, std::function < void(std::vector< Polygon >&, std::istream&, std::ostream&) > > commands;
+    {
+        using namespace std::placeholders;
+        commands["AREA"] = std::bind(area, _1, _2, _3);
+        commands["MAX"] = std::bind(max, _1, _2, _3);
+        commands["MIN"] = std::bind(min, _1, _2, _3);
+        commands["COUNT"] = std::bind(count, _1, _2, _3);
+        commands["RMECHO"] = std::bind(rmecho, _1, _2, _3);
+        commands["INTERSECTIONS"] = std::bind(intersections, _1, _2, _3);
+    }
+
+    std::string cmd;
+    while (std::cin >> cmd)
     {
         try
         {
-            commands.at(command)(std::cin, std::cout, polygons);
+            commands.at(cmd)(polygons, std::cin, std::cout);
         }
-        catch (const std::exception&)
+        catch(const std::invalid_argument& e)
         {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+        }
+        catch(const std::out_of_range& e)
+        {
             std::cout << "<INVALID COMMAND>" << '\n';
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
     }
     return 0;
