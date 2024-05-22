@@ -38,10 +38,10 @@ int main(int argc, char* argv[])
     std::map< std::string, std::function < void(std::vector< Polygon >&, std::istream&, std::ostream&) > > commands;
     {
         using namespace std::placeholders;
-        commands["AREA"] = std::bind(area, _1, _2, _3);
-        commands["MAX"] = std::bind(max, _1, _2, _3);
-        commands["MIN"] = std::bind(min, _1, _2, _3);
-        commands["COUNT"] = std::bind(count, _1, _2, _3);
+        commands["AREA"] = std::bind(cmdArea, _1, _2, _3);
+        commands["MAX"] = std::bind(cmdMax, _1, _2, _3);
+        commands["MIN"] = std::bind(cmdMin, _1, _2, _3);
+        commands["COUNT"] = std::bind(cmdCount, _1, _2, _3);
         commands["RMECHO"] = std::bind(rmecho, _1, _2, _3);
         commands["INTERSECTIONS"] = std::bind(intersections, _1, _2, _3);
     }
