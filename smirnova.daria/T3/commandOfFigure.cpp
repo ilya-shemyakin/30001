@@ -109,7 +109,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
             size_t num = std::stoull(areaType);
             if (num < 3)
             {
-                throw std::invalid_argument("");
+                std::cout << "<INVALID COMMAND>" << '\n';
             }
             else
             {
@@ -118,7 +118,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
         }
         else
         {
-            throw std::invalid_argument("");
+            std::cout << "<INVALID COMMAND>" << '\n';
         }
     }
 }
@@ -180,7 +180,7 @@ void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
 {
     if (polygons.empty())
     {
-        throw std::invalid_argument("");
+        std::cout << "<INVALID COMMAND>" << '\n';
     }
     using namespace std::placeholders;
     using Command = std::function< void() >;
@@ -201,7 +201,7 @@ void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
 {
     if (polygons.empty())
     {
-        throw std::invalid_argument("");
+        std::cout << "<INVALID COMMAND>" << '\n';
     }
     std::string string;
     in >> string;
@@ -279,7 +279,7 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
             size_t num = std::stoull(countType);
             if (num < 3)
             {
-                throw std::invalid_argument("");
+                std::cout << "<INVALID COMMAND>" << '\n';
             }
             else
             {
@@ -298,7 +298,7 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
     in >> polygon;
     if (polygons.empty() or (in.peek() != '\n' or !in))
     {
-        throw std::logic_error("");
+        std::cout << "<INVALID COMMAND>" << '\n';
     }
     using namespace std::placeholders;
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
