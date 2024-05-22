@@ -61,7 +61,8 @@ void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outp
     auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
     if (polygons.empty())
     {
-        throw std::invalid_argument("");
+        warningInvCom(output);
+
     }
     else
     {
