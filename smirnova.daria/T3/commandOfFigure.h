@@ -5,20 +5,19 @@
 #include <ostream>
 #include <string>
 #include "Polygon.h"
-struct PolygonArea {
-    Point p1;
-    double operator()(double area, const Point& p2, const Point& p3);
-};
-
-void getAreaOfFigure(const std::string& command, std::ostream& out, const std::vector< Polygon >& polygons);
+double sumOfArea(double sum, const Polygon& polygon);
+double getPolygonAreas(const Point &p1, const Point &p2);
+double getArea(const Polygon& polygon);
+void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons);
+void evenAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output);
+void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output);
 bool countFunctor(const Polygon& polygon, std::size_t size);
 size_t numOfVertexes(const std::string& command, const std::vector< Polygon >& polygons);
 bool isEvenOddCountFunctor(const Polygon& polygon);
-void getMinArea(const std::vector< Polygon >& polygons, std::ostream& out);
-void getMaxArea(const std::vector< Polygon >& polygons, std::ostream& out);
-void getMinVertex(const std::vector< Polygon >& polygons, std::ostream& out);
-void getMaxVertex(const std::vector< Polygon >& polygons, std::ostream& out);
-
+void minArea(const std::vector< Polygon >& polygons, std::ostream& output);
+void maxArea(const std::vector< Polygon >& polygons, std::ostream& output);
+void maxVertexes(const std::vector< Polygon >& polygons, std::ostream& output);
+void minVertexes(const std::vector< Polygon >& polygons, std::ostream& output);
 void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
 void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
 void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);

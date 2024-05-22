@@ -1,4 +1,3 @@
-
 #ifndef T3_POLYGON_H
 #define T3_POLYGON_H
 #include "Point.h"
@@ -6,7 +5,7 @@
 struct Polygon
 {
     std::vector< Point > points_;
-    double getArea() const;
+    //double getArea() const;
 };
 std::istream& operator>>(std::istream& in, Polygon& polygon);
 bool isEven(const Polygon& polygon);

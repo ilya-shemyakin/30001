@@ -31,12 +31,12 @@ std::istream& operator>>(std::istream& in, Polygon& polygon)
     return in;
 }
 
-double Polygon::getArea() const
-{
-    using namespace std::placeholders;
-    auto accumulateArea = std::bind(PolygonArea{ points_.at(1) }, _1, _2, points_.at(0));
-    return std::accumulate(points_.cbegin(), points_.cend(), 0.0, accumulateArea) / 2; //ср знач
-}
+//double Polygon::getArea() const
+//{
+//    using namespace std::placeholders;
+//    auto accumulateArea = std::bind(PolygonArea{ points_.at(1) }, _1, _2, points_.at(0));
+//    return std::accumulate(points_.cbegin(), points_.cend(), 0.0, accumulateArea) / 2; //ср знач
+//}
 
 bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject)
 {
@@ -82,11 +82,6 @@ bool isEven(const Polygon& plg) //попробовать объединить
 bool isOdd(const Polygon& plg)
 {
     return ((plg.points_.size() % 2) == 1);
-}
-
-bool compareAreas(const Polygon& firstObject, const Polygon& secondObject)
-{
-    return firstObject.getArea() < secondObject.getArea();
 }
 
 bool compareVertexesArea(const Polygon& firstObject, const Polygon& secondObject)

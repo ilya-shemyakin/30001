@@ -5,55 +5,69 @@
 #include <iostream>
 #include "iofmtguard.h"
 
-double PolygonArea::operator()(double areaOfFigure, const Point& p2,const Point& p3)
+double sumOfArea(double sum, const Polygon& polygon)
 {
-    areaOfFigure += std::abs((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
-    p1 = p2;
-    return areaOfFigure;
+    sum += getArea(polygon);
+    return sum;
+}
+double getPolygonAreas(const Point &p1, const Point &p2)
+{
+    return (p1.x * p2.y - p1.y * p2.x);
 }
 
-void getAreaOfFigure(const std::string& commands, std::ostream& out, const std::vector< Polygon >& polygons)
+double getArea(const Polygon& polygon)
 {
-    if (polygons.size() == 0)
+    double area = 0.0;
+    size_t size = polygon.points_.size();
+    for (size_t i = 0; i < size; ++i)
+    {
+        area += getPolygonAreas(polygon.points_[i], polygon.points_[(i + 1) % size]);
+    }
+    area = std::fabs(area / 2.0);
+
+    return area;
+}
+void evenAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output)
+{
+    std::vector< Polygon > evenPolygons;
+    std::copy_if
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    std::back_inserter(evenPolygons),
+                    [](const Polygon& pol) { return pol.points_.size() % 2 == 0; }
+            );
+    double sumArea = std::accumulate(evenPolygons.begin(), evenPolygons.end(), 0.0, sumOfArea);
+    output << std::fixed << std::setprecision(1) << sumArea << "\n";
+}
+
+void oddAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output)
+{
+    std::vector< Polygon > evenPolygons;
+    std::copy_if
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    std::back_inserter(evenPolygons),
+                    [](const Polygon& pol) { return pol.points_.size() % 2 == 1; }
+            );
+    double sumArea = std::accumulate(evenPolygons.begin(), evenPolygons.end(), 0.0, sumOfArea);
+    output << std::fixed << std::setprecision(1) << sumArea << "\n";
+}
+
+void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output)
+{
+    if (polygons.empty())
     {
         throw std::logic_error("INVALID COMMAND");
     }
-
-    if (commands == "EVEN")
+    else
     {
-        std::vector< Polygon > evenFigure;
-        std::copy_if(std::begin(polygons), std::end(polygons), std::back_inserter(evenFigure), isEven);
-
-        PolygonsArea polygonsArea{ 0.0 };
-        std::for_each(evenFigure.begin(), evenFigure.end(), std::ref(polygonsArea));
-        out << std::fixed << out.precision(1);
-        out << polygonsArea.area_ << "\n";
-    }
-
-    if (commands == "ODD")
-    {
-        std::vector< Polygon > oddFigure;
-        std::copy_if(std::begin(polygons), std::end(polygons), std::back_inserter(oddFigure), isOdd);
-
-        PolygonsArea polygonsArea{ 0.0 };
-        std::for_each(oddFigure.begin(), oddFigure.end(), std::ref(polygonsArea));
-        out << std::fixed << out.precision(1);
-        out << polygonsArea.area_ << "\n";
-    }
-
-    if (commands == "MEAN")
-    {
-
-        PolygonsArea polygonsArea{ 0.0 };
-        std::for_each(polygons.begin(), polygons.end(), std::ref(polygonsArea));
-        out << std::fixed << out.precision(1);
-        out << (polygonsArea.area_ / polygons.size()) << "\n"; //вычисление среднего знач
+        double sumArea = std::accumulate(polygons.begin(), polygons.end(), 0.0, sumOfArea) / polygons.size();
+        output << std::fixed << std::setprecision(1) << sumArea << "\n";
     }
 }
-bool countFunctor(const Polygon& polygon, std::size_t size)
-{
-    return polygon.points_.size() == size;
-}
+
 size_t numOfVertexes(const std::string& command, const std::vector< Polygon >& polygons)
 {
     using namespace std::placeholders;
@@ -75,46 +89,122 @@ size_t numOfVertexes(const std::string& command, const std::vector< Polygon >& p
     return std::count_if(polygons.cbegin(),polygons.cend(),std::bind(countFunctor, _1, number));
 }
 
+void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
+{
+    using namespace std::placeholders;
+    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) >> command;
+    command["EVEN"] = std::bind(evenAreaOfFigure, _1, _2);
+    command["ODD"] = std::bind(oddAreaOfFigure, _1, _2);
+    command["MEAN"] = std::bind(meanAreaOfFigure, _1, _2);
+    std::string areaType;
+    in >> areaType;
+    try
+    {
+        command.at(areaType)(polygons, out);
+    }
+    catch (const std::out_of_range& e)
+    {
+        if (std::isdigit(areaType[0]))
+        {
+            size_t num = std::stoull(areaType);
+            if (num < 3)
+            {
+                throw std::logic_error("INVALID COMMAND");
+            }
+            else
+            {
+                numOfVertexes(commands, polygons);
+            }
+        }
+        else
+        {
+            throw std::logic_error("INVALID COMMAND");
+        }
+    }
+}
+    //if (commands == "EVEN")
+    //{
+    //    std::vector< Polygon > evenFigure;
+    //    std::copy_if(std::begin(polygons), std::end(polygons), std::back_inserter(evenFigure), isEven);
+    //
+    //    PolygonsArea polygonsArea{ 0.0 };
+    //    std::for_each(evenFigure.begin(), evenFigure.end(), std::ref(polygonsArea));
+    //    out << std::fixed << out.precision(1);
+    //    out << polygonsArea.area_ << "\n";
+    //}
+    //
+    //if (commands == "ODD")
+    //{
+    //    std::vector< Polygon > oddFigure;
+    //    std::copy_if(std::begin(polygons), std::end(polygons), std::back_inserter(oddFigure), isOdd);
+    //
+    //    PolygonsArea polygonsArea{ 0.0 };
+    //    std::for_each(oddFigure.begin(), oddFigure.end(), std::ref(polygonsArea));
+    //    out << std::fixed << out.precision(1);
+    //    out << polygonsArea.area_ << "\n";
+    //}
+    //
+    //if (commands == "MEAN")
+    //{
+    //
+    //    PolygonsArea polygonsArea{ 0.0 };
+    //    std::for_each(polygons.begin(), polygons.end(), std::ref(polygonsArea));
+    //    out << std::fixed << out.precision(1);
+    //    out << (polygonsArea.area_ / polygons.size()) << "\n"; //вычисление среднего знач
+    //}
+bool countFunctor(const Polygon& polygon, std::size_t size)
+{
+    return polygon.points_.size() == size;
+}
+
 bool isEvenOddCountFunctor(const Polygon& polygon)
 {
     return polygon.points_.size() % 2;
 }
-void getMinArea(const std::vector< Polygon >& polygons, std::ostream& out)
+void maxArea(const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    iofmtguard guard(out);
-    out << std::fixed << std::setprecision(1);
-    out << std::min_element(polygons.cbegin(), polygons.cend(), compareAreas)->getArea();
+    std::vector< double > areasOfPolygons;
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(areasOfPolygons), getArea);
+    std::sort(areasOfPolygons.begin(), areasOfPolygons.end());
+    output << std::fixed << std::setprecision(1) << areasOfPolygons[areasOfPolygons.size() - 1] << "\n";
 }
 
-void getMaxArea(const std::vector< Polygon >& polygons, std::ostream& out)
+void maxVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    iofmtguard guard(out);
-    out << std::fixed << std::setprecision(1);
-    out << std::max_element(polygons.cbegin(), polygons.cend(), compareAreas)->getArea();
+    std::vector< size_t > vertexes;
+    std::transform
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    std::back_inserter(vertexes),
+                    [](const Polygon& pol) { return pol.points_.size(); }
+            );
+    std::sort(vertexes.begin(), vertexes.end());
+    output << vertexes[vertexes.size() - 1] << "\n";
 }
 
-void getMinVertex(const std::vector< Polygon >& polygons, std::ostream& out)
+void minArea(const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    iofmtguard guard(out);
-    out << std::fixed << std::setprecision(1);
-    out << std::min_element(polygons.cbegin(), polygons.cend(), compareVertexesArea)->points_.size();
+    std::vector< double > areasOfPolygons;
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(areasOfPolygons), getArea);
+    std::sort(areasOfPolygons.begin(), areasOfPolygons.end());
+    output << std::fixed << std::setprecision(1) << areasOfPolygons[0];
 }
 
-void getMaxVertex(const std::vector< Polygon >& polygons, std::ostream& out)
+void minVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    iofmtguard guard(out);
-    out << std::fixed << std::setprecision(1);
-    out << std::max_element(polygons.cbegin(), polygons.cend(), compareVertexesArea)->points_.size();
+    std::vector< size_t > vertexes;
+    std::transform
+            (
+                    polygons.begin(),
+                    polygons.end(),
+                    std::back_inserter(vertexes),
+                    [](const Polygon& pol) { return pol.points_.size(); }
+            );
+    std::sort(vertexes.begin(), vertexes.end());
+    output << vertexes[0];
 }
 
-void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
-{
-    iofmtguard guard(out);
-    std::string string;
-    in >> string; //
-    out << std::fixed << std::setprecision(1);
-    getAreaOfFigure(string, std::cout, polygons);
-}
 void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
     if (polygons.empty())
@@ -128,8 +218,8 @@ void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
     Command maxCommand;
     std::map< std::string, Command > commands;
     {
-        commands["AREA"] = std::bind(getMaxArea, std::cref(polygons), std::ref(out));
-        commands["VERTEXES"] = std::bind(getMaxVertex, std::cref(polygons), std::ref(out));
+        commands["AREA"] = std::bind(maxArea, std::cref(polygons), std::ref(out));
+        commands["VERTEXES"] = std::bind(maxVertexes, std::cref(polygons), std::ref(out));
     }
 
     maxCommand = commands.at(string);
@@ -149,8 +239,8 @@ void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
     Command minCommand;
     std::map< std::string, Command > commands;
     {
-        commands["AREA"] = std::bind(getMinArea, std::cref(polygons), std::ref(out));
-        commands["VERTEXES"] = std::bind(getMinVertex, std::cref(polygons), std::ref(out));
+        commands["AREA"] = std::bind(minArea, std::cref(polygons), std::ref(out));
+        commands["VERTEXES"] = std::bind(minVertexes, std::cref(polygons), std::ref(out));
     }
 
     minCommand = commands.at(string);
@@ -162,6 +252,15 @@ void count(const std::vector< Polygon >& polygons, std::istream& in, std::ostrea
     std::string string;
     in >> string;
     out << numOfVertexes(string, polygons);
+}
+
+void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
+{
+    iofmtguard guard(out);
+    std::string string;
+    in >> string; //
+    out << std::fixed << std::setprecision(1);
+    getAreaOfFigure(string, std::cin, std::cout, polygons);
 }
 
 void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
