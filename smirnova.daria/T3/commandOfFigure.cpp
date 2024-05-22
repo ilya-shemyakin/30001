@@ -71,19 +71,19 @@ void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outp
     }
 }
 //cmdarea
-void getAreaOfFigure(std::istream& in, std::ostream& out, const std::vector< Polygon >& polygons)
+void getAreaOfFigure(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     using namespace std::placeholders;
-    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) >> command;
-    command["EVEN"] = std::bind(evenAreaOfFigure, _1, _2);
-    command["ODD"] = std::bind(oddAreaOfFigure, _1, _2);
-    command["MEAN"] = std::bind(meanAreaOfFigure, _1, _2);
+    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsArea;
+    cmdsArea["EVEN"] = std::bind(evenAreaOfFigure, _1, _2);
+    cmdsArea["ODD"] = std::bind(oddAreaOfFigure, _1, _2);
+    cmdsArea["MEAN"] = std::bind(meanAreaOfFigure, _1, _2);
     auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     std::string areaType;
-    in >> areaType;
+    input >> areaType;
     try
     {
-        command.at(areaType)(polygons, out);
+        cmdsArea.at(areaType)(polygons, output);
     }
     catch (const std::out_of_range& e)
     {
@@ -92,16 +92,16 @@ void getAreaOfFigure(std::istream& in, std::ostream& out, const std::vector< Pol
             size_t num = std::stoull(areaType);
             if (num < 3)
             {
-                warningInvCom(out);
+                warningInvCom(output);
             }
             else
             {
-                vertexArea(num, polygons, out);
+                vertexArea(num, polygons, output);
             }
         }
         else
         {
-            warningInvCom(out);
+            warningInvCom(output);
         }
     }
 }
@@ -198,43 +198,50 @@ void minVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
 void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
     using namespace std::placeholders;
-    using Command = std::function< void() >;
-    std::string string;
-    in >> string;
-    Command maxCommand;
-    std::map< std::string, Command > commands;
-    {
-        commands["AREA"] = std::bind(maxArea, std::cref(polygons), std::ref(out));
-        commands["VERTEXES"] = std::bind(maxVertexes, std::cref(polygons), std::ref(out));
-    }
+    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsMax;
+    cmdsMax["AREA"] = std::bind(maxArea, _1, _2);
+    cmdsMax["VERTEXES"] = std::bind(maxVertexes, _1, _2);
     auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
-    if (polygons.empty())
+    std::string maxType;
+    in >> maxType;
+    try
+    {
+        if(polygons.empty())
+        {
+            warningInvCom(out);
+        }
+        else
+        {
+            cmdsMax.at(maxType)(polygons, out);
+        }
+    }
+    catch (const std::out_of_range& e)
     {
         warningInvCom(out);
     }
-    maxCommand = commands.at(string);
-    maxCommand();
 }
 
 void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
-    std::string string;
-    in >> string;
     using namespace std::placeholders;
-    using Command = std::function< void() >;
-    Command minCommand;
-    std::map< std::string, Command > commands;
-    {
-        commands["AREA"] = std::bind(minArea, std::cref(polygons), std::ref(out));
-        commands["VERTEXES"] = std::bind(minVertexes, std::cref(polygons), std::ref(out));
-    }
+    std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsMin;
+    cmdsMin["AREA"] = std::bind(minArea, _1, _2);
+    cmdsMin["VERTEXES"] = std::bind(minVertexes, _1, _2);
     auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
-    if (polygons.empty())
+    std::string minType;
+    in >> minType;
+    try
+    {
+        if(polygons.empty())
+        {
+            warningInvCom(out);
+        }
+        cmdsMin.at(minType)(polygons, out);
+    }
+    catch (const std::out_of_range& e)
     {
         warningInvCom(out);
     }
-    minCommand = commands.at(string);
-    minCommand();
 }
 
 void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
@@ -243,7 +250,7 @@ void area(const std::vector< Polygon >& polygons, std::istream& in, std::ostream
     std::string string;
     in >> string; //
     out << std::fixed << std::setprecision(1);
-    getAreaOfFigure(std::cin, std::cout, polygons);
+    getAreaOfFigure(polygons, std::cin, std::cout);
 }
 
 void countEven(const std::vector< Polygon >& polygons, std::ostream& output)
