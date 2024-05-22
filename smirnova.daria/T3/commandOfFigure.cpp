@@ -284,7 +284,7 @@ void warning(std::ostream& output, const std::string& mes)
 }
 
 void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
-{   
+{
     using namespace std::placeholders;
     Polygon polygon;
     in >> polygon;
@@ -296,7 +296,6 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
     out << std::count_if(polygons.cbegin(), polygons.cend(), intersectPredicate);
 }
-
 void rmecho(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
     using namespace std::placeholders;
