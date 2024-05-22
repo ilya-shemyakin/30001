@@ -1,4 +1,5 @@
 #include "commandOfFigure.h"
+#include <iterator>
 #include <algorithm>
 #include <iomanip>
 #include <numeric>
