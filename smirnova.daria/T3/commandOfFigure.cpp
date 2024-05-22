@@ -4,7 +4,10 @@
 #include <numeric>
 #include <iostream>
 #include "iofmtguard.h"
-
+void warning(std::ostream& output, const std::string& mes)
+{
+    output << mes;
+}
 double sumOfArea(double sum, const Polygon& polygon)
 {
     sum += getArea(polygon);
@@ -57,6 +60,7 @@ void oddAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outpu
 
 void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output)
 {
+    auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
     if (polygons.empty())
     {
         throw std::invalid_argument("");
@@ -96,6 +100,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
     command["EVEN"] = std::bind(evenAreaOfFigure, _1, _2);
     command["ODD"] = std::bind(oddAreaOfFigure, _1, _2);
     command["MEAN"] = std::bind(meanAreaOfFigure, _1, _2);
+    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     std::string areaType;
     in >> areaType;
     try
@@ -109,7 +114,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
             size_t num = std::stoull(areaType);
             if (num < 3)
             {
-                throw std::invalid_argument("");
+                warningInvCom(out);
             }
             else
             {
@@ -118,7 +123,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
         }
         else
         {
-            throw std::invalid_argument("");
+            warningInvCom(out);
         }
     }
 }
@@ -177,10 +182,6 @@ void minVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
 
 void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
-    if (polygons.empty())
-    {
-        throw std::invalid_argument("");
-    }
     using namespace std::placeholders;
     using Command = std::function< void() >;
     std::string string;
@@ -191,17 +192,17 @@ void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
         commands["AREA"] = std::bind(maxArea, std::cref(polygons), std::ref(out));
         commands["VERTEXES"] = std::bind(maxVertexes, std::cref(polygons), std::ref(out));
     }
-
+    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
+    if (polygons.empty())
+    {
+        warningInvCom(out);
+    }
     maxCommand = commands.at(string);
     maxCommand();
 }
 
 void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
-    if (polygons.empty())
-    {
-        throw std::invalid_argument("");
-    }
     std::string string;
     in >> string;
     using namespace std::placeholders;
@@ -212,7 +213,11 @@ void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
         commands["AREA"] = std::bind(minArea, std::cref(polygons), std::ref(out));
         commands["VERTEXES"] = std::bind(minVertexes, std::cref(polygons), std::ref(out));
     }
-
+    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
+    if (polygons.empty())
+    {
+        warningInvCom(out);
+    }
     minCommand = commands.at(string);
     minCommand();
 }
@@ -265,6 +270,7 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsCount;
     cmdsCount["EVEN"] = std::bind(countEven, _1, _2);
     cmdsCount["ODD"] = std::bind(countOdd, _1, _2);
+    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     std::string countType;
     input >> countType;
     try
@@ -278,7 +284,7 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
             size_t num = std::stoull(countType);
             if (num < 3)
             {
-                throw std::invalid_argument("");
+                warningInvCom(output);
             }
             else
             {
@@ -287,7 +293,7 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
         }
         else
         {
-            throw std::invalid_argument("");
+            warningInvCom(output);
         }
     }
 }
@@ -295,9 +301,10 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
 {
     Polygon polygon;
     in >> polygon;
+    
     if (polygons.empty() or (in.peek() != '\n' or !in))
     {
-        throw std::logic_error("");
+        throw std::invalid_argument("");
     }
     using namespace std::placeholders;
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
