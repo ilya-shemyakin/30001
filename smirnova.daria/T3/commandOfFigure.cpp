@@ -122,36 +122,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
         }
     }
 }
-    //if (commands == "EVEN")
-    //{
-    //    std::vector< Polygon > evenFigure;
-    //    std::copy_if(std::begin(polygons), std::end(polygons), std::back_inserter(evenFigure), isEven);
-    //
-    //    PolygonsArea polygonsArea{ 0.0 };
-    //    std::for_each(evenFigure.begin(), evenFigure.end(), std::ref(polygonsArea));
-    //    out << std::fixed << out.precision(1);
-    //    out << polygonsArea.area_ << "\n";
-    //}
-    //
-    //if (commands == "ODD")
-    //{
-    //    std::vector< Polygon > oddFigure;
-    //    std::copy_if(std::begin(polygons), std::end(polygons), std::back_inserter(oddFigure), isOdd);
-    //
-    //    PolygonsArea polygonsArea{ 0.0 };
-    //    std::for_each(oddFigure.begin(), oddFigure.end(), std::ref(polygonsArea));
-    //    out << std::fixed << out.precision(1);
-    //    out << polygonsArea.area_ << "\n";
-    //}
-    //
-    //if (commands == "MEAN")
-    //{
-    //
-    //    PolygonsArea polygonsArea{ 0.0 };
-    //    std::for_each(polygons.begin(), polygons.end(), std::ref(polygonsArea));
-    //    out << std::fixed << out.precision(1);
-    //    out << (polygonsArea.area_ / polygons.size()) << "\n"; //вычисление среднего знач
-    //}
+
 bool countFunctor(const Polygon& polygon, std::size_t size)
 {
     return polygon.points_.size() == size;
@@ -317,7 +288,7 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
         }
         else
         {
-            throw std::invalid_argument("");
+            throw std::invalid_argument("<INVALID COMMAND>\n");
         }
     }
 }
