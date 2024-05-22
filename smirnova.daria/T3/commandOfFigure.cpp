@@ -5,7 +5,6 @@
 #include <iostream>
 #include "iofmtguard.h"
 
-
 double sumOfArea(double sum, const Polygon& polygon)
 {
     sum += getArea(polygon);
@@ -60,7 +59,7 @@ void meanAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outp
 {
     if (polygons.empty())
     {
-        throw std::logic_error("INVALID COMMAND");
+        throw std::invalid_argument("");
     }
     else
     {
@@ -84,7 +83,7 @@ size_t numOfVertexes(const std::string& command, const std::vector< Polygon >& p
     size_t number = std::stoull(command);
     if (number < 3)
     {
-        throw std::logic_error("INVALID COMMAND");
+        throw std::invalid_argument("");
     }
 
     return std::count_if(polygons.cbegin(),polygons.cend(),std::bind(countFunctor, _1, number));
@@ -110,7 +109,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
             size_t num = std::stoull(areaType);
             if (num < 3)
             {
-                throw std::logic_error("INVALID COMMAND");
+                throw std::invalid_argument("");
             }
             else
             {
@@ -119,7 +118,7 @@ void getAreaOfFigure(const std::string& commands,  std::istream& in, std::ostrea
         }
         else
         {
-            throw std::logic_error("INVALID COMMAND");
+            throw std::invalid_argument("");
         }
     }
 }
@@ -210,7 +209,7 @@ void max(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
 {
     if (polygons.empty())
     {
-        throw std::logic_error("INVALID COMMAND");
+        throw std::invalid_argument("");
     }
     using namespace std::placeholders;
     using Command = std::function< void() >;
@@ -231,7 +230,7 @@ void min(const std::vector< Polygon >& polygons, std::istream& in, std::ostream&
 {
     if (polygons.empty())
     {
-        throw std::logic_error("INVALID COMMAND");
+        throw std::invalid_argument("");
     }
     std::string string;
     in >> string;
@@ -309,7 +308,7 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
             size_t num = std::stoull(countType);
             if (num < 3)
             {
-                throw std::logic_error("INVALID COMMAND");
+                throw std::invalid_argument("");
             }
             else
             {
@@ -318,7 +317,7 @@ void count(const std::vector< Polygon >& polygons, std::istream& input, std::ost
         }
         else
         {
-            throw std::invalid_argument("<INVALID COMMAND>\n");
+            throw std::invalid_argument("");
         }
     }
 }
@@ -328,7 +327,7 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
     in >> polygon;
     if (polygons.empty() or (in.peek() != '\n' or !in))
     {
-        throw std::logic_error("INVALID COMMAND");
+        throw std::logic_error("");
     }
     using namespace std::placeholders;
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
@@ -343,7 +342,6 @@ void rmecho(std::vector< Polygon >& polygons, std::istream& in, std::ostream& ou
     if (polygons.empty()  or !in || in.peek() != '\n')
     {
         in.setstate(std::ios::failbit);
-        throw std::logic_error("INVALID COMMAND");
     }
     auto identical = std::bind(EqualFigures {figure}, _1, _2);
     auto last = std::unique(polygons.begin(), polygons.end(), identical);
