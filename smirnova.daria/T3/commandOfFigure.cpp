@@ -17,7 +17,6 @@ double getPolygonAreas(const Point &p1, const Point &p2)
 {
     return (p1.x * p2.y - p1.y * p2.x);
 }
-
 double getArea(const Polygon& polygon)
 {
     double area = 0.0;
@@ -43,7 +42,6 @@ void evenAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& outp
     double sumArea = std::accumulate(evenPolygons.begin(), evenPolygons.end(), 0.0, sumOfArea);
     output << std::fixed << std::setprecision(1) << sumArea << "\n";
 }
-
 void oddAreaOfFigure(const std::vector< Polygon >& polygons, std::ostream& output)
 {
     std::vector< Polygon > evenPolygons;
@@ -301,7 +299,7 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
 {
     Polygon polygon;
     in >> polygon;
-    
+
     if (polygons.empty() or (in.peek() != '\n' or !in))
     {
         throw std::invalid_argument("");
