@@ -292,7 +292,6 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
     if (polygons.empty() or (in.peek() != '\n' or !in))
     {
         warningInvCom(out);
-        throw std::invalid_argument("");
     }
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
     out << std::count_if(polygons.cbegin(), polygons.cend(), intersectPredicate);
