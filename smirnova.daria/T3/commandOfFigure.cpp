@@ -11,7 +11,6 @@ void cmdArea(const std::vector< Polygon >& polygons, std::istream& input, std::o
     cmdsArea["EVEN"] = std::bind(evenArea, _1, _2);
     cmdsArea["ODD"] = std::bind(oddArea, _1, _2);
     cmdsArea["MEAN"] = std::bind(meanArea, _1, _2);
-    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     std::string areaType;
     input >> areaType;
     try
@@ -25,7 +24,7 @@ void cmdArea(const std::vector< Polygon >& polygons, std::istream& input, std::o
             size_t num = std::stoull(areaType);
             if (num < 3)
             {
-                warningInvCom(output);
+                throw std::invalid_argument("");
             }
             else
             {
@@ -34,7 +33,7 @@ void cmdArea(const std::vector< Polygon >& polygons, std::istream& input, std::o
         }
         else
         {
-            warningInvCom(output);
+            throw std::invalid_argument("");
         }
     }
 }
@@ -69,10 +68,9 @@ void oddArea(const std::vector< Polygon >& polygons, std::ostream& output)
 
 void meanArea(const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
     if(polygons.empty())
     {
-        warningInvCom(output);
+        throw std::invalid_argument("");
     }
     else
     {
@@ -124,14 +122,13 @@ void cmdMax(const std::vector< Polygon >& polygons, std::istream& input, std::os
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsMax;
     cmdsMax["AREA"] = std::bind(findMaxArea, _1, _2);
     cmdsMax["VERTEXES"] = std::bind(findMaxVertexes, _1, _2);
-    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     std::string maxType;
     input >> maxType;
     try
     {
         if(polygons.empty())
         {
-            warningInvCom(output);
+            throw std::invalid_argument("");
         }
         else
         {
@@ -140,7 +137,7 @@ void cmdMax(const std::vector< Polygon >& polygons, std::istream& input, std::os
     }
     catch (const std::out_of_range& e)
     {
-        warningInvCom(output);
+        throw std::invalid_argument("");
     }
 }
 
@@ -172,20 +169,19 @@ void cmdMin(const std::vector< Polygon >& polygons, std::istream& input, std::os
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsMin;
     cmdsMin["AREA"] = std::bind(findMinArea, _1, _2);
     cmdsMin["VERTEXES"] = std::bind(findMinVertexes, _1, _2);
-    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     std::string minType;
     input >> minType;
     try
     {
         if(polygons.empty())
         {
-            warningInvCom(output);
+            throw std::invalid_argument("");
         }
         cmdsMin.at(minType)(polygons, output);
     }
     catch (const std::out_of_range& e)
     {
-        warningInvCom(output);
+        throw std::invalid_argument("");
     }
 }
 
@@ -217,7 +213,6 @@ void cmdCount(const std::vector< Polygon >& polygons, std::istream& input, std::
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsCount;
     cmdsCount["EVEN"] = std::bind(countEven, _1, _2);
     cmdsCount["ODD"] = std::bind(countOdd, _1, _2);
-    auto warningInvCom = std::bind(warning, _1, "<INVALID COMMAND>\n");
     std::string countType;
     input >> countType;
     try
@@ -231,7 +226,7 @@ void cmdCount(const std::vector< Polygon >& polygons, std::istream& input, std::
             size_t num = std::stoull(countType);
             if (num < 3)
             {
-                warningInvCom(output);
+                throw std::invalid_argument("");
             }
             else
             {
@@ -276,11 +271,6 @@ void vertexCount(size_t num, const std::vector< Polygon >& polygons, std::ostrea
                     [num](const Polygon& pol) { return pol.points_.size() == num; }
             );
     output << result << "\n";
-}
-
-void warning(std::ostream& output, const std::string& mes)
-{
-    output << mes;
 }
 
 void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
