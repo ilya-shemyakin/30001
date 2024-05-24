@@ -37,7 +37,7 @@ namespace nspace {
         }
         double real = 0.0;
         double imag = 0.0;
-        in >> std::fixed >> DelimiterIO{ '#' } 
+        in >> std::fixed >> DelimiterIO{ '#' }
             >> DelimiterIO{ 'c' } >> DelimiterIO{ '(' }
             >> real >> imag >> DelimiterIO{ ')' };
         dest.ref = std::complex <double>(real, imag);
@@ -102,7 +102,6 @@ namespace nspace {
             return out;
         }
         iofmtguard fmtguard(out);
-
         out << "(:key1 0x" << std::uppercase << std::hex << src.key1
             << ":key2 " << std::fixed << std::setprecision(1)
             << "#c(" << src.key2.real() << " " << src.key2.imag() << ")"
