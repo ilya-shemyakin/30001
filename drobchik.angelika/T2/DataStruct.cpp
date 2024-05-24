@@ -39,7 +39,7 @@ namespace nspace {
         double imag = 0.0;
         in >> std::fixed >> DelimiterIO{ '#' } 
             >> DelimiterIO{ 'c' } >> DelimiterIO{ '(' }
-        >> real >> imag >> DelimiterIO{ ')' };
+            >> real >> imag >> DelimiterIO{ ')' };
         dest.ref = std::complex <double>(real, imag);
         if (!in) {
             in.setstate(std::ios::failbit);
