@@ -5,7 +5,6 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
-
 std::istream& operator>>(std::istream& input, Polygon& dest)
 {
     std::istream::sentry sentry(input);
