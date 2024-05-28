@@ -11,6 +11,7 @@ void oddArea(const std::vector< Polygon >& polygons, std::ostream& output);
 void meanArea(const std::vector< Polygon >& polygons, std::ostream& output);
 void vertexArea(size_t num, const std::vector< Polygon >& polygons, std::ostream& output);
 double plusArea(double sum, const Polygon& polygon);
+double gaussFormula(const Point& p1, const Point& p2);
 double calculatePolygonArea(const Polygon& polygon);
 double calculatePolygonAreaRec(const Polygon& polygon, size_t i, double area);
 

@@ -100,7 +100,9 @@ double plusArea(double sum, const Polygon& polygon)
     sum += calculatePolygonArea(polygon);
     return sum;
 }
-
+double gaussFormula(const Point& p1, const Point& p2) {
+    return (p1.x * p2.y - p2.x * p1.y);
+}
 double calculatePolygonAreaRec(const Polygon& polygon, size_t i, double area)
 {
     const size_t numpoints_ = polygon.points_.size();
@@ -110,7 +112,7 @@ double calculatePolygonAreaRec(const Polygon& polygon, size_t i, double area)
     }
     const Point& p1 = polygon.points_[i];
     const Point& p2 = polygon.points_[(i + 1) % numpoints_];
-    return calculatePolygonAreaRec(polygon, i + 1, area + (p1.x * p2.y - p2.x * p1.y));
+    return 0.5 * std::abs(calculatePolygonAreaRec(polygon, i + 1, area + gaussFormula(p1,p2)));
 }
 
 double calculatePolygonArea(const Polygon& polygon)
