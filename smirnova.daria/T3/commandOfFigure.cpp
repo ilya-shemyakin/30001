@@ -112,7 +112,7 @@ double calculatePolygonAreaRec(const Polygon& polygon, size_t i, double area)
     }
     const Point& p1 = polygon.points_[i];
     const Point& p2 = polygon.points_[(i + 1) % numpoints_];
-    return 0.5 * std::abs(calculatePolygonAreaRec(polygon, i + 1, area + gaussFormula(p1,p2)));
+    return calculatePolygonAreaRec(polygon, i + 1, area + gaussFormula(p1,p2));
 }
 
 double calculatePolygonArea(const Polygon& polygon)
