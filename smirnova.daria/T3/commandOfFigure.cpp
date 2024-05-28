@@ -8,27 +8,27 @@ void cmdArea(const std::vector< Polygon >& polygons, std::istream& input, std::o
 {
     using namespace std::placeholders;
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsArea;
-    cmdsArea["EVEN"] = std::bind(evenArea, _1, _2);
-    cmdsArea["ODD"] = std::bind(oddArea, _1, _2);
+    cmdsArea["EVEN"] = std::bind(evenArea, _1, _2); //четные
+    cmdsArea["ODD"] = std::bind(oddArea, _1, _2); //нечет
     cmdsArea["MEAN"] = std::bind(meanArea, _1, _2);
-    std::string areaType;
+    std::string areaType; //even/odd/mean
     input >> areaType;
     try
     {
-        cmdsArea.at(areaType)(polygons, output);
+        cmdsArea.at(areaType)(polygons, output); //вызываем ту или иную функцию из трех
     }
     catch (const std::out_of_range& e)
     {
-        if (std::isdigit(areaType[0]))
+        if (std::isdigit(areaType[0])) //проверка, является ли строковый элемент цифрой или нет
         {
-            size_t num = std::stoull(areaType);
-            if (num < 3)
+            size_t number = std::stoull(areaType); //Интерпретирует целое число без знака в строке str
+            if (number < 3)
             {
                 throw std::invalid_argument("");
             }
             else
             {
-                vertexArea(num, polygons, output);
+                vertexArea(number, polygons, output);
             }
         }
         else
@@ -46,10 +46,11 @@ void evenArea(const std::vector< Polygon >& polygons, std::ostream& output)
                     polygons.begin(),
                     polygons.end(),
                     std::back_inserter(evenPolygons),
-                    [](const Polygon& pol) { return pol.points_.size() % 2 == 0; }
+                    [](const Polygon& polygon) { return polygon.points_.size() % 2 == 0; }
             );
     double sumArea = std::accumulate(evenPolygons.begin(), evenPolygons.end(), 0.0, plusArea);
-    output << std::fixed << std::setprecision(1) << sumArea << "\n";
+    //суммирует всю последовательность
+    output << std::fixed << std::setprecision(1) << sumArea << "\n"; //один знак после запятой
 }
 
 void oddArea(const std::vector< Polygon >& polygons, std::ostream& output)
@@ -68,7 +69,7 @@ void oddArea(const std::vector< Polygon >& polygons, std::ostream& output)
 
 void meanArea(const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    if(polygons.empty())
+    if (polygons.empty()) //в усл написано что надо сделать проверку у mean
     {
         throw std::invalid_argument("");
     }
@@ -79,7 +80,7 @@ void meanArea(const std::vector< Polygon >& polygons, std::ostream& output)
     }
 }
 
-void vertexArea(size_t num, const std::vector< Polygon >& polygons, std::ostream& output)
+void vertexArea(size_t vertex, const std::vector< Polygon >& polygons, std::ostream& output)
 {
     std::vector< Polygon > needPolygons;
     std::copy_if
@@ -87,8 +88,9 @@ void vertexArea(size_t num, const std::vector< Polygon >& polygons, std::ostream
                     polygons.begin(),
                     polygons.end(),
                     std::back_inserter(needPolygons),
-                    [num](const Polygon& pol) { return pol.points_.size() == num; }
+                    [vertex](const Polygon& pol) { return pol.points_.size() == vertex; }
             );
+    //автоматически вставляет новые элементы в конец
     double sumArea = std::accumulate(needPolygons.begin(), needPolygons.end(), 0.0, plusArea);
     output << std::fixed << std::setprecision(1) << sumArea << "\n";
 }
@@ -126,7 +128,7 @@ void cmdMax(const std::vector< Polygon >& polygons, std::istream& input, std::os
     input >> maxType;
     try
     {
-        if(polygons.empty())
+        if (polygons.empty())
         {
             throw std::invalid_argument("");
         }
