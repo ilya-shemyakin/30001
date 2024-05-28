@@ -21,12 +21,10 @@ std::istream& operator>>(std::istream& in, Point& point)
     }
     return in;
 }
-
 bool Point::operator==(const Point& object) const
 {
     return (x == object.x) and (y == object.y);
 }
-
 bool Point::operator<=(const Point& object) const
 {
     return (*this <= object);
