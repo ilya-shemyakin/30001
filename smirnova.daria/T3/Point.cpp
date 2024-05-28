@@ -25,19 +25,18 @@ bool Point::operator==(const Point& object) const
 {
     return (x == object.x) and (y == object.y);
 }
-bool Point::operator<=(const Point& object) const
-{
-    return (*this <= object);
-}
 bool Point::operator<(const Point& object) const
 {
     return (x < object.x and y < object.y);
+}
+bool Point::operator<=(const Point& object) const
+{
+    return (*this <= object);
 }
 bool Point::operator>=(const Point& object) const
 {
     return !(*this < object);
 }
-//нахождение расстояния между двумя точками(Т. Пифагора)
 double getLength(const Point& p1, const Point& p2) {
-    return sqrt((p1.x - p2.x)^2 + (p1.y - p2.y)^2);
+    return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
