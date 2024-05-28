@@ -5,6 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+
 std::istream& operator>>(std::istream& input, Polygon& dest)
 {
     std::istream::sentry sentry(input);
@@ -21,7 +22,8 @@ std::istream& operator>>(std::istream& input, Polygon& dest)
     using input_it_t = std::istream_iterator< Point >;
     std::vector< Point > points;
     std::copy_n(input_it_t{ input }, vertexes, std::back_inserter(points));
-    //Возвращает итератор, используемый для вставки элементов в конце указанной коллекции
+    //Возвращает итератор, используемый для 
+    // вставки элементов в конце указанной коллекции
     if (input)
     {
         polygon.points_ = std::move(points);
