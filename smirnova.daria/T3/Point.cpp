@@ -7,8 +7,8 @@
 #include "Delimeter.h"
 std::istream& operator>>(std::istream& in, Point& point)
 {
-    std::istream::sentry guard(in);
-    if (!guard)
+    std::istream::sentry sentry(in);
+    if (!sentry)
     {
         return in;
     }
@@ -24,23 +24,23 @@ std::istream& operator>>(std::istream& in, Point& point)
 
 bool Point::operator==(const Point& object) const
 {
-    return (x == object.x) && (y == object.y);
-}
-
-bool Point::operator<(const Point& object) const
-{
-    return (x < object.x and y < object.y);
+    return (x == object.x) and (y == object.y);
 }
 
 bool Point::operator<=(const Point& object) const
 {
     return (*this <= object);
 }
+bool Point::operator<(const Point& object) const
+{
+    return (x < object.x and y < object.y);
+}
 
 bool Point::operator>=(const Point& object) const
 {
     return !(*this < object);
 }
+//нахождение расстояния между двумя точками. Пифагоровы штаны во все стороы равны
 double getLength(const Point& p1, const Point& p2) {
-    return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+    return sqrt((p1.x - p2.x)^2 + (p1.y - p2.y)^2);
 }
