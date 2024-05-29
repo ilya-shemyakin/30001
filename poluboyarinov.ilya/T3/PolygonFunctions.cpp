@@ -95,7 +95,7 @@ namespace nspace
         if (command == "AREA")
         {
             auto maxSquare = std::max_element(vector.begin(), vector.end(),
-                std::bind(std::less<double>(), 
+                std::bind(std::less<double>(),
                     std::bind([](Polygon& a) {return a.getArea(); }, std::placeholders::_1), 
                     std::bind([](Polygon& a) {return a.getArea(); }, std::placeholders::_2)));
             auto result = *maxSquare;
