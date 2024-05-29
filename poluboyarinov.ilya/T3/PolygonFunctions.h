@@ -17,5 +17,4 @@ namespace nspace
 	void rmecho(std::vector<Polygon>& vector);
 	void same(std::vector<Polygon>& vector);
 }
-
 #endif
