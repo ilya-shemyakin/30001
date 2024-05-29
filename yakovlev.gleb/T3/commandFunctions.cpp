@@ -39,12 +39,18 @@ void area(std::vector<Polygon>& polygons) {
             }) << '\n';
     }
     else if (temp == "MEAN") {
+        if (polygons.size() < 3) {
+            std::cin.setstate(std::ios::failbit);
+            std::cout << "<INVALID COMMAND>\n";
+            return;
+        }
+
         std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
             [] (double area, Polygon& pol)
             {
             area += findAreaOfPolygon(pol);
             return area;
-            }) / (polygons.size() == 0 ? 1 : polygons.size()) << '\n';
+            }) / polygons.size()<< '\n';
     }
     else if (temp == "EVEN") {
         std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
@@ -103,6 +109,11 @@ void max(std::vector<Polygon>& polygons) {
     std::string temp;
     std::cin >> temp;
     if (temp == "VERTEXES") {
+        if (polygons.empty()) {
+            std::cin.setstate(std::ios::failbit);
+            std::cout << "<INVALID COMMAND>\n";
+            return;
+        }
         auto maxItem = std::max_element(polygons.begin(), polygons.end(),
             std::bind([&] (Polygon& pol1, Polygon& pol2)
         {
@@ -113,6 +124,11 @@ void max(std::vector<Polygon>& polygons) {
         std::cout << res << '\n';
     }
     else if (temp == "AREA") {
+        if (polygons.empty()) {
+            std::cin.setstate(std::ios::failbit);
+            std::cout << "<INVALID COMMAND>\n";
+            return;
+        }
         std::cout << std::fixed << std::setprecision(1);
         auto maxItem = std::max_element(polygons.begin(), polygons.end(),
             std::bind([&] (Polygon& pol1, Polygon& pol2)
@@ -186,12 +202,14 @@ void maxSeq(std::vector<Polygon>& polygons) {
     std::getline(std::cin >> std::noskipws, temp, '\n');
     std::istringstream iss(temp);
 
-    if (!(iss >> polygon)) {
-        std::cin.setstate(std::ios::failbit);
-        std::cout << "<INVALID COMMAND>\n";
-        return;
+    try{
+        if (!(iss >> polygon)) {
+            std::cin.setstate(std::ios::failbit);
+            std::cout << "<INVALID COMMAND>\n";
+            return;
+        }
     }
-
+    catch(...){}
     bool isSeries = false;
     int counter = 0;
 
