@@ -14,11 +14,28 @@
 SAME 4 (-1;-1) (-1;0) (0;0) (0;-1)
 SAME 3 (10;10) (11;11) (10;11)
 SAME 3 (10;10) (10;11) (11;10)
+7 (0;0) (0;4) (2;6) (4;6) (6;4) (6;2) (4;0)
+7 (1;1) (1;5) (3;7) (5;7) (7;5) (7;3) (5;1)
+7 (-1;-1) (-1;3) (1;5) (3;5) (5;3) (5;1) (3;-1)
+4 (2;2) (3;2) (3;3) (2;3)
+SAME 7 (0;0) (0;4) (2;6) (4;6) (6;4) (6;2) (4;0)
+SAME 4 (0;0) (1;0) (1;1) (0;1)
+SAME 4 (1;1) (2;1) (3;3) (1;2)
+SAME 2 (5;5) (5;6)
+SAME 4 (5;5) (6;5) (6;6) (;)
+SAME 3 (5;5) (6;5) (6;6) (6;6)
+SAME 3 (5;5) (6;5)
 
+3 (0;0) (2;0) (0;2)
+8 (0;2) (0;4) (2;6) (4;6) (6;4) (6;2) (4;0) (2;0)
+3 (0;0) (2;0) (0;2)
+
+cd source\repos\T3\x64\Debug
 */
 
 int main(int countOfArg, char** name)
 {
+    std::cout << "hello\n";
     if (countOfArg < 2)
     {
         return 1;
@@ -32,7 +49,21 @@ int main(int countOfArg, char** name)
 
     std::vector<nspace::Polygon> polygons;
 
-    while (!inpFile.eof())
+    /*while (std::cin.good())
+    {
+        std::copy(
+            std::istream_iterator<nspace::Polygon>(std::cin),
+            std::istream_iterator<nspace::Polygon>(),
+            std::back_inserter(polygons)
+        );
+        if (std::cin.fail() && !std::cin.eof())
+        {
+            std::cin.clear();
+            std::cin.ignore();
+        }
+    }*/
+
+    while (inpFile.good())
     {
         std::copy(
             std::istream_iterator<nspace::Polygon>(inpFile),
@@ -42,9 +73,11 @@ int main(int countOfArg, char** name)
         if (inpFile.fail() && !inpFile.eof())
         {
             inpFile.clear();
-            inpFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            inpFile.ignore();
         }
     }
+
+    std::cout << polygons.size() << "\n";
 
     std::cin.clear();
 
@@ -99,5 +132,6 @@ int main(int countOfArg, char** name)
             std::cout << "<INVALID COMMAND>" << '\n';
         }
     }
+    
     return 0;
 }

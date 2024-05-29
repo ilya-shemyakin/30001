@@ -2,6 +2,27 @@
 
 namespace nspace
 {
+    bool operator==(const Polygon& first, const Polygon& second)
+    {
+        if (first.points.size() != second.points.size())
+        {
+            return false;
+        }
+        else
+        {
+            /*bool result = true;
+            for (long unsigned int i = 0; i < this->points.size(); i++)
+            {
+                if (this->points[i].x != other.points[i].x || this->points[i].y != other.points[i].y)
+                {
+                    result = false;
+                }
+            }
+            return result;*/
+            return std::equal(first.points.cbegin(), first.points.cend(), second.points.cbegin());
+        }
+    }
+
     std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
     {
         std::istream::sentry sentry(in);
@@ -65,23 +86,14 @@ namespace nspace
                 in >> skip{ ';' };
                 in >> count{ point.y };
                 in >> skip{ ')' };
-                if (in)
-                {
-                    figure.points.push_back(point);
-                }
+
+                figure.points.push_back(point);
             }
-            //if (!in.eof())
-            //{
-            //in.setstate(std::ios::failbit);
-            //}
-            if (figure.points.size() == countOfPoints)
-            {
-                dest = figure;
-            }
-            else
+            if (figure.points.size() != countOfPoints)
             {
                 in.setstate(std::ios::failbit);
             }
+            dest = figure;
             return in;
         }
     }
@@ -100,3 +112,4 @@ namespace nspace
         s_.flags(fmt_);
     }
 }
+

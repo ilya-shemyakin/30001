@@ -10,13 +10,10 @@
 #include <iomanip>
 #include <algorithm>
 
+#include "Point.h"
+
 namespace nspace
 {
-    struct Point
-    {
-        int x, y;
-
-    };
     struct Polygon
     {
         std::vector< Point > points;
@@ -32,25 +29,6 @@ namespace nspace
             result -= (points[0].x * points[points.size() - 1].y);
             result /= 2;
             return abs(result);
-        }
-        bool operator==(const Polygon& other) const
-        {
-            if (points.size() != other.points.size())
-            {
-                return false;
-            }
-            else
-            {
-                bool result = true;
-                for (long unsigned int i = 0; i < this->points.size(); i++)
-                {
-                    if (this->points[i].x != other.points[i].x || this->points[i].y != other.points[i].y)
-                    {
-                        result = false;
-                    }
-                }
-                return result;
-            }
         }
     };
     struct DelimiterIO
@@ -75,5 +53,7 @@ namespace nspace
     std::istream& operator>>(std::istream& in, DelimiterIO&& dest);
     std::istream& operator>>(std::istream& in, IntIO&& dest);
     std::istream& operator>>(std::istream& in, Polygon& dest);
+
+    bool operator==(const Polygon& first, const Polygon& second);
 }
 #endif
