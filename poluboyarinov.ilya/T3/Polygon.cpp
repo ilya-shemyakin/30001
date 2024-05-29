@@ -74,9 +74,9 @@ namespace nspace
             //{
             //in.setstate(std::ios::failbit);
             //}
-            if (polygon.points.size() == nPoints)
+            if (figure.points.size() == nPoints)
             {
-                dest = polygon;
+                dest = figure;
             }
             else
             {
