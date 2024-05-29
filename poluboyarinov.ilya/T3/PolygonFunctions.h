@@ -8,11 +8,11 @@
 #include "Polygon.h"
 namespace nspace
 {
-	void area(std::vector<Polygon>& vector);
-	void max(std::vector<Polygon>& vector);
-	void min(std::vector<Polygon>& vector);
-	void count(std::vector<Polygon>& vector);
-	void rmecho(std::vector<Polygon>& vector);
-	void same(std::vector<Polygon>& vector);
+    void area(std::vector<Polygon>& vector);
+    void max(std::vector<Polygon>& vector);
+    void min(std::vector<Polygon>& vector);
+    void count(std::vector<Polygon>& vector);
+    void rmecho(std::vector<Polygon>& vector);
+    void same(std::vector<Polygon>& vector);
 }
 #endif
