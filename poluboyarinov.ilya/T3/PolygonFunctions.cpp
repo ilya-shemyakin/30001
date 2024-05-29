@@ -7,6 +7,10 @@ namespace nspace
 {
     void area(std::vector<Polygon>& vector)
     {
+        if (vector.size() == 0)
+        {
+            throw std::invalid_argument("ERROR");
+        }
         std::string command = "";
         std::cin >> command;
         if (!std::cin)
@@ -71,6 +75,10 @@ namespace nspace
             }))
         {
             auto number = std::stoull(command);
+            if (number < 3)
+            {
+                throw std::invalid_argument("ERROR");
+            }
             double result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure)
                 {
                     if (figure.points.size() == number)
@@ -94,6 +102,10 @@ namespace nspace
 
     void max(std::vector<Polygon>& vector)
     {
+        if (vector.size() == 0)
+        {
+            throw std::invalid_argument("ERROR");
+        }
         std::string command = "";
         std::cin >> command;
         if (!std::cin)
@@ -113,7 +125,7 @@ namespace nspace
         }
         else if (command == "VERTEXES")
         {
-            double result = std::accumulate(vector.begin(), vector.end(), 0.0,
+            size_t result = std::accumulate(vector.begin(), vector.end(), 0,
                 [](size_t res, Polygon figure)
                 {
                     res = std::max(res, figure.points.size());
@@ -208,6 +220,10 @@ namespace nspace
             }))
         {
             auto number = std::stoull(command);
+            if (number < 3)
+            {
+                throw std::invalid_argument("ERROR");
+            }
             int result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure)
                 {
                     if (figure.points.size() == number)
