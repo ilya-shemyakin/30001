@@ -84,5 +84,4 @@ namespace nspace
     std::istream& operator>>(std::istream& in, IntIO&& dest);
     std::istream& operator>>(std::istream& in, Polygon& dest);
 }
-
 #endif
