@@ -74,7 +74,7 @@ namespace nspace
             //{
             //in.setstate(std::ios::failbit);
             //}
-            if (figure.points.size() == nPoints)
+            if (figure.points.size() == countOfPoints)
             {
                 dest = figure;
             }
