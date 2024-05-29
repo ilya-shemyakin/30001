@@ -1,8 +1,6 @@
 #include "PolygonFunctions.h"
 #include "Polygon.h"
-
 #include <cmath>
-
 namespace nspace
 {
     void area(std::vector<Polygon>& vector)
@@ -101,7 +99,6 @@ namespace nspace
                     std::bind([](Polygon& a) {return a.getArea(); }, std::placeholders::_1), 
                     std::bind([](Polygon& a) {return a.getArea(); }, std::placeholders::_2)));
             auto result = *maxSquare;
-
             std::cout << std::fixed << std::setprecision(1);
             std::cout << result.getArea() << std::endl;
         }
@@ -119,7 +116,6 @@ namespace nspace
             throw std::invalid_argument("ERROR");
         }
     }
-
     void min(std::vector<Polygon>& vector)
     {
         std::string command = "";
@@ -154,7 +150,6 @@ namespace nspace
             throw std::invalid_argument("ERROR");
         }
     }
-
     void count(std::vector<Polygon>& vector)
     {
         std::string command = "";
@@ -210,7 +205,6 @@ namespace nspace
             throw std::invalid_argument("ERROR");
         }
     }
-
     void rmecho(std::vector<Polygon>& vector)
     {
         Polygon polygon;
@@ -230,7 +224,6 @@ namespace nspace
             });
         std::cout << result << std::endl;
     }
-
     bool isSame(Polygon first, Polygon second)
     {
         using namespace std::placeholders;
@@ -238,7 +231,6 @@ namespace nspace
         {
             return false;
         }
-
         std::sort(first.points.begin(), first.points.end(), [](Point& p1, Point& p2) {
             if (p1.x == p2.x)
             {
@@ -255,7 +247,6 @@ namespace nspace
             });
         int diffX = first.points[0].x - second.points[0].x;
         int diffY = first.points[0].y - second.points[0].y;
-
         std::transform(second.points.begin(), second.points.end(), second.points.begin(), [diffX, diffY](Point& point)
             {
                 point.x += diffX;
@@ -272,7 +263,6 @@ namespace nspace
         }
         return result;
     }
-
     void same(std::vector<Polygon>& vector)
     {
         Polygon polygon;
@@ -282,7 +272,6 @@ namespace nspace
             std::cin.setstate(std::ios::failbit);
             throw std::invalid_argument("ERROR");
         }
-
         using namespace std::placeholders;
         std::cout << std::count_if(vector.begin(), vector.end(), std::bind(isSame, _1, polygon)) << std::endl;
     }
