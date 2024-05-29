@@ -214,7 +214,7 @@ namespace nspace
             throw std::invalid_argument("ERROR");
         }
         int result = 0;
-        for (int i = 1; i < vector.size(); i++)
+        for (long unsigned int i = 1; i < vector.size(); i++)
         {
             if (vector[i] == polygon && vector[i] == vector[i - 1])
             {
