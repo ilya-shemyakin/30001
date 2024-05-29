@@ -213,10 +213,8 @@ namespace nspace
 		std::vector< Point > secondCopy;
 		secondCopy.reserve(first.points.size());
 		std::vector< bool > areTranslatedPoints;
-		
 		std::copy(std::begin(first.points), std::end(first.points), std::back_inserter(firstCopy));
-		std::copy(std::begin(second.points), std::end(second.points), std::back_inserter(secondCopy));
-				
+		std::copy(std::begin(second.points), std::end(second.points), std::back_inserter(secondCopy));	
 		std::sort(firstCopy.begin(), firstCopy.end(), [](Point& p1, Point& p2) {
 			if (p1.x == p2.x) {
 				return p1.y < p2.y;
@@ -231,14 +229,12 @@ namespace nspace
 			});
 		int diffX = firstCopy[0].x - secondCopy[0].x;
 		int diffY = firstCopy[0].y - secondCopy[0].y;
-		
 		std::transform(secondCopy.begin(), secondCopy.end(), secondCopy.begin(), [diffX, diffY](Point& point)
 			{
 				point.x += diffX;
 				point.y += diffY;
 				return point;
 			});
-		
 		bool result = true;
 		for (int i = 0; i < firstCopy.size(); i++)
 		{
@@ -254,10 +250,8 @@ namespace nspace
 	{
 		Polygon polygon;
 		std::cin >> polygon;
-		
 		using namespace std::placeholders;
 		auto isSameAsFig = std::bind(isSame, _1, polygon);
-		
 		std::cout << std::count_if(vector.begin(), vector.end(), isSameAsFig) << std::endl;
 	}
 }
