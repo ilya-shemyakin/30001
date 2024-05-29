@@ -1,13 +1,11 @@
 #ifndef POLYGON_FUNCTIONS_H
 #define POLYGON_FUNCTIONS_H
-
 #include <functional>
 #include <iomanip>
 #include <algorithm>
 #include <numeric>
 #include <cmath>
 #include "Polygon.h"
-
 namespace nspace
 {
 	void area(std::vector<Polygon>& vector);
