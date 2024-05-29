@@ -34,7 +34,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
     }
 
     Polygon polygon;
-    int corners = 0;
+    long unsigned int corners = 0;
     in >> corners;
 
     if (corners < 3) {
@@ -47,7 +47,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
     std::istringstream iss(pol);
 
     int temp = 0;
-    for (int i = 0; i < corners; ++i) {
+    for (long unsigned int i = 0; i < corners; ++i) {
         Point point;
         iss >> DelimiterIO{ '(' } >> IntIO{ temp };
         point.x = temp;
