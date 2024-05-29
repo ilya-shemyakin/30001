@@ -18,7 +18,7 @@ namespace nspace
             double result = std::accumulate(vector.begin(), vector.end(), 0.0,
                 [](double res, Polygon figure)
                 {
-                    if (figure.points.size() % 2 == 0)
+                    if (figure.points.size() % 2 == 1)
                     {
                         res += figure.getArea();
                         return res;
@@ -35,7 +35,7 @@ namespace nspace
         {
             double result = std::accumulate(vector.begin(), vector.end(), 0.0, [](double res, Polygon figure)
                 {
-                    if (figure.points.size() % 2 == 1)
+                    if (figure.points.size() % 2 == 0)
                     {
                         res += figure.getArea();
                         return res;
@@ -174,7 +174,7 @@ namespace nspace
         {
             int result = std::accumulate(vector.begin(), vector.end(), 0,
                 [](int res, Polygon figure) {
-                    if (figure.points.size() % 2 == 0)
+                    if (figure.points.size() % 2 == 1)
                     {
                         res += 1;
                         return res;
@@ -190,7 +190,7 @@ namespace nspace
         {
             int result = std::accumulate(vector.begin(), vector.end(), 0,
                 [](int res, Polygon figure) {
-                    if (figure.points.size() % 2 == 1)
+                    if (figure.points.size() % 2 == 0)
                     {
                         res += 1;
                         return res;
