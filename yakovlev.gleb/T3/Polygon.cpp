@@ -59,7 +59,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
         }
     }
 
-    if (polygon.points.size()) {
+    if (polygon.points.size() == corners) {
         dest = polygon;
     }
     else{

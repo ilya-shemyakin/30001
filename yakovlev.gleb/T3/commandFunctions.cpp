@@ -209,7 +209,11 @@ void maxSeq(std::vector<Polygon>& polygons) {
             return;
         }
     }
-    catch(...){}
+    catch(...){
+        std::cin.setstate(std::ios::failbit);
+        std::cout << "<INVALID COMMAND>\n";
+        return;
+    }
     bool isSeries = false;
     int counter = 0;
 
