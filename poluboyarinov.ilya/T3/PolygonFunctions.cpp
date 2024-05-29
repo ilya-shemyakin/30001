@@ -9,6 +9,10 @@ namespace nspace
     {
         std::string command = "";
         std::cin >> command;
+        if (!std::cin)
+        {
+            throw std::invalid_argument("ERROR");
+        }
         if (command == "ODD")
         {
             double result = std::accumulate(vector.begin(), vector.end(), 0.0,
@@ -92,6 +96,10 @@ namespace nspace
     {
         std::string command = "";
         std::cin >> command;
+        if (!std::cin)
+        {
+            throw std::invalid_argument("ERROR");
+        }
         if (command == "AREA")
         {
             double result = std::accumulate(vector.begin(), vector.end(), 0.0,
@@ -123,6 +131,10 @@ namespace nspace
     {
         std::string command = "";
         std::cin >> command;
+        if (!std::cin)
+        {
+            throw std::invalid_argument("ERROR");
+        }
         if (command == "AREA")
         {
             double result = std::accumulate(vector.begin(), vector.end(), std::numeric_limits<double>::max(),
@@ -154,6 +166,10 @@ namespace nspace
     {
         std::string command = "";
         std::cin >> command;
+        if (!std::cin)
+        {
+            throw std::invalid_argument("ERROR");
+        }
         if (command == "ODD")
         {
             int result = std::accumulate(vector.begin(), vector.end(), 0,
@@ -216,6 +232,10 @@ namespace nspace
     {
         Polygon polygon;
         std::cin >> polygon;
+        if (!std::cin)
+        {
+            throw std::invalid_argument("ERROR");
+        }
         auto isSimilar = [&polygon](Polygon& first, Polygon& second)
             {
             return  first == polygon && second == polygon;
@@ -280,6 +300,10 @@ namespace nspace
     {
         Polygon polygon;
         std::cin >> polygon;
+        if (!std::cin)
+        {
+            throw std::invalid_argument("ERROR");
+        }
 
         using namespace std::placeholders;
         auto isSameAsFig = std::bind(isSame, _1, polygon);
