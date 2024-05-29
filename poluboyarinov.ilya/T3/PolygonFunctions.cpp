@@ -80,14 +80,12 @@ namespace nspace
             throw std::invalid_argument("ERROR");
         }
     }
-
     void max(std::vector<Polygon>& vector)
     {
         if (vector.size() == 0)
         {
             std::cin.setstate(std::ios::failbit);
             throw std::invalid_argument("ERROR");
-            
         }
         std::string command = "";
         std::cin >> command;
