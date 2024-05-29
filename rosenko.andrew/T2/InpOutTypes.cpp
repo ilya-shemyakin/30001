@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
+#include "Iofmtguard.h"
 
 std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
 {
@@ -84,7 +85,7 @@ std::ostream& operator<<(std::ostream& out, const DblO&& dest)
         numb /= 10;
         pow++;
     }
-    out << std::fixed << std::setprecision(2);
+    out << std::fixed << std::setprecision(1);
     out << numb << 'e' << std::showpos << pow;
     return out;
 }
