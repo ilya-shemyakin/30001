@@ -44,7 +44,7 @@ void area(std::vector<Polygon>& polygons) {
             {
             area += findAreaOfPolygon(pol);
             return area;
-            }) / polygons.size() << '\n';
+            }) / (polygons.size() == 0 ? 1 : polygons.size()) << '\n';
     }
     else if (temp == "EVEN") {
         std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
@@ -66,6 +66,7 @@ void area(std::vector<Polygon>& polygons) {
                 }) << '\n';
         }
         else {
+            std::cin.setstate(std::ios::failbit);
             std::cout << "<INVALID COMMAND>\n";
         }
     }
@@ -90,6 +91,7 @@ void count(std::vector<Polygon>& polygons) {
                 std::bind(sameCorners, _1, i)) << '\n';
         }
         else {
+            std::cin.setstate(std::ios::failbit);
             std::cout << "<INVALID COMMAND>\n";
         }
     }
@@ -122,6 +124,7 @@ void max(std::vector<Polygon>& polygons) {
         std::cout << res << '\n';
     }
     else {
+        std::cin.setstate(std::ios::failbit);
         std::cout << "<INVALID COMMAND>\n";
     }
 }
@@ -152,6 +155,7 @@ void min(std::vector<Polygon>& polygons) {
         std::cout << res << '\n';
     }
     else {
+        std::cin.setstate(std::ios::failbit);
         std::cout << "<INVALID COMMAND>\n";
     }
 }
@@ -183,6 +187,7 @@ void maxSeq(std::vector<Polygon>& polygons) {
     std::istringstream iss(temp);
 
     if (!(iss >> polygon)) {
+        std::cin.setstate(std::ios::failbit);
         std::cout << "<INVALID COMMAND>\n";
         return;
     }

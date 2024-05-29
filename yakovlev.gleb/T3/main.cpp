@@ -27,10 +27,19 @@ int main(int argc, char *argv[]) {
 
     in.close();
 
+    std::string cmd;
+
     while (!std::cin.eof()) {
-        std::string cmd;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+
         std::cin >> cmd;
-        if (cmd == "COUNT") {
+        if (std::cin.eof()) {
+            break;
+        }
+        else if (cmd == "COUNT") {
             count(polygons);
         }
         else if (cmd == "MAX") {
@@ -48,10 +57,12 @@ int main(int argc, char *argv[]) {
         else if (cmd == "MAXSEQ") {
             maxSeq(polygons);
         }
-        else if (!std::cin.eof()) {
+        else if (cmd == "MAXSEQ") {
+            maxSeq(polygons);
+        }
+        else {
             std::cout << "<INVALID COMMAND>\n";
-            std::cin.clear();
-            std::cin.ignore();
+            std::cin.setstate(std::ios::failbit);
         }
     }
     return 0;
