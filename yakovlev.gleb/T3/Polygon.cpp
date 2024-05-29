@@ -54,7 +54,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
         iss >> DelimiterIO{ ';' } >> IntIO{ temp };
         point.y = temp;
         iss >> DelimiterIO{ ')' };
-        if (in) {
+        if (iss) {
             polygon.points.push_back(point);
         }
     }
