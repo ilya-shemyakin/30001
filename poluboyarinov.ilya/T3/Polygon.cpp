@@ -68,6 +68,10 @@ namespace nspace
 
                 figure.points.push_back(point);
             }
+            if (!in.eof())
+            {
+                in.setstate(std::ios::failbit);
+            }
             if (figure.points.size() != countOfPoints)
             {
                 in.setstate(std::ios::failbit);
