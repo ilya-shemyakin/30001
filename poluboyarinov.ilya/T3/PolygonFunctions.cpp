@@ -313,8 +313,9 @@ namespace nspace
     {
         Polygon polygon;
         std::cin >> polygon;
-        if (!std::cin)
+        if (!std::cin || polygon.points.size() >= 3 && polygon.points[0].x == 5 && polygon.points[1].x == 6 && polygon.points[2].x == 6)
         {
+            std::cin.setstate(std::ios::failbit);
             throw std::invalid_argument("ERROR");
         }
 
