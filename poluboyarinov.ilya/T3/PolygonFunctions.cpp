@@ -186,7 +186,7 @@ namespace nspace
                     }});
             std::cout << result << std::endl;
         }
-        else if (std::accumulate(command.begin(), command.end(), true, [](bool acc, char c) 
+        else if (std::accumulate(command.begin(), command.end(), true, [](bool acc, char c)
             {
                 return acc && std::isdigit(c);
             }))
