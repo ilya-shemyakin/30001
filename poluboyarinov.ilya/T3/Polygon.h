@@ -15,11 +15,11 @@ namespace nspace
     struct Point
     {
         int x, y;
+
     };
     struct Polygon
     {
         std::vector< Point > points;
-        
         double getArea()
         {
             double result = 0.0;
