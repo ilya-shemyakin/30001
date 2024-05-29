@@ -213,17 +213,15 @@ namespace nspace
         {
             throw std::invalid_argument("ERROR");
         }
-        int i = 1;
-        int result = std::accumulate(vector.begin() + 1, vector.end(), 0,
-            [polygon, &vector, &i](int acc, Polygon& fig) {
-                if (fig == *(&fig - 1) && fig == polygon)
-                {
-                    vector.erase(vector.begin() + i);
-                    acc += 1;
-                }
-                i += 1;
-                return acc;
-            });
+        int result = 0;
+        for (int i = 1; i < vector.size(); i++)
+        {
+            if (vector[i] == polygon && vector[i] == vector[i - 1])
+            {
+                result += 1;
+                vector.erase(vector.begin() + i);
+            }
+        }
         std::cout << result << std::endl;
     }
     bool isSame(Polygon first, Polygon second)
