@@ -11,8 +11,7 @@ namespace nspace
 		std::cin >> command;
 		if (command == "ODD")
 		{
-			double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-				[](double res, Polygon figure) {
+			double result = std::accumulate(vector.begin(), vector.end(), 0.0, [](double res, Polygon figure) {
 				if (figure.points.size() % 2 == 0)
 				{
 					res += figure.getArea();
@@ -28,8 +27,7 @@ namespace nspace
 		}
 		else if (command == "EVEN")
 		{
-			double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-				[](double res, Polygon figure) {
+			double result = std::accumulate(vector.begin(), vector.end(), 0.0, [](double res, Polygon figure) {
 				if (figure.points.size() % 2 == 1)
 				{
 					res += figure.getArea();
@@ -47,8 +45,7 @@ namespace nspace
 		{
 			if (vector.size() > 0)
 			{
-				double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-					[](double res, Polygon figure) {
+				double result = std::accumulate(vector.begin(), vector.end(), 0.0, [](double res, Polygon figure) {
 					res += figure.getArea();
 					return res;
 					});
@@ -65,8 +62,7 @@ namespace nspace
 			}))
 		{
 			int number = std::stoi(command);
-			double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-				[number](double res, Polygon figure) {
+			double result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure) {
 				if (figure.points.size() == number)
 				{
 					res += figure.getArea();
@@ -92,8 +88,7 @@ namespace nspace
 		std::cin >> command;
 		if (command == "AREA")
 		{
-			double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-				[](double res, Polygon figure) {
+			double result = std::accumulate(vector.begin(), vector.end(), 0.0, [](double res, Polygon figure) {
 				res = std::max(res, figure.getArea());
 				return res; });
 			std::cout << std::fixed << std::setprecision(1);
@@ -101,9 +96,8 @@ namespace nspace
 		}
 		else if (command == "VERTEXES")
 		{
-			double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-				[](size_t res, Polygon figure) {
-				res = std::max(res,	figure.points.size());
+			double result = std::accumulate(vector.begin(), vector.end(), 0.0, [](size_t res, Polygon figure) {
+				res = std::max(res, figure.points.size());
 				return res; });
 			std::cout << result << std::endl;
 		}
@@ -119,8 +113,7 @@ namespace nspace
 		std::cin >> command;
 		if (command == "AREA")
 		{
-			double result = std::accumulate(vector.begin(), vector.end(), std::numeric_limits<double>::max(),
-				[](double res, Polygon figure) {
+			double result = std::accumulate(vector.begin(), vector.end(), std::numeric_limits<double>::max(), [](double res, Polygon figure) {
 				res = std::min(res, figure.getArea());
 				return res; });
 			std::cout << std::fixed << std::setprecision(1);
@@ -128,8 +121,7 @@ namespace nspace
 		}
 		else if (command == "VERTEXES")
 		{
-			size_t result = std::accumulate(vector.begin(), vector.end(), std::numeric_limits<size_t>::max(),
-				[](size_t res, Polygon figure) {
+			size_t result = std::accumulate(vector.begin(), vector.end(), std::numeric_limits<size_t>::max(), [](size_t res, Polygon figure) {
 				res = std::min(res, figure.points.size());
 				return res; });
 			std::cout << result << std::endl;
@@ -146,8 +138,7 @@ namespace nspace
 		std::cin >> command;
 		if (command == "ODD")
 		{
-			int result = std::accumulate(vector.begin(), vector.end(), 0,
-				[](int res, Polygon figure) {
+			int result = std::accumulate(vector.begin(), vector.end(), 0, [](int res, Polygon figure) {
 					if (figure.points.size() % 2 == 0)
 					{
 						res += 1;
@@ -162,8 +153,7 @@ namespace nspace
 		}
 		else if (command == "EVEN")
 		{
-			int result = std::accumulate(vector.begin(), vector.end(), 0,
-				[](int res, Polygon figure) {
+			int result = std::accumulate(vector.begin(), vector.end(), 0, [](int res, Polygon figure) {
 					if (figure.points.size() % 2 == 1)
 					{
 						res += 1;
@@ -181,8 +171,7 @@ namespace nspace
 			}))
 		{
 			int number = std::stoi(command);
-			int result = std::accumulate(vector.begin(), vector.end(), 0.0,
-				[number](double res, Polygon figure) {
+			int result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure) {
 					if (figure.points.size() == number)
 					{
 						res += 1;
@@ -205,10 +194,6 @@ namespace nspace
 	{
 		Polygon polygon;
 		std::cin >> polygon;
-		/*if (vector.empty() or !std::cin || std::cin.peek() != '\n')
-		{
-			std::cin.setstate(std::ios::failbit);
-		}*/
 		auto isSimilar = [&polygon](Polygon& first, Polygon& second) {
 			return  first == polygon && second == polygon; };
 		auto toRemoveIt = std::unique(vector.begin(), vector.end(), isSimilar);
@@ -216,7 +201,6 @@ namespace nspace
 		vector.erase(toRemoveIt, vector.end());
 		std::cout << removedCount;
 	}
-
 
 	bool isSame(const Polygon& first, const Polygon& second)
 	{
@@ -229,10 +213,10 @@ namespace nspace
 		std::vector< Point > secondCopy;
 		secondCopy.reserve(first.points.size());
 		std::vector< bool > areTranslatedPoints;
-
+		
 		std::copy(std::begin(first.points), std::end(first.points), std::back_inserter(firstCopy));
 		std::copy(std::begin(second.points), std::end(second.points), std::back_inserter(secondCopy));
-
+				
 		std::sort(firstCopy.begin(), firstCopy.end(), [](Point& p1, Point& p2) {
 			if (p1.x == p2.x) {
 				return p1.y < p2.y;
@@ -247,14 +231,14 @@ namespace nspace
 			});
 		int diffX = firstCopy[0].x - secondCopy[0].x;
 		int diffY = firstCopy[0].y - secondCopy[0].y;
-
+		
 		std::transform(secondCopy.begin(), secondCopy.end(), secondCopy.begin(), [diffX, diffY](Point& point)
 			{
 				point.x += diffX;
 				point.y += diffY;
 				return point;
 			});
-
+		
 		bool result = true;
 		for (int i = 0; i < firstCopy.size(); i++)
 		{
@@ -270,10 +254,10 @@ namespace nspace
 	{
 		Polygon polygon;
 		std::cin >> polygon;
-
+		
 		using namespace std::placeholders;
 		auto isSameAsFig = std::bind(isSame, _1, polygon);
-
+		
 		std::cout << std::count_if(vector.begin(), vector.end(), isSameAsFig) << std::endl;
 	}
 }
