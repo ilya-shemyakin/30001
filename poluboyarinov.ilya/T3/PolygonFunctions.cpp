@@ -214,14 +214,14 @@ namespace nspace
             throw std::invalid_argument("ERROR");
         }
         int result = 0;
-        for (long unsigned int i = 1; i < vector.size(); i++)
-        {
-            if (vector[i] == polygon && vector[i] == vector[i - 1])
-            {
-                result += 1;
-                vector.erase(vector.begin() + i);
-            }
-        }
+        //for (long unsigned int i = 1; i < vector.size(); i++)
+        //{
+           // if (vector[i] == polygon && vector[i] == vector[i - 1])
+            //{
+                //result += 1;
+                //vector.erase(vector.begin() + i);
+            //}
+        //}
         std::cout << result << std::endl;
     }
     bool isSame(Polygon first, Polygon second)
