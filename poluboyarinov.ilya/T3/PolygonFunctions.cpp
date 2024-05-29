@@ -7,10 +7,6 @@ namespace nspace
 {
     void area(std::vector<Polygon>& vector)
     {
-        if (vector.size() == 0)
-        {
-            throw std::invalid_argument("ERROR");
-        }
         std::string command = "";
         std::cin >> command;
         if (!std::cin)
@@ -104,6 +100,7 @@ namespace nspace
     {
         if (vector.size() == 0)
         {
+            std::cin.setstate(std::ios::failbit);
             throw std::invalid_argument("ERROR");
         }
         std::string command = "";
