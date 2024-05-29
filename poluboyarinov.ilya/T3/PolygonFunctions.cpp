@@ -66,7 +66,7 @@ namespace nspace
             return acc && std::isdigit(c);
             }))
         {
-            int number = std::stoi(command);
+            auto number = std::stoull(command);
             double result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure)
                 {
                     if (figure.points.size() == number)
@@ -191,7 +191,7 @@ namespace nspace
                 return acc && std::isdigit(c);
             }))
         {
-            int number = std::stoi(command);
+            auto number = std::stoull(command);
             int result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure)
                 {
                     if (figure.points.size() == number)
