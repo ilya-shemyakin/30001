@@ -32,17 +32,17 @@ int main(int countOfArg, char** name)
 
     std::vector<nspace::Polygon> polygons;
 
-    while (std::cin.good())
+    while (!inpFile.eof())
     {
         std::copy(
-            std::istream_iterator<nspace::Polygon>(std::cin),
+            std::istream_iterator<nspace::Polygon>(inpFile),
             std::istream_iterator<nspace::Polygon>(),
             std::back_inserter(polygons)
         );
-        if (std::cin.fail() && !std::cin.eof())
+        if (inpFile.fail() && !inpFile.eof())
         {
-            std::cin.clear();
-            std::cin.ignore();
+            inpFile.clear();
+            inpFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 
