@@ -198,19 +198,6 @@ void rects(std::vector<Polygon>& polygons) {
 void maxSeq(std::vector<Polygon>& polygons) {
     Polygon polygon;
 
-    // int temp2 = 0;
-    // std::string temp = "";
-    // std::getline(std::cin >> std::noskipws, temp, '\n');
-    // std::istringstream iss(temp);
-    // std::cin >> temp2;
-
-    // if (std::count(std::istream_iterator<int>(iss), std::istream_iterator<int>(), ';') != temp2) {
-    //     std::cin.setstate(std::ios::failbit);
-    //     std::cout << "<INVALID COMMAND>\n";
-    //     return;
-    // }
-
-    // std::istringstream iss2 
     int temp = 0;
     std::cin >> temp;
 
