@@ -35,7 +35,6 @@ namespace nspace
             result /= 2;
             return abs(result);
         }
-
         bool operator==(const Polygon& other) const
         {
             if (points.size() != other.points.size())
@@ -56,17 +55,14 @@ namespace nspace
             }
         }
     };
-
     struct DelimiterIO
     {
         char exp;
     };
-
     struct IntIO
     {
         int& ref;
     };
-
     class iofmtguard
     {
     public:
