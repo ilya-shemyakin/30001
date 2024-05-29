@@ -65,18 +65,23 @@ namespace nspace
                 in >> skip{ ';' };
                 in >> count{ point.y };
                 in >> skip{ ')' };
-
-                figure.points.push_back(point);
+                if (in)
+                {
+                    figure.points.push_back(point);
+                }
             }
-            if (!in.eof())
+            //if (!in.eof())
+            //{
+            //in.setstate(std::ios::failbit);
+            //}
+            if (polygon.points.size() == nPoints)
+            {
+                dest = polygon;
+            }
+            else
             {
                 in.setstate(std::ios::failbit);
             }
-            if (figure.points.size() != countOfPoints)
-            {
-                in.setstate(std::ios::failbit);
-            }
-            dest = figure;
             return in;
         }
     }
