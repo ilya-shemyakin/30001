@@ -2,7 +2,6 @@
 
 namespace nspace
 {
-
     std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
     {
         std::istream::sentry sentry(in);
@@ -27,9 +26,9 @@ namespace nspace
             return in;
         }
 
-        int fuck = 0;
-        in >> fuck;
-        dest.ref = fuck;
+        int base = 0;
+        in >> base;
+        dest.ref = base;
         if (!in)
         {
             in.setstate(std::ios::failbit);
@@ -69,7 +68,6 @@ namespace nspace
 
                 figure.points.push_back(point);
             }
-
             if (figure.points.size() != countOfPoints)
             {
                 in.setstate(std::ios::failbit);
