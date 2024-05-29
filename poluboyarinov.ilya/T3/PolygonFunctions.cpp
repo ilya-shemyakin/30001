@@ -5,7 +5,7 @@
 
 namespace nspace
 {
-    void nspace::area(std::vector<Polygon>& vector)
+    void area(std::vector<Polygon>& vector)
     {
         std::string command = "";
         std::cin >> command;
@@ -266,7 +266,7 @@ namespace nspace
                 return point;
             });
         bool result = true;
-        for (int i = 0; i < firstCopy.size(); i++)
+        for (long unsigned int i = 0; i < firstCopy.size(); i++)
         {
             if (firstCopy[i].x != secondCopy[i].x || firstCopy[i].y != secondCopy[i].y)
             {
