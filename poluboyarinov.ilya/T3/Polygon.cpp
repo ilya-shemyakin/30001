@@ -44,7 +44,7 @@ namespace nspace
             return in;
         }
 
-        int countOfPoints = 0;
+        long unsigned int countOfPoints = 0;
         in >> countOfPoints;
         if (countOfPoints < 3)
         {
