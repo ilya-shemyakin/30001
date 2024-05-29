@@ -1,7 +1,7 @@
 #include "commandFunctions.h"
 
 bool sameCorners(Polygon& pol, int a) {
-    return (pol.points.size() == a);
+    return (pol.points.size() == static_cast<long unsigned int>(a));
 }
 
 bool isEvenCountOfCorners(Polygon& pol) {
