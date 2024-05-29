@@ -39,7 +39,7 @@ void area(std::vector<Polygon>& polygons) {
             }) << '\n';
     }
     else if (temp == "MEAN") {
-        if (polygons.size() < 3) {
+        if (polygons.size() < 1) {
             std::cin.setstate(std::ios::failbit);
             std::cout << "<INVALID COMMAND>\n";
             return;
