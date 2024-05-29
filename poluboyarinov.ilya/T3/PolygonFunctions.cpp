@@ -205,10 +205,6 @@ namespace nspace
     {
         Polygon polygon;
         std::cin >> polygon;
-        /*if (vector.empty() or !std::cin || std::cin.peek() != '\n')
-        {
-            std::cin.setstate(std::ios::failbit);
-        }*/
         auto isSimilar = [&polygon](Polygon& first, Polygon& second) {
             return  first == polygon && second == polygon; };
         auto toRemoveIt = std::unique(vector.begin(), vector.end(), isSimilar);
@@ -216,7 +212,6 @@ namespace nspace
         vector.erase(toRemoveIt, vector.end());
         std::cout << removedCount;
     }
-
 
     bool isSame(const Polygon& first, const Polygon& second)
     {
