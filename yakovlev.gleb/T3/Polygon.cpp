@@ -60,38 +60,10 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
     }
 
     if (polygon.points.size()) {
-        char b = ' ';
-        iss >> b;
-        std::cout << b; 
         dest = polygon;
     }
     else{
         in.setstate(std::ios::failbit);
     }
     return in;
-}
-
-std::ostream& operator<<(std::ostream& out, const Point& dest) {
-    std::ostream::sentry sentry(out);
-    if (!sentry) {
-        return out;
-    }
-    return (out << '(' << dest.x << ';' << dest.y << ')');
-}
-
-std::ostream& operator<<(std::ostream& out, const Polygon& dest) {
-    std::ostream::sentry sentry(out);
-    if (!sentry) {
-        return out;
-    }
-
-    int s = dest.points.size();
-    out << s;
-    std::copy(
-        std::begin(dest.points),
-        std::end(dest.points),
-        std::ostream_iterator< Point >(std::cout << ' ')
-    );
-
-    return out;
 }

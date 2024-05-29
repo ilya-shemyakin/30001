@@ -25,14 +25,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    std::cin.clear();
-    
-    std::copy(
-        std::begin(polygons),
-        std::end(polygons),
-        std::ostream_iterator< Polygon >(std::cout, "\n")
-    );
-
     in.close();
 
     while (!std::cin.eof()) {

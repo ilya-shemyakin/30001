@@ -19,5 +19,4 @@ void min(std::vector<Polygon>& polygons);
 void rects(std::vector<Polygon>& polygons);
 void maxSeq(std::vector<Polygon>& polygons);
 
-
 #endif
