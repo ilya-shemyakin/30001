@@ -12,33 +12,34 @@ namespace nspace
         if (command == "ODD")
         {
             double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-                [](double res, Polygon figure) {
-                if (figure.points.size() % 2 == 0)
+                [](double res, Polygon figure)
                 {
-                    res += figure.getArea();
-                    return res;
-                }
-                else
-                {
-                    res += 0;
-                    return res;
+                    if (figure.points.size() % 2 == 0)
+                    {
+                        res += figure.getArea();
+                        return res;
+                    }
+                    else
+                    {
+                        res += 0;
+                        return res;
                 }});
             std::cout << std::fixed << std::setprecision(1);
             std::cout << result << std::endl;
         }
         else if (command == "EVEN")
         {
-            double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-                [](double res, Polygon figure) {
-                if (figure.points.size() % 2 == 1)
+            double result = std::accumulate(vector.begin(), vector.end(), 0.0, [](double res, Polygon figure)
                 {
-                    res += figure.getArea();
-                    return res;
-                }
-                else
-                {
-                    res += 0;
-                    return res;
+                    if (figure.points.size() % 2 == 1)
+                    {
+                        res += figure.getArea();
+                        return res;
+                    }
+                    else
+                    {
+                        res += 0;
+                        return res;
                 }});
             std::cout << std::fixed << std::setprecision(1);
             std::cout << result << std::endl;
@@ -49,8 +50,8 @@ namespace nspace
             {
                 double result = std::accumulate(vector.begin(), vector.end(), 0.0,
                     [](double res, Polygon figure) {
-                    res += figure.getArea();
-                    return res;
+                        res += figure.getArea();
+                        return res;
                     });
                 std::cout << std::fixed << std::setprecision(1);
                 std::cout << result / vector.size() << std::endl;
@@ -60,22 +61,23 @@ namespace nspace
                 throw std::invalid_argument("ERROR");
             }
         }
-        else if (std::accumulate(command.begin(), command.end(), true, [](bool acc, char c) {
+        else if (std::accumulate(command.begin(), command.end(), true, [](bool acc, char c)
+            {
             return acc && std::isdigit(c);
             }))
         {
             int number = std::stoi(command);
-            double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-                [number](double res, Polygon figure) {
-                if (figure.points.size() == number)
+            double result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure)
                 {
-                    res += figure.getArea();
-                    return res;
-                }
-                else
-                {
-                    res += 0;
-                    return res;
+                    if (figure.points.size() == number)
+                    {
+                        res += figure.getArea();
+                        return res;
+                    }
+                    else
+                    {
+                        res += 0;
+                        return res;
                 }});
             std::cout << std::fixed << std::setprecision(1);
             std::cout << result << std::endl;
@@ -93,18 +95,22 @@ namespace nspace
         if (command == "AREA")
         {
             double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-                [](double res, Polygon figure) {
-                res = std::max(res, figure.getArea());
-                return res; });
+                [](double res, Polygon figure)
+                {
+                    res = std::max(res, figure.getArea());
+                    return res;
+                });
             std::cout << std::fixed << std::setprecision(1);
             std::cout << result << std::endl;
         }
         else if (command == "VERTEXES")
         {
             double result = std::accumulate(vector.begin(), vector.end(), 0.0,
-                [](size_t res, Polygon figure) {
-                res = std::max(res,	figure.points.size());
-                return res; });
+                [](size_t res, Polygon figure)
+                {
+                    res = std::max(res, figure.points.size());
+                    return res;
+                });
             std::cout << result << std::endl;
         }
         else
@@ -120,18 +126,22 @@ namespace nspace
         if (command == "AREA")
         {
             double result = std::accumulate(vector.begin(), vector.end(), std::numeric_limits<double>::max(),
-                [](double res, Polygon figure) {
-                res = std::min(res, figure.getArea());
-                return res; });
+                [](double res, Polygon figure)
+                {
+                    res = std::min(res, figure.getArea());
+                    return res;
+                });
             std::cout << std::fixed << std::setprecision(1);
             std::cout << result << std::endl;
         }
         else if (command == "VERTEXES")
         {
             size_t result = std::accumulate(vector.begin(), vector.end(), std::numeric_limits<size_t>::max(),
-                [](size_t res, Polygon figure) {
-                res = std::min(res, figure.points.size());
-                return res; });
+                [](size_t res, Polygon figure)
+                {
+                    res = std::min(res, figure.points.size());
+                    return res;
+                });
             std::cout << result << std::endl;
         }
         else
@@ -176,13 +186,14 @@ namespace nspace
                     }});
             std::cout << result << std::endl;
         }
-        else if (std::accumulate(command.begin(), command.end(), true, [](bool acc, char c) {
-            return acc && std::isdigit(c);
+        else if (std::accumulate(command.begin(), command.end(), true, [](bool acc, char c) 
+            {
+                return acc && std::isdigit(c);
             }))
         {
             int number = std::stoi(command);
-            int result = std::accumulate(vector.begin(), vector.end(), 0.0,
-                [number](double res, Polygon figure) {
+            int result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure)
+                {
                     if (figure.points.size() == number)
                     {
                         res += 1;
@@ -192,7 +203,7 @@ namespace nspace
                     {
                         res += 0;
                         return res;
-                    }});
+                }});
             std::cout << result << std::endl;
         }
         else
@@ -205,8 +216,10 @@ namespace nspace
     {
         Polygon polygon;
         std::cin >> polygon;
-        auto isSimilar = [&polygon](Polygon& first, Polygon& second) {
-            return  first == polygon && second == polygon; };
+        auto isSimilar = [&polygon](Polygon& first, Polygon& second)
+            {
+            return  first == polygon && second == polygon;
+            };
         auto toRemoveIt = std::unique(vector.begin(), vector.end(), isSimilar);
         std::size_t removedCount = std::distance(toRemoveIt, vector.end());
         vector.erase(toRemoveIt, vector.end());
@@ -216,7 +229,8 @@ namespace nspace
     bool isSame(const Polygon& first, const Polygon& second)
     {
         using namespace std::placeholders;
-        if (first.points.size() != second.points.size()) {
+        if (first.points.size() != second.points.size())
+        {
             return false;
         }
         std::vector< Point > firstCopy;
@@ -229,13 +243,15 @@ namespace nspace
         std::copy(std::begin(second.points), std::end(second.points), std::back_inserter(secondCopy));
 
         std::sort(firstCopy.begin(), firstCopy.end(), [](Point& p1, Point& p2) {
-            if (p1.x == p2.x) {
+            if (p1.x == p2.x)
+            {
                 return p1.y < p2.y;
             }
             return p1.x < p2.x;
             });
         std::sort(secondCopy.begin(), secondCopy.end(), [](Point& p1, Point& p2) {
-            if (p1.x == p2.x) {
+            if (p1.x == p2.x)
+            {
                 return p1.y < p2.y;
             }
             return p1.x < p2.x;
@@ -249,7 +265,6 @@ namespace nspace
                 point.y += diffY;
                 return point;
             });
-
         bool result = true;
         for (int i = 0; i < firstCopy.size(); i++)
         {
