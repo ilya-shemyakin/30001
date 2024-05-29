@@ -42,19 +42,15 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
         return in;
     }
 
-    std::string pol = "";
-    std::getline(in, pol, '\n');
-    std::istringstream iss(pol);
-
     int temp = 0;
     for (long unsigned int i = 0; i < corners; ++i) {
         Point point;
-        iss >> DelimiterIO{ '(' } >> IntIO{ temp };
+        in >> DelimiterIO{ '(' } >> IntIO{ temp };
         point.x = temp;
-        iss >> DelimiterIO{ ';' } >> IntIO{ temp };
+        in >> DelimiterIO{ ';' } >> IntIO{ temp };
         point.y = temp;
-        iss >> DelimiterIO{ ')' };
-        if (iss) {
+        in >> DelimiterIO{ ')' };
+        if (in) {
             polygon.points.push_back(point);
         }
     }
