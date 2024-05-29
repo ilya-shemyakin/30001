@@ -23,10 +23,8 @@ namespace nspace
         double getArea()
         {
             double result = 0.0;
-            for (int i = 0; i < points.size() - 1; i++)
+            for (long unsigned int i = 0; i < points.size() - 1; i++)
             {
-                Point p1 = points[i];
-                Point p2 = points[i + 1];
                 result += (points[i].x * points[i + 1].y);
                 result -= (points[i].y * points[i + 1].x);
             }
@@ -44,7 +42,7 @@ namespace nspace
             else
             {
                 bool result = true;
-                for (int i = 0; i < this->points.size(); i++)
+                for (long unsigned int i = 0; i < this->points.size(); i++)
                 {
                     if (this->points[i].x != other.points[i].x || this->points[i].y != other.points[i].y)
                     {
