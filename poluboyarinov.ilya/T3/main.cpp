@@ -99,6 +99,5 @@ int main(int countOfArg, char** name)
             std::cout << "<INVALID COMMAND>" << '\n';
         }
     }
-    
     return 0;
 }
