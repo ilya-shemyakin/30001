@@ -15,7 +15,6 @@ namespace nspace
     struct Point
     {
         int x, y;
-
     };
     struct Polygon
     {
@@ -79,7 +78,6 @@ namespace nspace
         std::streamsize precision_;
         std::basic_ios< char >::fmtflags fmt_;
     };
-
     std::istream& operator>>(std::istream& in, DelimiterIO&& dest);
     std::istream& operator>>(std::istream& in, IntIO&& dest);
     std::istream& operator>>(std::istream& in, Polygon& dest);
