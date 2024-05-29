@@ -56,7 +56,7 @@ namespace nspace
                 throw std::invalid_argument("ERROR");
             }
         }
-        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit, _1)))
+        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit<char>, _1)))
         {
             auto number = std::stoull(command);
             if (number < 3)
@@ -183,7 +183,7 @@ namespace nspace
                 });
             std::cout << result << std::endl;
         }
-        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit, _1)))
+        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit<char>, _1)))
         {
             auto number = std::stoull(command);
             if (number < 3)
@@ -213,13 +213,15 @@ namespace nspace
         {
             throw std::invalid_argument("ERROR");
         }
+        int i = 1;
         int result = std::accumulate(vector.begin() + 1, vector.end(), 0,
-            [polygon, &vector](int acc, int i) {
-                if (vector[i] == vector[i - 1] && vector[i] == polygon)
+            [polygon, &vector, &i](int acc, Polygon& fig) {
+                if (fig == *(&fig - 1) && fig == polygon)
                 {
                     vector.erase(vector.begin() + i);
                     acc += 1;
                 }
+                i += 1;
                 return acc;
             });
         std::cout << result << std::endl;
