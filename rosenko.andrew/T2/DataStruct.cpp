@@ -2,7 +2,6 @@
 #include <iostream>
 #include "DataStruct.h"
 #include "InpOutTypes.h"
-#include "Iofmtguard.h"
 
 std::istream& operator>>(std::istream& in, DataStruct& dest)
 {
