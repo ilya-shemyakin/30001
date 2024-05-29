@@ -57,7 +57,7 @@ namespace nspace
             using skip = DelimiterIO;
             using count = IntIO;
 
-            for (int i = 0; i < countOfPoints; i++)
+            for (long unsigned int i = 0; i < countOfPoints; i++)
             {
                 Point point;
                 in >> skip{ '(' };
