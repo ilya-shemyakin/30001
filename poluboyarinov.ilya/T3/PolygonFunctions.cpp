@@ -190,7 +190,7 @@ namespace nspace
             {
                 throw std::invalid_argument("ERROR");
             }
-            int result = std::accumulate(vector.begin(), vector.end(), 0.0, [number](double res, Polygon figure)
+            long unsigned int result = std::accumulate(vector.begin(), vector.end(), 0, [number](long unsigned int res, Polygon figure)
                 {
                     if (figure.points.size() == number)
                     {
