@@ -4,7 +4,6 @@
 #include "PolygonFunctions.h"
 int main(int countOfArg, char** name)
 {
-    std::cout << "hello\n";
     if (countOfArg < 2)
     {
         return 1;
@@ -28,7 +27,6 @@ int main(int countOfArg, char** name)
             inpFile.ignore();
         }
     }
-    std::cout << polygons.size() << "\n";
     std::cin.clear();
     std::string command;
     while (!std::cin.eof())
