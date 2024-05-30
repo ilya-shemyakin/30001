@@ -56,7 +56,7 @@ namespace nspace
                 throw std::invalid_argument("ERROR");
             }
         }
-        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit<char>, _1)))
+        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit, _1)))
         {
             auto number = std::stoull(command);
             if (number < 3)
@@ -183,7 +183,7 @@ namespace nspace
                 });
             std::cout << result << std::endl;
         }
-        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit<char>, _1)))
+        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit, _1)))
         {
             auto number = std::stoull(command);
             if (number < 3)
@@ -214,14 +214,14 @@ namespace nspace
             throw std::invalid_argument("ERROR");
         }
         int result = 0;
-        //for (long unsigned int i = 1; i < vector.size(); i++)
-        //{
-           // if (vector[i] == polygon && vector[i] == vector[i - 1])
-            //{
-                //result += 1;
-                //vector.erase(vector.begin() + i);
-            //}
-        //}
+        for (long unsigned int i = 1; i < vector.size(); i++)
+        {
+            if (vector[i] == polygon && vector[i] == vector[i - 1])
+            {
+                result += 1;
+                vector.erase(vector.begin() + i);
+            }
+        }
         std::cout << result << std::endl;
     }
     bool isSame(Polygon first, Polygon second)
