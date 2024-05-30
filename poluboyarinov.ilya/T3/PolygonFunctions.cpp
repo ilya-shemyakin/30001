@@ -56,7 +56,7 @@ namespace nspace
                 throw std::invalid_argument("ERROR");
             }
         }
-        else if (std::all_of(command.begin(), command.end(), std::bind(std::isdigit, _1)))
+        else if (std::all_of(command.begin(), command.end(), std::bind([](char symb) { return (symb >= '0' && symb <= '9'); }, _1)))
         {
             auto number = std::stoull(command);
             if (number < 3)
