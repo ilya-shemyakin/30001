@@ -1,5 +1,4 @@
 #include <fstream>
-
 #include "polygonCommands.h"
 
 int main(int nArguments, char** file)
