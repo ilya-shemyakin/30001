@@ -289,18 +289,22 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
     auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
     out << std::count_if(polygons.cbegin(), polygons.cend(), intersectPredicate);
 }
-void rmecho(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
+void rmecho(std::vector<Polygon>& polygons, std::istream& in, std::ostream& out)
 {
-    using namespace std::placeholders;
-    Polygon figure;
-    in >> figure;
-    if (polygons.empty()  or !in || in.peek() != '\n')
+    Polygon polygon;
+    std::cin >> polygon;
+    if (!std::cin or polygons.empty())
     {
-        in.setstate(std::ios::failbit);
+        throw std::invalid_argument("");
     }
-    auto identical = std::bind(EqualFigures {figure}, _1, _2);
-    auto last = std::unique(polygons.begin(), polygons.end(), identical);
-    size_t removeFigure = std::distance(last, polygons.end());
-    polygons.erase(last, polygons.end());
-    out << removeFigure;
+    int result = 0;
+    for (long unsigned int i = 1; i < polygons.size(); i++)
+    {
+        if (polygons[i] == polygon && polygons[i] == polygons[i - 1])
+        {
+            result += 1;
+            polygons.erase(polygons.begin() + i);
+        }
+    }
+    out << result << std::endl;
 }
