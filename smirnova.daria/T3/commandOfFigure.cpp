@@ -292,8 +292,8 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
 void rmecho(std::vector<Polygon>& polygons, std::istream& in, std::ostream& out)
 {
     Polygon polygon;
-    std::cin >> polygon;
-    if (!std::cin or polygons.empty())
+    in >> polygon;
+    if (!in or polygons.empty())
     {
         throw std::invalid_argument("");
     }
