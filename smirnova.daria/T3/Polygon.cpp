@@ -36,6 +36,17 @@ std::istream& operator>>(std::istream& input, Polygon& dest)
     }
     return input;
 }
+bool operator==(const Polygon& first, const Polygon& second)
+{
+    if (first.points_.size() != second.points_.size())
+    {
+        return false;
+    }
+    else
+    {
+        return std::equal(first.points_.cbegin(), first.points_.cend(), second.points_.cbegin());
+    }
+}
 bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject)
 {
     if (firstObject.points_.size() != secondObject.points_.size())

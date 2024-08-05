@@ -9,6 +9,7 @@ struct Polygon
 std::istream& operator>>(std::istream& in, Polygon& polygon);
 bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject);
 bool isIntersectionChecks(const Polygon& firstObject, const Polygon& secondObject);
+bool operator==(const Polygon& first, const Polygon& second);
 struct EqualFigures
 {
     Polygon poly;
