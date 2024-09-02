@@ -82,20 +82,17 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
 
     Polygon polygon;
     using input_it = std::istream_iterator< Point >;
-    std::vector< Point > points;
+    std::vector< Point > vertexes;
 
-    std::copy_n(input_it{ input }, nPoints, std::back_inserter(points));
-    if (input)
+    std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
+        std::back_inserter(vertexes));
+    if (vertexes.size() == nPoints && vertexes.size() >= 3)
     {
-        polygon.vertexes = std::move(points);
-    }
-    if (input && nPoints == polygon.vertexes.size())
-    {
-        dest = polygon;
+        dest.vertexes = vertexes;
     }
     else
     {
-        input.setstate(std::ios::failbit);
+        in.setstate(std::ios::failbit);
     }
     return in;
 }
