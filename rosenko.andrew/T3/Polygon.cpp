@@ -100,16 +100,16 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     return in;
 }
 
-std::ostream& operator<<(std::ostream& out, const Point& point) 
+std::ostream& operator<<(std::ostream& out, const Point& point)
 {
     out << "(" << point.x << "; " << point.y << ")";
     return out;
 }
 
-std::ostream& operator<<(std::ostream& out, const Polygon& polygon) 
+std::ostream& operator<<(std::ostream& out, const Polygon& polygon)
 {
     out << "Polygon with vertexes: ";
-    for (const auto& point : polygon.vertexes) 
+    for (const auto& point : polygon.vertexes)
     {
         out << point << " ";
     }

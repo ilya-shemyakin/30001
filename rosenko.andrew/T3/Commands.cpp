@@ -111,7 +111,7 @@ void max(std::vector< Polygon >& polygons, std::istream& input, std::ostream& ou
         else if (cmd == "VERTEXES")
         {
             std::vector< double > vertexes;
-            std::transform(polygons.begin(), polygons.end(), std::back_inserter(vertexes), 
+            std::transform(polygons.begin(), polygons.end(), std::back_inserter(vertexes),
                 [](Polygon& polygon) { return polygon.vertexes.size(); });
             output << *std::max_element(vertexes.begin(), vertexes.end()) << '\n';
         }
@@ -232,7 +232,7 @@ void rmecho(std::vector< Polygon >& polygons, std::istream& input, std::ostream&
 int getMaxCoordinate(const Polygon& polygon, int(*getCoordinate)(const Point& point))
 {
     std::vector< int > coordinates;
-    std::transform(polygon.vertexes.begin(), polygon.vertexes.end(), 
+    std::transform(polygon.vertexes.begin(), polygon.vertexes.end(),
         std::back_inserter(coordinates), getCoordinate);
     int maxCoordinate = *std::max_element(coordinates.begin(), coordinates.end());
     return maxCoordinate;
@@ -241,7 +241,7 @@ int getMaxCoordinate(const Polygon& polygon, int(*getCoordinate)(const Point& po
 int getMinCoordinate(const Polygon& polygon, int(*getCoordinate)(const Point& point))
 {
     std::vector< int > coordinates;
-    std::transform(polygon.vertexes.begin(), polygon.vertexes.end(), 
+    std::transform(polygon.vertexes.begin(), polygon.vertexes.end(),
         std::back_inserter(coordinates), getCoordinate);
     int minCoordinate = *std::min_element(coordinates.begin(), coordinates.end());
     return minCoordinate;
@@ -265,13 +265,13 @@ std::vector< Point > getFrame(const std::vector< Polygon >& polygons)
     std::vector< int > allMinY;
 
     using namespace std::placeholders;
-    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMaxX), 
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMaxX),
                     std::bind(getMaxCoordinate, _1, getX));
-    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMaxY), 
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMaxY),
                     std::bind(getMaxCoordinate, _1, getY));
-    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMinX), 
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMinX),
                     std::bind(getMinCoordinate, _1, getX));
-    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMinY), 
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(allMinY),
                     std::bind(getMinCoordinate, _1, getY));
 
     int maxX = *std::max_element(allMaxX.begin(), allMaxX.end());
