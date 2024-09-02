@@ -80,8 +80,6 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
         return in;
     }
 
-    Polygon polygon;
-    using input_it = std::istream_iterator< Point >;
     std::vector< Point > vertexes;
 
     std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
