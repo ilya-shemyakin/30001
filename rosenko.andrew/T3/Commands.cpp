@@ -7,6 +7,11 @@ bool isEven(const Polygon& polygon)
     return polygon.vertexes.size() % 2 == 0;
 }
 
+bool isOdd(const Polygon& polygon)
+{
+    return polygon.vertexes.size() % 2 != 0;
+}
+
 bool isDigit(char ch)
 {
     return std::isdigit(ch);
@@ -156,6 +161,8 @@ void min(std::vector< Polygon >& polygons, std::istream& input, std::ostream& ou
     }
 }
 
+
+
 void count(std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     std::string cmd;
@@ -168,7 +175,7 @@ void count(std::vector< Polygon >& polygons, std::istream& input, std::ostream& 
         (
             polygons.begin(),
             polygons.end(),
-            [](const Polygon& polygon) { return polygon.vertexes.size() % 2 == 0; }
+            std::bind([](const Polygon& polygon) { return polygon.vertexes.size() % 2 == 0; }, _1)
         );
         output << nEven << "\n";
     }
@@ -178,7 +185,7 @@ void count(std::vector< Polygon >& polygons, std::istream& input, std::ostream& 
         (
             polygons.begin(),
             polygons.end(),
-            [](const Polygon& polygon) { return polygon.vertexes.size() % 2 == 0; }
+            std::bind([](const Polygon& polygon) { return polygon.vertexes.size() % 2 != 0; }, _1)
         );
         output << nOdd << "\n";
     }
