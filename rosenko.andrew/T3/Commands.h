@@ -11,6 +11,7 @@
 #include "Polygon.h"
 
 bool isEven(const Polygon& polygon);
+bool isOdd(const Polygon& polygon);
 bool isDigit(char ch);
 double calcArea(const Polygon& polygon);
 

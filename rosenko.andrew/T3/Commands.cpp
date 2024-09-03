@@ -4,7 +4,7 @@ using namespace std::placeholders;
 
 bool isEven(const Polygon& polygon)
 {
-    return polygon.vertexes.size() % 2 == 0;
+    return !isOdd(polygon);
 }
 
 bool isOdd(const Polygon& polygon)
@@ -56,7 +56,7 @@ void area(std::vector< Polygon >& polygons, std::istream& input, std::ostream& o
         output << std::accumulate(polygons.begin(), polygons.end(), 0.0,
             [](double area, const Polygon& polygon)
             {
-                area += (!(isEven(polygon))) ? calcArea(polygon) : 0.0;
+                area += ((isOdd(polygon))) ? calcArea(polygon) : 0.0;
                 return area;
             }) << std::endl;
     }
@@ -175,7 +175,7 @@ void count(std::vector< Polygon >& polygons, std::istream& input, std::ostream& 
         (
             polygons.begin(),
             polygons.end(),
-            std::bind([](const Polygon& polygon) { return polygon.vertexes.size() % 2 == 0; }, _1)
+            isEven
         );
         output << nEven << "\n";
     }
@@ -185,7 +185,7 @@ void count(std::vector< Polygon >& polygons, std::istream& input, std::ostream& 
         (
             polygons.begin(),
             polygons.end(),
-            std::bind([](const Polygon& polygon) { return polygon.vertexes.size() % 2 != 0; }, _1)
+            isOdd
         );
         output << nOdd << "\n";
     }

@@ -54,41 +54,50 @@ std::istream& operator>>(std::istream& in, Point& dest)
     {
         return in;
     }
+    int temp = 0;
 
-    return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
-    >> dest.y >> DelimiterIO{ ')' };
+    in >> DelimiterIO{ '(' } >> intIO{ temp };
+    dest.x = temp;
+    in >> DelimiterIO{ ';' } >> intIO{ temp };
+    dest.y = temp;
+    in >> DelimiterIO{ ')' };
+    return in;
 }
 
-std::istream& operator>>(std::istream& in, Polygon& dest)
-{
+std::istream& operator>>(std::istream& in, Polygon& dest) {
     std::istream::sentry sentry(in);
-    if (!sentry)
+    if (!sentry) 
     {
         return in;
     }
 
     dest.vertexes.clear();
 
-    size_t nPoints = 0;
+    size_t nPoints;
     in >> nPoints;
-    std::string str;
-    std::getline(in, str, '\n');
-    std::istringstream input(str);
-    if (!input || nPoints < 3)
+    if (!in || nPoints < 3) 
     {
-        in.setstate(std::ios::failbit);
+        in.setstate(std::ios_base::failbit);
         return in;
     }
 
-    std::vector< Point > vertexes;
-
-    std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
-        std::back_inserter(vertexes));
-    if (vertexes.size() == nPoints && vertexes.size() >= 3)
+    Polygon polygon;
+    int temp = 0;
+    for (long unsigned int i = 0; i < nPoints; ++i) 
     {
-        dest.vertexes = vertexes;
+        Point point;
+        in >> point;
+        if (in) 
+        {
+            polygon.vertexes.push_back(point);
+        }
     }
-    else
+
+    if (polygon.vertexes.size() == nPoints) 
+    {
+        dest = polygon;
+    }
+    else 
     {
         in.setstate(std::ios::failbit);
     }
@@ -103,7 +112,7 @@ std::ostream& operator<<(std::ostream& out, const Point& point)
 
 std::ostream& operator<<(std::ostream& out, const Polygon& polygon)
 {
-    out << "Polygon with vertexes: ";
+    out << "Polygon with nPoints: ";
     for (const auto& point : polygon.vertexes)
     {
         out << point << " ";
