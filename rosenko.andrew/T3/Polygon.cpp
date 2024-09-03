@@ -82,7 +82,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
     }
 
     Polygon polygon;
-    int temp = 0;
+
     for (long unsigned int i = 0; i < nPoints; ++i)
     {
         Point point;
