@@ -174,7 +174,6 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
                 {
                     return out << "<INVALID COMMAND>" << endl;
                 }
-                
             }
             else
             {
