@@ -339,7 +339,7 @@ void inframe(std::vector< Polygon >& polygons, std::istream& input, std::ostream
         throw std::invalid_argument("");
         return;
     }
-    
+
     std::vector< Point > frame = getFrame(polygons);
 
     output << (isInFrame(frame, polygon) ? "<TRUE>" : "<FALSE>") << "\n";

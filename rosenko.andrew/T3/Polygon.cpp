@@ -89,7 +89,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     std::vector < Point > temp{};
     std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
         std::back_inserter(temp));
-    
+
     if (temp.size() == nPoints && temp.size() >= 3)
     {
         dest.vertexes = temp;
@@ -99,7 +99,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
         in.setstate(std::ios::failbit);
     }
     return in;
-    
+
 }
 
 std::ostream& operator<<(std::ostream& out, const Point& point)
