@@ -67,8 +67,16 @@ int main(int argc, char** argv)
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
             }
-
-            commands.at(cmd)(polygons, std::cin, std::cout);
+            try
+            {
+                commands.at(cmd)(polygons, std::cin, std::cout);
+            }
+            catch (const std::out_of_range&)
+            {
+                std::cout << "<INVALID COMMAND>" << '\n';
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+            }
 
         }
         catch (...)
