@@ -67,35 +67,36 @@ std::istream& operator>>(std::istream& in, Point& dest)
 std::istream& operator>>(std::istream& in, Polygon& dest)
 {
     std::istream::sentry sentry(in);
-
-    if (!sentry)
-    {
+    if (!sentry) {
         return in;
     }
 
-    dest.vertexes.clear();
+    Polygon polygon;
+    long unsigned int corners = 0;
+    in >> corners;
 
-    size_t nPoints = 0;
-    in >> nPoints;
-    std::string str;
-    std::getline(in, str, '\n');
-    std::istringstream input(str);
-    if (!input || nPoints < 3)
-    {
+    if (corners < 3) {
         in.setstate(std::ios::failbit);
         return in;
     }
 
-    std::vector < Point > temp{};
-    std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
-        std::back_inserter(temp));
-
-    if (temp.size() == nPoints && temp.size() >= 3)
-    {
-        dest.vertexes = temp;
+    int temp = 0;
+    for (long unsigned int i = 0; i < corners; ++i) {
+        Point point;
+        in >> DelimiterIO{ '(' } >> intIO{ temp };
+        point.x = temp;
+        in >> DelimiterIO{ ';' } >> intIO{ temp };
+        point.y = temp;
+        in >> DelimiterIO{ ')' };
+        if (in) {
+            polygon.vertexes.push_back(point);
+        }
     }
-    else
-    {
+
+    if (polygon.vertexes.size() == corners) {
+        dest = polygon;
+    }
+    else {
         in.setstate(std::ios::failbit);
     }
     return in;
