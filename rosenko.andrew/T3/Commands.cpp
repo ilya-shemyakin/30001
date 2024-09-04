@@ -102,7 +102,7 @@ void max(std::vector< Polygon >& polygons, std::istream& input, std::ostream& ou
 
     if (cmd == "AREA")
     {
-        if (polygons.empty()) 
+        if (polygons.empty())
         {
             throw std::invalid_argument("");
             return;
