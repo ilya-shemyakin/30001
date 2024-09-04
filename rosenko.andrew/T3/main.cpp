@@ -69,7 +69,6 @@ int main(int argc, char** argv)
         }
         catch (...)
         {
-            std::cin.clear();
             std::cout << "<INVALID COMMAND>" << '\n';
         }
     }
