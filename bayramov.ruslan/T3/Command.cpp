@@ -15,7 +15,6 @@ double getArea(Polygon& polygon) // ¬ычисление площади по формуле √аусса
         int j = (i + 1) % number;
         area += (polygon.points[i].x * polygon.points[j].y - polygon.points[j].x * polygon.points[i].y);
     }
-    
     area = std::abs(area) / 2;
     return area;
 }
@@ -29,10 +28,8 @@ ostream& area(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
     in >> str;
-    
     Iofmtguard fmtguard(out); // —охранение состо€ни€ потока
     out << std::fixed << std::setprecision(1); // “очность 1 знак после зап€той
-    
     if (str == "EVEN")
     {
         return out << std::accumulate(polygons.begin(), polygons.end(), 0.0,
@@ -94,10 +91,8 @@ ostream& max(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
     in >> str;
-    
     Iofmtguard fmtguard(out);
     out << std::fixed << std::setprecision(1);
-    
     if (str == "AREA") // std::max_element возвращает итератор, поэтому нужно написать * перед ним, чтобы разыменовать и вз€ть значение
     {
         return out << getArea(*std::max_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
@@ -121,10 +116,8 @@ ostream& min(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
     in >> str;
-    
     Iofmtguard fmtguard(out);
     out << std::fixed << std::setprecision(1);
-    
     if (str == "AREA")
     {
         return out << getArea(*std::min_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
@@ -150,9 +143,7 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
     in >> str;
-    
     Iofmtguard fmtguard(out);
-    
     if (str == "EVEN")
     {
         return out << std::count_if(polygons.begin(), polygons.end(), [](Polygon& p)
@@ -198,11 +189,8 @@ ostream& lessarea(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
     in >> temp;
-    
     Iofmtguard fmtguard(out);
-    
     double area = getArea(temp);
-    
     return out << std::count_if(polygons.begin(), polygons.end(), [area](Polygon& p)
         {
             return (getArea(p) < area);
@@ -255,9 +243,7 @@ ostream& same(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
     in >> temp;
-    
     Iofmtguard fmtguard(out);
-    
     return out << std::count_if(polygons.begin(), polygons.end(), [temp](Polygon& p)
         {
             return (isSame(temp, p));
