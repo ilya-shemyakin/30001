@@ -64,8 +64,7 @@ int main(int arg, char** file)
         }
         catch (...)
         {
-            cout << "<INVALID COMMAND>" << '\n';
+            cout << "<INVALID COMMAND>" << endl;
         }
     }
 }
-//
