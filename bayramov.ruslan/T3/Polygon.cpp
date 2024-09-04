@@ -17,18 +17,14 @@ namespace nspace
         {
             return in;
         }
-        
         char c = '0';
         in >> c;
-        
         if (in and c != dest.exp)
         { // Если символ не соответствует необходимому, то выставляется флаг ошибки чтения
             in.setstate(std::ios::failbit);
         }
-        
         return in;
     }
-    
     istream& operator>>(istream& in, Point& dest)
     {
         istream::sentry sentry(in);
@@ -36,11 +32,9 @@ namespace nspace
         {
             return in;
         }
-        
         in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' } >> dest.y >> DelimiterIO{ ')' };
         return in; // Проверяется формат
     }
-    
     istream& operator>>(istream& in, Polygon& dest)
     {
         istream::sentry sentry(in);
@@ -48,15 +42,12 @@ namespace nspace
         {
             return in;
         }
-        
         dest.points.clear(); // Очищается вектор
         int size = 0;
         in >> size;
-        
         if (size > 2) // Если размер меньше 2, то задать фигуру нельзя
         {
             char ch;
-
             vector <Point> temp{};
             int i = 0;
             while (i < size)
@@ -72,7 +63,6 @@ namespace nspace
                     }
                 }
                 ++i;
-
             }
             dest.points = temp;
         }
@@ -80,7 +70,6 @@ namespace nspace
         {
             in.setstate(std::ios::failbit);
         }
-        
         return in;
     }
 }
