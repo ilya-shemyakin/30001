@@ -198,6 +198,11 @@ void count(std::vector< Polygon >& polygons, std::istream& input, std::ostream& 
     }
     else if (std::all_of(cmd.begin(), cmd.end(), isDigit) == true)
     {
+        if (polygons.empty())
+        {
+            throw std::invalid_argument("");
+            return;
+        }
         size_t nVertices = std::stoull(cmd);
 
         size_t nParticular = std::count_if
@@ -313,7 +318,7 @@ bool isInFrame(std::vector< Point >& frame, const Polygon& polygon)
     int minPolygonY = getMinCoordinate(polygon, getY);
     bool isOverMax = maxPolygonX <= maxFrameX && maxPolygonY <= maxFrameY;
     bool isLessMin = minPolygonX >= minFrameX && minPolygonY >= minFrameY;
-    if (isOverMax && isLessMin)
+    if (isOverMax || isLessMin)
     {
         return true;
     }
