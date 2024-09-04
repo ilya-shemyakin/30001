@@ -50,7 +50,6 @@ int main(int arg, char** file)
             input.ignore();
         }
     }
-    
     std::string cmd;
     while (!cin.eof()) // —читывание команд из потока cin
     {

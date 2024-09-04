@@ -12,7 +12,6 @@ public:
         precision_(s.precision()),
         fmt_(s.flags())
     {}
-
     ~Iofmtguard() {
         s_.fill(fill_);
         s_.precision(precision_);
