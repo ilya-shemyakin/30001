@@ -162,18 +162,10 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
             numberOfVertexes = std::stoi(str);
             if (numberOfVertexes > 0)
             {
-                size_t count = std::count_if(polygons.begin(), polygons.end(), [numberOfVertexes](Polygon& p)
+                return out << std::count_if(polygons.begin(), polygons.end(), [numberOfVertexes](Polygon& p)
                     {
                         return (p.points.size() == numberOfVertexes);
-                    });
-                if (count > 0)
-                {
-                    return out << count << endl;
-                }
-                else
-                {
-                    return out << "<INVALID COMMAND>" << endl;
-                }
+                    }) << endl;
             }
             else
             {
