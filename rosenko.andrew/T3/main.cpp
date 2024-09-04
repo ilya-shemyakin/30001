@@ -6,6 +6,9 @@
 
 int main(int argc, char** argv)
 {
+///
+    
+///
     if (argc < 2)
     {
         return 1;
@@ -35,6 +38,8 @@ int main(int argc, char** argv)
         }
         i++;
     }
+
+    input.close();
 
     std::map< std::string, std::function < void(std::vector< Polygon >&, std::istream&, std::ostream&) > > commands;
     {

@@ -95,69 +95,76 @@ void area(std::vector< Polygon >& polygons, std::istream& input, std::ostream& o
 
 void max(std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
-    if (polygons.empty())
+    Iofmtguard iofmtguard(std::cout);
+
+    std::string cmd;
+    input >> cmd;
+
+    if (cmd == "AREA")
     {
-        throw std::invalid_argument("");
+        if (polygons.empty()) 
+        {
+            throw std::invalid_argument("");
+            return;
+        }
+        output << std::fixed << std::setprecision(1);
+        std::vector< double > areas;
+        std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), calcArea);
+        output << *std::max_element(areas.begin(), areas.end()) << '\n';
+
+    }
+    else if (cmd == "VERTEXES")
+    {
+        if (polygons.empty())
+        {
+            throw std::invalid_argument("");
+            return;
+        }
+        std::vector< double > vertexes;
+        std::transform(polygons.begin(), polygons.end(), std::back_inserter(vertexes),
+            [](Polygon& polygon) { return polygon.vertexes.size(); });
+        output << *std::max_element(vertexes.begin(), vertexes.end()) << '\n';
     }
     else
     {
-        std::string cmd;
-        input >> cmd;
-
-        Iofmtguard fmtguard(output);
-
-        if (cmd == "AREA")
-        {
-            output << std::fixed << std::setprecision(1);
-            std::vector< double > areas;
-            std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), calcArea);
-            output << *std::max_element(areas.begin(), areas.end()) << '\n';
-        }
-        else if (cmd == "VERTEXES")
-        {
-            std::vector< double > vertexes;
-            std::transform(polygons.begin(), polygons.end(), std::back_inserter(vertexes),
-                [](Polygon& polygon) { return polygon.vertexes.size(); });
-            output << *std::max_element(vertexes.begin(), vertexes.end()) << '\n';
-        }
-        else
-        {
-            throw std::invalid_argument("");
-        }
+        throw std::invalid_argument("");
+        return;
     }
 }
 
 void min(std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
-    if (polygons.empty())
+    std::string cmd;
+    input >> cmd;
+
+    if (cmd == "AREA")
     {
-        throw std::invalid_argument("");
+        if (polygons.empty())
+        {
+            throw std::invalid_argument("");
+            return;
+        }
+        output << std::fixed << std::setprecision(1);
+        std::vector< double > areas;
+        std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), calcArea);
+        output << *std::min_element(areas.begin(), areas.end()) << '\n';
+    }
+    else if (cmd == "VERTEXES")
+    {
+        if (polygons.empty())
+        {
+            throw std::invalid_argument("");
+            return;
+        }
+        std::vector< double > vertexes;
+        std::transform(polygons.begin(), polygons.end(), std::back_inserter(vertexes),
+            [](Polygon& polygon) { return polygon.vertexes.size(); });
+        output << *std::min_element(vertexes.begin(), vertexes.end()) << '\n';
     }
     else
     {
-        std::string cmd;
-        input >> cmd;
-
-        Iofmtguard fmtguard(output);
-
-        if (cmd == "AREA")
-        {
-            output << std::fixed << std::setprecision(1);
-            std::vector< double > areas;
-            std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), calcArea);
-            output << *std::min_element(areas.begin(), areas.end()) << '\n';
-        }
-        else if (cmd == "VERTEXES")
-        {
-            std::vector< double > vertexes;
-            std::transform(polygons.begin(), polygons.end(), std::back_inserter(vertexes),
-                [](Polygon& polygon) { return polygon.vertexes.size(); });
-            output << *std::min_element(vertexes.begin(), vertexes.end()) << '\n';
-        }
-        else
-        {
-            throw std::invalid_argument("");
-        }
+        throw std::invalid_argument("");
+        return;
     }
 }
 
