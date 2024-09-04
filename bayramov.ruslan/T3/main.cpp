@@ -1,35 +1,25 @@
 #include <fstream>
 #include <map>
-
 #include "iostream"
 #include "Command.h"
-
 using std::vector;
 using std::cout;
 using std::cin;
 using std::endl;
-
-
 int main(int arg, char** file)
 {
     if (arg < 2) // Первый аргумент - имя самой программы, поэтому пишется "< 2", а не "< 1"
     {
         return 1;
     }
-    
     std::ifstream input(file[1]);
     if (!input)
     {
         return 1; // Код возврата 1 указывает на ошибку
     }
-    
-    
     using namespace nspace;
     setlocale(LC_ALL, "rus");
-    
     vector<Polygon> polygons;
-    
-    
     std::map<std::string, std::function<void(std::istream&, std::ostream&, vector<Polygon>&)>> command;
     command["AREA"] = area;
     command["MAX"] = max; // Создание структуры std::map для удобного обращения к командам
