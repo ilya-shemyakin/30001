@@ -144,14 +144,14 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
     {
         return out << std::count_if(polygons.begin(), polygons.end(), [](Polygon& p)
             {
-                return (p.points.size() % 2 != 0);
+                return (p.points.size() % 2 == 0);
             }) << endl;
     }
     else if (str == "ODD")
     {
         return out << std::count_if(polygons.begin(), polygons.end(), [](Polygon& p)
             {
-                return (p.points.size() % 2 == 0);
+                return (p.points.size() % 2 != 0);
             }) << endl;
     }
     else
