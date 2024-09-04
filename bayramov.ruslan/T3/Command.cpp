@@ -1,13 +1,11 @@
 #include "Command.h"
 #include "Iofmtquard.h"
-//
-//
-//
+
+
 using std::cout;
 using std::endl;
-//
-//
-//
+
+
 double getArea(Polygon& polygon) // Вычисление площади по формуле Гаусса
 {
     double area = 0;
@@ -81,9 +79,9 @@ ostream& area(istream& in, ostream& out, vector<Polygon>& polygons)
         }
     }
 }
-//
-//
-//
+
+
+
 ostream& max(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
@@ -134,9 +132,9 @@ ostream& min(istream& in, ostream& out, vector<Polygon>& polygons)
         throw std::invalid_argument("Недопустимый аргумент");
     }
 }
-//
-//
-//
+
+
+
 ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
@@ -180,9 +178,9 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
         }
     }
 }
-//
-//
-//
+
+
+
 ostream& lessarea(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
@@ -194,9 +192,9 @@ ostream& lessarea(istream& in, ostream& out, vector<Polygon>& polygons)
             return (getArea(p) < area);
         }) << endl;
 }
-//
-//
-//
+
+
+
 void sortPoints(Polygon& polygon)
 {
     std::sort(polygon.points.begin(), polygon.points.end(), [](Point& point1, Point& point2)
@@ -204,9 +202,9 @@ void sortPoints(Polygon& polygon)
             return (point1.x == point2.x) ? point1.y < point2.y : point1.x < point2.x;
         });
 } // Сортировка сначала по х, потом по у. Это позволяет поставить точки в определенном порядке в фигурах.
-//
-//
-//
+
+
+
 bool isSame(Polygon polygon1, Polygon polygon2)
 {
     size_t size = polygon1.points.size();
@@ -216,14 +214,12 @@ bool isSame(Polygon polygon1, Polygon polygon2)
         sortPoints(polygon2);
         int diffX = polygon2.points[0].x - polygon1.points[0].x;
         int diffY = polygon2.points[0].y - polygon1.points[0].y;
-        
         std::transform(polygon2.points.begin(), polygon2.points.end(), polygon2.points.begin(), [diffX, diffY](Point& point)
             {
                 point.x -= diffX; // Вычитание дельты из каждой точки
                 point.y -= diffY;
                 return point;
             });
-        
         return (polygon1 == polygon2);
     }
     else
@@ -231,9 +227,9 @@ bool isSame(Polygon polygon1, Polygon polygon2)
         return false;
     }
 }
-//
-//
-//
+
+
+
 ostream& same(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
