@@ -56,7 +56,7 @@ ostream& area(istream& in, ostream& out, vector<Polygon>& polygons)
     }
     else
     {
-        int numberOfVertexes = 0;
+        size_t numberOfVertexes = 0;
         try
         {
             numberOfVertexes = std::stoi(str);
@@ -156,7 +156,7 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
     }
     else
     {
-        int numberOfVertexes = 0;
+        size_t numberOfVertexes = 0;
         try
         {
             numberOfVertexes = std::stoi(str);
