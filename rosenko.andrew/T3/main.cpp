@@ -6,6 +6,8 @@
 
 int main(int argc, char** argv)
 {
+
+
     if (argc < 2)
     {
         return 1;
@@ -61,11 +63,6 @@ int main(int argc, char** argv)
                 break;
             }
 
-            if (std::cin.fail())
-            {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
 
             commands.at(cmd)(polygons, std::cin, std::cout);
 
@@ -73,7 +70,6 @@ int main(int argc, char** argv)
         catch (...)
         {
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "<INVALID COMMAND>" << '\n';
         }
     }

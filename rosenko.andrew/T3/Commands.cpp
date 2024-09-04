@@ -198,12 +198,13 @@ void count(std::vector< Polygon >& polygons, std::istream& input, std::ostream& 
     }
     else if (std::all_of(cmd.begin(), cmd.end(), isDigit) == true)
     {
-        if (polygons.empty())
+        size_t nVertices = std::stoull(cmd);
+
+        if (nVertices < 3)
         {
             throw std::invalid_argument("");
             return;
         }
-        size_t nVertices = std::stoull(cmd);
 
         size_t nParticular = std::count_if
         (
@@ -332,14 +333,14 @@ void inframe(std::vector< Polygon >& polygons, std::istream& input, std::ostream
 {
     Polygon polygon;
     input >> polygon;
-    if (!input)
+    char c = input.peek();
+    if (!input || c == '\n' || input.fail())
     {
         throw std::invalid_argument("");
+        return;
     }
-    else
-    {
-        std::vector< Point > frame = getFrame(polygons);
+    
+    std::vector< Point > frame = getFrame(polygons);
 
-        output << (isInFrame(frame, polygon) ? "<TRUE>" : "<FALSE>") << "\n";
-    }
+    output << (isInFrame(frame, polygon) ? "<TRUE>" : "<FALSE>") << "\n";
 }
