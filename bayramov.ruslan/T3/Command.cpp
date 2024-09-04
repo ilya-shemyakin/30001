@@ -60,7 +60,7 @@ ostream& area(istream& in, ostream& out, vector<Polygon>& polygons)
         try
         {
             numberOfVertexes = std::stoi(str);
-            if (numberOfVertexes > 0)
+            if (numberOfVertexes > 2)
             {
                 return out << std::accumulate(polygons.begin(), polygons.end(), 0.0,
                     [numberOfVertexes](double sum, Polygon& p)
@@ -160,7 +160,7 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
         try
         {
             numberOfVertexes = std::stoi(str);
-            if (numberOfVertexes > 0)
+            if (numberOfVertexes > 2)
             {
                 return out << std::count_if(polygons.begin(), polygons.end(), [numberOfVertexes](Polygon& p)
                     {
