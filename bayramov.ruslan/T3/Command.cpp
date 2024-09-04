@@ -1,11 +1,13 @@
 #include "Command.h"
 #include "Iofmtquard.h"
-
-
+//
+//
+//
 using std::cout;
 using std::endl;
-
-
+//
+//
+//
 double getArea(Polygon& polygon) // Вычисление площади по формуле Гаусса
 {
     double area = 0;
@@ -18,12 +20,8 @@ double getArea(Polygon& polygon) // Вычисление площади по формуле Гаусса
     area = std::abs(area) / 2;
     return area;
 }
-
 // Я пытался сделать все с помощью std::accumulate и лямбда-выражения, но не получилось. Дело в том, что на каждой итерации
 // передается именно точка, т.е. Point. Значит я не могу просто обратиться по индексу.
-
-
-
 ostream& area(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
@@ -83,10 +81,9 @@ ostream& area(istream& in, ostream& out, vector<Polygon>& polygons)
         }
     }
 }
-
-
-
-
+//
+//
+//
 ostream& max(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
@@ -137,8 +134,9 @@ ostream& min(istream& in, ostream& out, vector<Polygon>& polygons)
         throw std::invalid_argument("Недопустимый аргумент");
     }
 }
-
-
+//
+//
+//
 ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     string str;
@@ -182,9 +180,9 @@ ostream& count(istream& in, ostream& out, vector<Polygon>& polygons)
         }
     }
 }
-
-
-
+//
+//
+//
 ostream& lessarea(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
@@ -196,12 +194,9 @@ ostream& lessarea(istream& in, ostream& out, vector<Polygon>& polygons)
             return (getArea(p) < area);
         }) << endl;
 }
-
-
-
-
-
-
+//
+//
+//
 void sortPoints(Polygon& polygon)
 {
     std::sort(polygon.points.begin(), polygon.points.end(), [](Point& point1, Point& point2)
@@ -209,9 +204,9 @@ void sortPoints(Polygon& polygon)
             return (point1.x == point2.x) ? point1.y < point2.y : point1.x < point2.x;
         });
 } // Сортировка сначала по х, потом по у. Это позволяет поставить точки в определенном порядке в фигурах.
-
-
-
+//
+//
+//
 bool isSame(Polygon polygon1, Polygon polygon2)
 {
     size_t size = polygon1.points.size();
@@ -236,9 +231,9 @@ bool isSame(Polygon polygon1, Polygon polygon2)
         return false;
     }
 }
-
-
-
+//
+//
+//
 ostream& same(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
