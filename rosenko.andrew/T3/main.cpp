@@ -73,7 +73,6 @@ int main(int argc, char** argv)
         }
         catch (...)
         {
-            
             std::cout << "<INVALID COMMAND>" << '\n';
         }
     }
