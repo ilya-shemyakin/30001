@@ -90,6 +90,9 @@ namespace nspace
                 in.get(ch);
                 if (ch == '\n' or ch == ' ')
                 {
+                    cout.clear();
+                    cout << size << " '" << ch << "'" << endl;
+                    cout.setstate(std::ios_base::failbit);
                     dest.points = temp;
                 }
                 else
