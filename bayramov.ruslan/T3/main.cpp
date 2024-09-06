@@ -27,6 +27,7 @@ int main(int arg, char** file)
     command["COUNT"] = count;
     command["LESSAREA"] = lessarea;
     command["SAME"] = same;
+    cout.setstate(std::ios_base::failbit); // Чтобы в поток ничего лишнего не попадало
     while (!input.eof())
     {
         std::copy(
@@ -40,13 +41,10 @@ int main(int arg, char** file)
             input.ignore();
         }
     }
+    cout.clear(); // Восстанавливаем поток, очищая флаги состояния
     std::string cmd;
     while (!cin.eof()) // Считывание команд из потока cin
     {
-        if (cin.fail())
-        {
-            cin.clear();
-        }
         try
         {
             cin >> cmd;
@@ -65,6 +63,12 @@ int main(int arg, char** file)
         catch (...)
         {
             cout << "<INVALID COMMAND>" << endl;
+        }
+        if (cin.fail())
+        {
+            cin.clear();
+            cout << "<INVALID COMMAND>" << endl;// Разобраться с отрезанием строки. Иногда это нужно делать, иногда нет.
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }

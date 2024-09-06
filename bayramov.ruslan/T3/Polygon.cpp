@@ -57,14 +57,46 @@ namespace nspace
                 {
                     Point point;
                     in >> point;
+                    if (in.fail())
+                    {
+                        in.clear();
+                        in.ignore();
+                        break;
+                    }
                     if (std::find(temp.begin(), temp.end(), point) == temp.end()) // Условие есть ли точка уже в векторе
                     {
                         temp.push_back(point);
                     }
                 }
+                else if (ch == '\n')
+                {
+                    in.clear();
+                    cout << "<INVALID COMMAND>" << endl;
+                    break;
+                }
+                else
+                {
+                    in.setstate(std::ios::failbit);
+                    break;
+                }
                 ++i;
             }
-            dest.points = temp;
+            if (i != size)
+            {
+                in.setstate(std::ios::failbit);
+            }
+            if (!in.fail())
+            {
+                in.get(ch);
+                if (ch == '\n' or ch == ' ')
+                {
+                    dest.points = temp;
+                }
+                else
+                {
+                    in.setstate(std::ios::failbit);
+                }
+            }
         }
         else
         {

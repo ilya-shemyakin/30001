@@ -10,13 +10,17 @@ double getArea(Polygon& polygon) // ¬ычисление площади по формуле √аусса
 {
     double area = 0;
     int number = polygon.points.size();
-    for (int i = 0; i < number; ++i)
+    if (number > 0)
     {
-        int j = (i + 1) % number;
-        area += (polygon.points[i].x * polygon.points[j].y - polygon.points[j].x * polygon.points[i].y);
+        for (int i = 0; i < number; ++i)
+        {
+            int j = (i + 1) % number;
+            area += (polygon.points[i].x * polygon.points[j].y - polygon.points[j].x * polygon.points[i].y);
+        }
+        area = std::abs(area) / 2;
+        return area;
     }
-    area = std::abs(area) / 2;
-    return area;
+    return 0;
 }
 // я пыталс€ сделать все с помощью std::accumulate и л€мбда-выражени€, но не получилось. ƒело в том, что на каждой итерации
 // передаетс€ именно точка, т.е. Point. «начит € не могу просто обратитьс€ по индексу.
@@ -88,23 +92,31 @@ ostream& max(istream& in, ostream& out, vector<Polygon>& polygons)
     in >> str;
     Iofmtguard fmtguard(out);
     out << std::fixed << std::setprecision(1);
-    if (str == "AREA") // std::max_element возвращает итератор, поэтому нужно написать * перед ним, чтобы разыменовать и вз€ть значение
+    if (polygons.size() != 0)
     {
-        return out << getArea(*std::max_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
-            {
-                return (getArea(p1) < getArea(p2));
-            })) << endl;
-    }
-    else if (str == "VERTEXES")
-    {
-        return out << (*std::max_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
-            {
-                return (p1.points.size() < p2.points.size());
-            })).points.size() << endl;
+        if (str == "AREA") // std::max_element возвращает итератор, поэтому нужно написать * перед ним, чтобы разыменовать и вз€ть значение
+        {
+            double area = getArea(*std::max_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
+                {
+                    return (getArea(p1) < getArea(p2));
+                }));
+            return out << area << endl;
+        }
+        else if (str == "VERTEXES")
+        {
+            return out << (*std::max_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
+                {
+                    return (p1.points.size() < p2.points.size());
+                })).points.size() << endl;
+        }
+        else
+        {
+            throw std::invalid_argument("Ќедопустимый аргумент");
+        }
     }
     else
     {
-        throw std::invalid_argument("Ќедопустимый аргумент");
+        return out << "<INVALID COMMAND>" << endl;
     }
 }
 ostream& min(istream& in, ostream& out, vector<Polygon>& polygons)
@@ -113,23 +125,30 @@ ostream& min(istream& in, ostream& out, vector<Polygon>& polygons)
     in >> str;
     Iofmtguard fmtguard(out);
     out << std::fixed << std::setprecision(1);
-    if (str == "AREA")
+    if (polygons.size() != 0)
     {
-        return out << getArea(*std::min_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
-            {
-                return (getArea(p1) < getArea(p2));
-            })) << endl;
-    }
-    else if (str == "VERTEXES")
-    {
-        return out << (*std::min_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
-            {
-                return (p1.points.size() < p2.points.size());
-            })).points.size() << endl;
+        if (str == "AREA")
+        {
+            return out << getArea(*std::min_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
+                {
+                    return (getArea(p1) < getArea(p2));
+                })) << endl;
+        }
+        else if (str == "VERTEXES")
+        {
+            return out << (*std::min_element(polygons.begin(), polygons.end(), [](Polygon& p1, Polygon& p2)
+                {
+                    return (p1.points.size() < p2.points.size());
+                })).points.size() << endl;
+        }
+        else
+        {
+            throw std::invalid_argument("Ќедопустимый аргумент");
+        }
     }
     else
     {
-        throw std::invalid_argument("Ќедопустимый аргумент");
+        return out << "<INVALID COMMAND>" << endl;
     }
 }
 
@@ -185,6 +204,16 @@ ostream& lessarea(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
     in >> temp;
+    string str = "";
+    std::getline(in, str);
+    if (in.fail())
+    {
+        return out;
+    }
+    else if (str != "")
+    {
+        return out << "<INVALID COMMAND>" << endl;
+    }
     Iofmtguard fmtguard(out);
     double area = getArea(temp);
     return out << std::count_if(polygons.begin(), polygons.end(), [area](Polygon& p)
@@ -234,6 +263,16 @@ ostream& same(istream& in, ostream& out, vector<Polygon>& polygons)
 {
     Polygon temp;
     in >> temp;
+    string str = "";
+    std::getline(in, str);
+    if (in.fail())
+    {
+        return out;
+    }
+    else if (str != "")
+    {
+        return out << "<INVALID COMMAND>" << endl;
+    }
     Iofmtguard fmtguard(out);
     return out << std::count_if(polygons.begin(), polygons.end(), [temp](Polygon& p)
         {
