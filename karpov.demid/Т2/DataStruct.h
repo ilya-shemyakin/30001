@@ -54,4 +54,3 @@ namespace nspace
     std::ostream &operator<<(std::ostream &out, const DataStruct &src);
 }
 #endif //T2_DATASTRUCT_H
-
