@@ -40,4 +40,31 @@ namespace nspace {
         }
         return in;
     }
+
+    std::istream &operator>>(std::istream &in, ChrLitIO &&dest)
+    {
+        std::istream::sentry sentry(in);
+        if (!sentry)
+        {
+            return in;
+        }
+
+        in >> DelimiterIO{'\''} >> dest.ref >> DelimiterIO{'\''};
+        if (!in)
+        {
+            in.setstate(std::ios::failbit);
+        }
+        return in;
+    }
+
+    std::istream &operator>>(std::istream &in, RatLSPIO &&dest)
+    {
+        std::istream::sentry sentry(in);
+        if (!sentry)
+        {
+            return in;
+        }
+        return in >> DelStrIO{"(:N"} >> dest.ref.first >> DelStrIO{":D"}
+                  >> dest.ref.second >> DelStrIO{":)"};
+    }
 }
