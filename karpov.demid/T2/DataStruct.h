@@ -38,5 +38,13 @@ namespace nspace {
         std::streamsize precision_;
         std::basic_ios<char>::fmtflags fmt_;
     };
+
+    std::istream &operator>>(std::istream &in, DelimiterIO &&dest);
+    std::istream &operator>>(std::istream &in, RatLSPIO &&dest);
+    std::istream &operator>>(std::istream &in, ChrLitIO &&dest);
+    std::istream &operator>>(std::istream &in, StringIO &&dest);
+    std::istream &operator>>(std::istream &in, DelStrIO &&dest);
+    std::istream &operator>>(std::istream &in, DataStruct &dest);
+    std::ostream &operator<<(std::ostream &out, const DataStruct &src);
 }
 #endif //T2_DATASTRUCT_H
