@@ -68,6 +68,51 @@ namespace nspace {
                   >> dest.ref.second >> DelStrIO{":)"};
     }
 
+    std::istream &operator>>(std::istream &in, DataStruct &dest)
+    {
+        std::istream::sentry sentry(in);
+        if (!sentry)
+        {
+            return in;
+        }
+        DataStruct input;
+        {
+            using sep = DelimiterIO;
+            using sepStr = DelStrIO;
+            using chrLit = ChrLitIO;
+            using ratLSP = RatLSPIO;
+            using str = StringIO;
+            in >> sepStr({"(:"});
+            int keyNumber = 0;
+            for (size_t i = 0; i < 3 ; i++) {
+                in >> sepStr({"key"}) >> keyNumber;
+                if (keyNumber == 1)
+                {
+                    in >> chrLit{ input.key1 };
+                }
+                else if (keyNumber == 2)
+                {
+                    in >> ratLSP {input.key2};
+                }
+                else if (keyNumber == 3)
+                {
+                    in >> str{input.key3};
+                }
+                else
+                {
+                    in.setstate(std::ios::failbit);
+                }
+                in >> sep{ ':'};
+            }
+            in >> sep{ ')'};
+        }
+        if (in)
+        {
+            dest = input;
+        }
+        return in;
+    }
+
     iofmtguard::iofmtguard(std::basic_ios< char > &s) :
             s_(s),
             fill_(s.fill()),
