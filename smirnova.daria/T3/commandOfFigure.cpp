@@ -282,12 +282,12 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
     using namespace std::placeholders;
     Polygon polygon;
     in >> polygon;
-    if (polygons.empty() or (in.peek() != '\n' or !in))
+    if (polygons.empty() or !in)
     {
         throw std::invalid_argument("");
     }
-    auto intersectPredicate = std::bind(isIntersectionChecks, std::cref(polygon), _1);
-    out << std::count_if(polygons.cbegin(), polygons.cend(), intersectPredicate);
+    auto intersect = std::bind(isIntersectionChecks, std::cref(polygon), _1);
+    out << std::count_if(polygons.cbegin(), polygons.cend(), intersect);
 }
 void rmecho(std::vector<Polygon>& polygons, std::istream& in, std::ostream& out)
 {
@@ -298,7 +298,7 @@ void rmecho(std::vector<Polygon>& polygons, std::istream& in, std::ostream& out)
         throw std::invalid_argument("");
     }
     int result = 0;
-    for (long unsigned int i = 1; i < polygons.size(); i++)
+    for (size_t i = 1; i < polygons.size(); i++)
     {
         if (polygons[i] == polygon && polygons[i] == polygons[i - 1])
         {
