@@ -147,10 +147,9 @@ void maxOfFigure(const std::vector< Polygon >& polygons, std::istream& input, st
 
 void findMaxArea(const std::vector< Polygon >& polygons, std::ostream& output)
 {
-    std::vector< double > areasOfPolygons;
-    std::transform(polygons.begin(), polygons.end(), std::back_inserter(areasOfPolygons), calculatePolygonArea);
-    std::sort(areasOfPolygons.begin(), areasOfPolygons.end());
-    output << std::fixed << std::setprecision(1) << areasOfPolygons[areasOfPolygons.size() - 1] << "\n";
+    output << std::fixed << std::setprecision(1);
+    auto maxim = std::max_element(polygons.begin(), polygons.end(), compareArea);
+    output << plusArea(0,*maxim) << '\n';
 }
 
 void findMaxVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
