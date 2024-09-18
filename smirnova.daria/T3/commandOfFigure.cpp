@@ -245,11 +245,18 @@ void countOfFigure(const std::vector< Polygon >& polygons, std::istream& input, 
 
 void countEven(const std::vector< Polygon >& polygons, std::ostream& output)
 {
+using namespace std::placeholders;
+    auto count = std::bind(std::equal_to<size_t>(),std::bind( //equal to сравнивает результат остатка от дел с 0
+            std::modulus<size_t>(), //делит это количество точек на 2 и смотрит чет или нечет
+            std::bind(
+                    &std::vector<Point>::size, //узнает сколько точек есть в каждом полигоне
+                    std::bind(&Polygon::points_, _1) //достает вектор точек для каждого полигона
+            ),2), 0); //возвращает либо 1 если чет колво вершин или 0 если нечет
     size_t result = std::count_if
             (
                     polygons.begin(),
                     polygons.end(),
-                    [](const Polygon& pol) { return pol.points_.size() % 2 == 0; }
+                    count
             );
     output << result << "\n";
 }
