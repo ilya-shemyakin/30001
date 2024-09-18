@@ -63,10 +63,6 @@ bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject)
                           firstObject.points_.cend(), secondObject.points_.cbegin());
     }
 }
-bool EqualFigures::operator()(const Polygon& firstObject, const Polygon& secondObject)
-{
-    return equalPolygons(firstObject,secondObject);
-}
 bool isIntersectionChecks(const Polygon& firstObject, const Polygon& secondObject)
 {
     Point minfirstObject = *std::min_element(firstObject.points_.cbegin(), firstObject.points_.cend());

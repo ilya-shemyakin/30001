@@ -11,5 +11,4 @@ struct Point
 
 };
 std::istream& operator>>(std::istream& in, Point& point);
-double getLength(const Point& p1, const Point& p2);
 #endif

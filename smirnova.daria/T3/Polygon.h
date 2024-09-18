@@ -11,9 +11,4 @@ bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject);
 bool isIntersectionChecks(const Polygon& firstObject, const Polygon& secondObject);
 bool compareArea(const Polygon& lhs, const Polygon& rhs);
 bool operator==(const Polygon& first, const Polygon& second);
-struct EqualFigures
-{
-    Polygon poly;
-    bool operator()(const Polygon & firstObject, const Polygon & secondObject);
-};
 #endif
