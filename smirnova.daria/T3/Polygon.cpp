@@ -47,6 +47,12 @@ bool operator==(const Polygon& first, const Polygon& second)
         return std::equal(first.points_.cbegin(), first.points_.cend(), second.points_.cbegin());
     }
 }
+
+bool compareArea(const Polygon& lhs, const Polygon& rhs)
+{
+    return plusArea(0,lhs) < plusArea(0,rhs);
+}
+
 bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject)
 {
     if (firstObject.points_.size() != secondObject.points_.size())
