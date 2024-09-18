@@ -4,7 +4,7 @@
 #include <numeric>
 #include <iostream>
 #include "iofmtguard.h"
-void cmdArea(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
+void areaOfFigure(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     using namespace std::placeholders;
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsArea;
@@ -120,7 +120,7 @@ double calculatePolygonArea(const Polygon& polygon)
     return 0.5 * std::abs(calculatePolygonAreaRec(polygon, 0, 0.0));
 }
 
-void cmdMax(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
+void maxOfFigure(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     using namespace std::placeholders;
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsMax;
@@ -167,7 +167,7 @@ void findMaxVertexes(const std::vector< Polygon >& polygons, std::ostream& outpu
     output << vertexes[vertexes.size() - 1] << "\n";
 }
 
-void cmdMin(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
+void minOfFigure(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     using namespace std::placeholders;
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsMin;
@@ -211,7 +211,7 @@ void findMinVertexes(const std::vector< Polygon >& polygons, std::ostream& outpu
     output << vertexes[0];
 }
 
-void cmdCount(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
+void countOfFigure(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     using namespace std::placeholders;
     std::map< std::string, std::function< void(const std::vector< Polygon >&, std::ostream&) > > cmdsCount;
