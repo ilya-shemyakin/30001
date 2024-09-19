@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
     commands["MIN"] = std::bind(minOfFigure, std::cref(polygons), _1, _2);
     commands["COUNT"] = std::bind(countOfFigure, std::cref(polygons), _1, _2);
     commands["RMECHO"] = std::bind(rmecho, std::ref(polygons), _1, _2);
-    commands["INTERSECTIONS"] = std::bind(intersections, polygons, _1, _2);
+    commands["INTERSECTIONS"] = std::bind(intersections, std::cref(polygons), _1, _2);
     std::string command = "";
     while (std::cin >> command)
     {
