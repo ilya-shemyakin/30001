@@ -160,22 +160,24 @@ void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& ou
         throw std::invalid_argument("");
     }
     iofmtguard fmtguard(out);
-    int currentCount = 0;
-    auto seqs = std::accumulate(polygons.begin(), polygons.end(), std::vector < size_t >(),
-        [&dest, &currentCount](std::vector< size_t >& seqs, const Polygon& polygon)
-        {
-            if (polygon == dest && currentCount==0) {
-            currentCount++;
-                seqs.push_back(1);
-            }
-            else if (polygon == dest) {
-                *(--seqs.end()) += 1;
-            }
-            else {
-                currentCount = 0;
-            }
-            return seqs;
-        });
-    seqs.push_back(0);
-    out << *std::max_element(seqs.begin(), seqs.end()) << std::endl;
+    else {
+        int currentCount = 0;
+        auto seqs = std::accumulate(polygons.begin(), polygons.end(), std::vector < size_t >(),
+            [&dest, &currentCount](std::vector< size_t >& seqs, const Polygon& polygon)
+            {
+                if (polygon == dest && currentCount==0) {
+                    currentCount++;
+                    seqs.push_back(1);
+                }
+                else if (polygon == dest) {
+                    *(--seqs.end()) += 1;
+                }
+                else {
+                    currentCount = 0;
+                }
+                return seqs;
+            });
+        seqs.push_back(0);
+        out << *std::max_element(seqs.begin(), seqs.end()) << std::endl;
+    }
 }
