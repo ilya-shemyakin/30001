@@ -156,6 +156,7 @@ void lessarea(std::vector< Polygon >& polygons, std::istream& in, std::ostream& 
         }) << std::endl;
 }
 
+//как по другому реализовать
 void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
     Polygon dest;
