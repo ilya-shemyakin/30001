@@ -143,11 +143,16 @@ void count(std::vector< Polygon >& polygons, std::string& mode, std::ostream& ou
 
 void lessarea(std::vector< Polygon >& polygon, Polygon dest, std::ostream& out)
 {
-     out << std::count_if(polygon.begin(), polygon.end(),
-        [&dest](const Polygon& polygon)
-        {
-            return getArea(polygon) < getArea(dest);
-        }) << std::endl;
+    if (!std::cin) {
+        throw std::invalid_argument("");
+    }
+    else {
+        out << std::count_if(polygon.begin(), polygon.end(),
+            [&dest](const Polygon& polygon)
+            {
+                return getArea(polygon) < getArea(dest);
+            }) << std::endl;
+    }
 }
 
 //still thinking how to realize it differently

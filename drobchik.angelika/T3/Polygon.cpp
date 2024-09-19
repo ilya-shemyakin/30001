@@ -27,41 +27,46 @@ std::istream& operator>>(std::istream& in, intIO&& dest)
     }
     return in;
 }
-//где-то здесь ошибка была, но где
+
+std::istream& operator>>(std::istream& in, Point& dest)
+{
+    std::istream::sentry sentry(in);
+    if (!sentry) {
+        return in;
+    }
+    return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
+    >> dest.y >> DelimiterIO{ ')' };
+}
+
 std::istream& operator>>(std::istream& in, Polygon& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry) {
         return in;
     }
-
-    Polygon polygon;
-    size_t nPoints = 0;
-    in >> nPoints;
-    if (nPoints < 3) {
+    dest.points.clear();
+    size_t size = 0;
+    in >> size;
+    std::string str;
+    std::getline(in, str, '\n');
+    std::istringstream input(str);
+    if (!input || size < 3) {
         in.setstate(std::ios::failbit);
         return in;
     }
-
-    for (size_t i = 0; i < nPoints; i++) {
-        Point point;
-        in >> DelimiterIO{ '(' };
-        in >> intIO{ point.x };
-        in >> DelimiterIO{ ';' };
-        in >> intIO{ point.y };
-        in >> DelimiterIO{ ')' };
-        if (in) {
-            polygon.points.push_back(point);
-        }
-    }
-
-    if (polygon.points.size() == nPoints) {
-        dest = polygon;
-    }
     else {
-        in.setstate(std::ios::failbit);
+        std::vector < Point > temp{};
+        std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
+            std::back_inserter(temp));
+        if (temp.size() == size && temp.size() >= 3) {
+            dest.points = temp;
+
+        }
+        else {
+            in.setstate(std::ios::failbit);
+        }
+        return in;
     }
-    return in;
 }
 
 iofmtguard::iofmtguard(std::basic_ios<char>& s) noexcept :
