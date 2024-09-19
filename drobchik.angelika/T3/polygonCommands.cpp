@@ -158,7 +158,7 @@ void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& ou
     if (in.fail() || polygons.size() == 0) {
         throw std::invalid_argument("");
     }
-    else {
+    else if {
         int currentCount = 0;
         auto seqs = std::accumulate(polygons.begin(), polygons.end(), std::vector < size_t >(),
             [&dest, &currentCount](std::vector< size_t >& seqs, const Polygon& polygon)
