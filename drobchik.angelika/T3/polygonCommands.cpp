@@ -141,7 +141,7 @@ void count(std::vector< Polygon >& polygons, std::string& mode, std::ostream& ou
     }
 }
 
-void lessarea(std::vector< Polygon >& polygon, std::istream& in, std::ostream& out)
+void lessarea(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
     Polygon dest;
     in >> dest;
