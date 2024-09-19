@@ -65,7 +65,13 @@ int main(int nArguments, char** file)
                 count(polygon, mode, std::cout);
                 break;
             case 5:
-                lessarea(polygon, std::cin, std::cout);
+                std::cin >> dest;
+                if (!std::cin) {
+                    throw std::invalid_argument("");
+                }
+                else {
+                    lessarea(polygon, dest, std::cout);
+                }
                 break;
             case 6:
                 maxseq(polygon, std::cin, std::cout);

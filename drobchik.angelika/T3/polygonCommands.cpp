@@ -141,14 +141,8 @@ void count(std::vector< Polygon >& polygons, std::string& mode, std::ostream& ou
     }
 }
 
-void lessarea(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
+void lessarea(std::vector< Polygon >& polygons, Polygon& dest, std::ostream& out)
 {
-    Polygon dest;
-    in >> dest;
-    if (in.fail() || polygons.size() == 0) {
-        throw std::invalid_argument("");
-    }
-    iofmtguard fmtguard(out);
     out << std::count_if(polygons.begin(), polygons.end(),
         [&dest](const Polygon& polygon)
         {
