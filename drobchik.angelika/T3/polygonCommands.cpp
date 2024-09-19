@@ -141,44 +141,46 @@ void count(std::vector< Polygon >& polygons, std::string& mode, std::ostream& ou
     }
 }
 
-void lessarea(std::vector< Polygon >& polygon, Polygon dest, std::ostream& out)
+void lessarea(std::vector< Polygon >& polygon, std::istream& in, std::ostream& out)
 {
-    if (!std::cin) {
+    Polygon dest;
+    in >> dest;
+    if (in.fail() || polygons.size() == 0) {
         throw std::invalid_argument("");
     }
-    else {
-        out << std::count_if(polygon.begin(), polygon.end(),
-            [&dest](const Polygon& polygon)
-            {
-                return getArea(polygon) < getArea(dest);
-            }) << std::endl;
-    }
+    iofmtguard fmtguard(out);
+    out << std::count_if(polygons.begin(), polygons.end(),
+        [&dest](const Polygon& polygon)
+        {
+            return getArea(dest) > getArea(polygon);
+        }) << std::endl;
 }
 
-//still thinking how to realize it differently
-void maxseq(std::vector< Polygon >& polygons, Polygon dest, std::ostream& out)
+void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
-    if (!std::cin) {
+    Polygon dest;
+    in >> dest;
+    if (in.fail() || polygons.size() == 0)
+    {
         throw std::invalid_argument("");
     }
-    else {
-        int currentCount = 0;
-        auto seqs = std::accumulate(polygons.begin(), polygons.end(), std::vector < size_t >(),
-            [&dest, &currentCount](std::vector< size_t >& seqs, const Polygon& polygon)
-            {
-                if (polygon == dest && currentCount==0) {
-                    currentCount++;
-                    seqs.push_back(1);
-                }
-                else if (polygon == dest) {
-                    *(--seqs.end()) += 1;
-                }
-                else {
-                    currentCount = 0;
-                }
-                return seqs;
-            });
-        seqs.push_back(0);
-        out << *std::max_element(seqs.begin(), seqs.end()) << std::endl;
-    }
+    iofmtguard fmtguard(out);
+    int currentCount = 0;
+    auto seqs = std::accumulate(polygons.begin(), polygons.end(), std::vector < size_t >(),
+        [&dest, &currentCount](std::vector< size_t >& seqs, const Polygon& polygon)
+        {
+            if (polygon == dest && currentCount==0) {
+            currentCount++;
+                seqs.push_back(1);
+            }
+            else if (polygon == dest) {
+                *(--seqs.end()) += 1;
+            }
+            else {
+                currentCount = 0;
+            }
+            return seqs;
+        });
+    seqs.push_back(0);
+    out << *std::max_element(seqs.begin(), seqs.end()) << std::endl;
 }

@@ -8,8 +8,8 @@
 #include <cmath>
 #include "Polygon.h"
 
-void lessarea(std::vector< Polygon >& polygon, Polygon dest, std::ostream& out);
-void maxseq(std::vector< Polygon >& polygons, Polygon dest, std::ostream& out);
+void lessarea(std::vector< Polygon >& polygon, std::istream& in, std::ostream& out);
+void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
 
 void area(std::vector< Polygon >& polygons, std::string& mode, std::ostream& out);
 void max(std::vector< Polygon >& polygons, std::string& mode, std::ostream& out);

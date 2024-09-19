@@ -65,12 +65,10 @@ int main(int nArguments, char** file)
                 count(polygon, mode, std::cout);
                 break;
             case 5:
-                std::cin >> dest;
-                lessarea(polygon, dest, std::cout);
+                lessarea(polygon, std::cin, std::cout);
                 break;
             case 6:
-                std::cin >> dest;
-                maxseq(polygon, dest, std::cout);
+                maxseq(polygon, std::cin, std::cout);
                 break;
             default:
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -79,7 +77,7 @@ int main(int nArguments, char** file)
             }
         }
         catch (...) {
-            std::cout << "<INVALID COMMAND>" << '\n';
+            std::cout << "<INVALID COMMAND>\n";
         }
     }
 
