@@ -8,20 +8,23 @@ std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
     }
     char symb = '0';
     in >> symb;
-    if (in && symb != dest.exp) {
+    if (in && symb != dest.del) {
         in.setstate(std::ios::failbit);
     }
     return in;
 }
 
-std::istream& operator>>(std::istream& in, Point& dest)
+std::istream& operator>>(std::istream& in, intIO&& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry) {
         return in;
     }
-    return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
-    >> dest.y >> DelimiterIO{ ')' };
+    in >> dest.ref;
+    if (!in) {
+        in.setstate(std::ios::failbit);
+    }
+    return in;
 }
 
 std::istream& operator>>(std::istream& in, Polygon& dest)
@@ -30,28 +33,37 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     if (!sentry) {
         return in;
     }
-    dest.points.clear();
-    size_t nPoint = 0;
-    in >> nPoint;
-    std::string str;
-    std::getline(in, str, '\n');
-    std::istringstream input(str);
-    if (!input || nPoint < 3) {
+    iofmtguard fmtguard(in);
+
+    Polygon polygon;
+    size_t size = 0;
+    in >> size;
+    if (size < 3 || in.fail())
+    {
         in.setstate(std::ios::failbit);
         return in;
     }
-    else {
-        std::vector < Point > temp{};
-        std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
-            std::back_inserter(temp));
-        if (temp.size() == nPoint && temp.size() >= 3) {
-            dest.points = temp;
+
+    int temp = 0;
+    for (size_t i = 0; i < size; ++i)
+    {
+        Point point;
+        in >> DelimiterIO{ '(' } >> intIO{ temp };
+        point.x = temp;
+        in >> DelimiterIO{ ';' } >> intIO{ temp };
+        point.y = temp;
+        in >> DelimiterIO{ ')' };
+        if (in) {
+            polygon.points.push_back(point);
         }
-        else {
-            in.setstate(std::ios::failbit);
-        }
-        return in;
     }
+    if (polygon.points.size() == size) {
+        dest = polygon;
+    }
+    else {
+        in.setstate(std::ios::failbit);
+    }
+    return in;
 }
 
 iofmtguard::iofmtguard(std::basic_ios<char>& s) noexcept :
