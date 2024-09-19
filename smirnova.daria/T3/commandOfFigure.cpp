@@ -149,8 +149,7 @@ void findMaxArea(const std::vector< Polygon >& polygons, std::ostream& output)
 {
     output << std::fixed << std::setprecision(1);
     auto maxim = std::max_element(polygons.begin(), polygons.end(), compareArea);
-    //output << plusArea(0,*maxim) << '\n';
-    output << &maxim << '\n';
+    output << plusArea(0,*maxim) << '\n';
 }
 
 void findMaxVertexes(const std::vector< Polygon >& polygons, std::ostream& output)
