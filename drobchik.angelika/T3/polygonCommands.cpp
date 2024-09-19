@@ -178,4 +178,7 @@ void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& ou
         seqs.push_back(0);
         out << *std::max_element(seqs.begin(), seqs.end()) << std::endl;
     }
+    else {
+        out << std::endl;
+    }
 }
