@@ -27,7 +27,7 @@ std::istream& operator>>(std::istream& in, intIO&& dest)
     }
     return in;
 }
-
+//где-то здесь ошибка была, но где
 std::istream& operator>>(std::istream& in, Polygon& dest)
 {
     std::istream::sentry sentry(in);
