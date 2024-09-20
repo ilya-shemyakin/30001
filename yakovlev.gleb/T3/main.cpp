@@ -78,10 +78,11 @@ int main(int argc, char *argv[]) {
         }
         else if (cmd == "RECTS") {
             std::cout << rects(polygons) << '\n';
+            isError = false;
         }
         else if (cmd == "MAXSEQ") {
             iTemp = maxSeq(polygons);
-            if (iTemp >= 0) {
+            if (iTemp > 0) {
                 std::cout << iTemp << '\n';
                 isError = false;
             }
