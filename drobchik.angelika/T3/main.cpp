@@ -21,7 +21,6 @@ int main(int nArguments, char** file)
         );
         if (inputF.fail() && !inputF.eof()) {
             inputF.clear();
-            inputF.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
     std::cin.clear();
