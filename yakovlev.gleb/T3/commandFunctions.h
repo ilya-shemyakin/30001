@@ -11,12 +11,12 @@ bool isEvenCountOfCorners(Polygon& pol);
 double findAreaOfPolygon(Polygon& pol);
 bool isRectangle(Polygon& pol);
 
-void count(std::vector<Polygon>& polygons);
-void area(std::vector<Polygon>& polygons);
-void max(std::vector<Polygon>& polygons);
-void min(std::vector<Polygon>& polygons);
+int count(std::vector<Polygon>& polygons);
+double area(std::vector<Polygon>& polygons);
+double max(std::vector<Polygon>& polygons);
+double min(std::vector<Polygon>& polygons);
 
-void rects(std::vector<Polygon>& polygons);
-void maxSeq(std::vector<Polygon>& polygons);
+int rects(std::vector<Polygon>& polygons);
+int maxSeq(std::vector<Polygon>& polygons);
 
 #endif

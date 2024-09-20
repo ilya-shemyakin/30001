@@ -42,7 +42,6 @@ struct Polygon {
 std::istream& operator>>(std::istream& in, DelimiterIO&& dest);
 std::istream& operator>>(std::istream& in, IntIO&& dest);
 std::istream& operator>>(std::istream& in, Polygon& dest);
-std::ostream& operator>>(std::istream& in, Point& dest);
 std::ostream& operator<<(std::ostream& out, const Point& dest);
 std::ostream& operator<<(std::ostream& out, const Polygon& dest);
 

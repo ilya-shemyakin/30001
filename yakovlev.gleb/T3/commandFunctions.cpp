@@ -24,95 +24,86 @@ double findAreaOfPolygon(Polygon& pol) {
     return std::fabs((area) / 2);
 }
 
-void area(std::vector<Polygon>& polygons) {
-    Iofmtguard iofmtguard(std::cout);
-
+double area(std::vector<Polygon>& polygons) {
     std::string temp;
     std::cin >> temp;
     std::cout << std::fixed << std::setprecision(1);
     if (temp == "ODD") {
-        std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
+        return std::accumulate(polygons.begin(), polygons.end(), 0.0,
             [] (double area, Polygon& pol)
             {
             area += (!isEvenCountOfCorners(pol) ? findAreaOfPolygon(pol) : 0);
             return area;
-            }) << '\n';
+            });
     }
     else if (temp == "MEAN") {
         if (polygons.size() < 1) {
-            std::cin.setstate(std::ios::failbit);
-            std::cout << "<INVALID COMMAND>\n";
-            return;
+            return -1.0;
         }
 
-        std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
+        return std::accumulate(polygons.begin(), polygons.end(), 0.0,
             [] (double area, Polygon& pol)
             {
             area += findAreaOfPolygon(pol);
             return area;
-            }) / polygons.size()<< '\n';
+            }) / polygons.size();
     }
     else if (temp == "EVEN") {
-        std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
+        return std::accumulate(polygons.begin(), polygons.end(), 0.0,
             [] (double area, Polygon& pol)
             {
             area += (isEvenCountOfCorners(pol) ? findAreaOfPolygon(pol) : 0);
             return area;
-            }) << '\n';
+            });
     }
     else {
         std::istringstream iss(temp);
         int i = 0;
         if (iss >> i && iss.eof() && i >= 3) {
-            std::cout << std::accumulate(polygons.begin(), polygons.end(), 0.0,
+            return std::accumulate(polygons.begin(), polygons.end(), 0.0,
                 [i] (double area, Polygon& pol)
                 {
                 area += (sameCorners(pol, i) ? findAreaOfPolygon(pol) : 0);
                 return area;
-                }) << '\n';
+                });
         }
         else {
-            std::cin.setstate(std::ios::failbit);
-            std::cout << "<INVALID COMMAND>\n";
+            return -1;
         }
     }
 }
 
-void count(std::vector<Polygon>& polygons) {
+int count(std::vector<Polygon>& polygons) {
     std::string temp;
     std::cin >> temp;
     if (temp == "ODD") {
-        std::cout << std::count_if(polygons.begin(), polygons.end(),
-            std::bind(std::logical_not<bool>(), std::bind(isEvenCountOfCorners, _1))) << '\n';
+        return std::count_if(polygons.begin(), polygons.end(),
+            std::bind(std::logical_not<bool>(), std::bind(isEvenCountOfCorners, _1)));
     }
     else if (temp == "EVEN") {
-        std::cout << std::count_if(polygons.begin(), polygons.end(),
-            std::bind(isEvenCountOfCorners, _1)) << '\n';
+        return std::count_if(polygons.begin(), polygons.end(),
+            std::bind(isEvenCountOfCorners, _1));
     }
     else {
         std::istringstream iss(temp);
         int i = 0;
         if (iss >> i && iss.eof() && i >= 3) {
-            std::cout << std::count_if(polygons.begin(), polygons.end(),
-                std::bind(sameCorners, _1, i)) << '\n';
+            return std::count_if(polygons.begin(), polygons.end(),
+                std::bind(sameCorners, _1, i));
         }
         else {
-            std::cin.setstate(std::ios::failbit);
-            std::cout << "<INVALID COMMAND>\n";
+            return -1;
         }
     }
 }
-
-void max(std::vector<Polygon>& polygons) {
-    Iofmtguard iofmtguard(std::cout);
-
+//Iofmtguard iofmtguard(std::cout);
+//std::cout << std::fixed << std::setprecision(1); для дробного значения
+double max(std::vector<Polygon>& polygons) {
     std::string temp;
     std::cin >> temp;
     if (temp == "VERTEXES") {
         if (polygons.empty()) {
-            std::cin.setstate(std::ios::failbit);
-            std::cout << "<INVALID COMMAND>\n";
-            return;
+            return -1;
         }
         auto maxItem = std::max_element(polygons.begin(), polygons.end(),
             std::bind([&] (Polygon& pol1, Polygon& pol2)
@@ -120,33 +111,27 @@ void max(std::vector<Polygon>& polygons) {
             return pol1.points.size() < pol2.points.size();
         }, _1, _2));
 
-        double res = (*maxItem).points.size();
-        std::cout << res << '\n';
+        return (*maxItem).points.size();
     }
     else if (temp == "AREA") {
         if (polygons.empty()) {
-            std::cin.setstate(std::ios::failbit);
-            std::cout << "<INVALID COMMAND>\n";
-            return;
+            return -1;
         }
-        std::cout << std::fixed << std::setprecision(1);
         auto maxItem = std::max_element(polygons.begin(), polygons.end(),
             std::bind([&] (Polygon& pol1, Polygon& pol2)
         {
             return findAreaOfPolygon(pol1) < findAreaOfPolygon(pol2);
         }, _1, _2));
 
-        double res = findAreaOfPolygon(*maxItem);
-        std::cout << res << '\n';
+        std::cout << std::fixed << std::setprecision(1);
+        return findAreaOfPolygon(*maxItem);
     }
     else {
-        std::cin.setstate(std::ios::failbit);
-        std::cout << "<INVALID COMMAND>\n";
+        return -1;
     }
 }
 
-void min(std::vector<Polygon>& polygons) {
-    Iofmtguard iofmtguard(std::cout);
+double min(std::vector<Polygon>& polygons) {
     std::string temp;
     std::cin >> temp;
     if (temp == "VERTEXES") {
@@ -156,23 +141,20 @@ void min(std::vector<Polygon>& polygons) {
             return pol1.points.size() < pol2.points.size();
         }, _1, _2));
 
-        double res = (*minItem).points.size();
-        std::cout << res << '\n';
+        return (*minItem).points.size();
     }
     else if (temp == "AREA") {
-        std::cout << std::fixed << std::setprecision(1);
         auto minItem = std::min_element(polygons.begin(), polygons.end(),
             std::bind([&] (Polygon& pol1, Polygon& pol2)
         {
             return findAreaOfPolygon(pol1) < findAreaOfPolygon(pol2);
         }, _1, _2));
 
-        double res = findAreaOfPolygon(*minItem);
-        std::cout << res << '\n';
+        std::cout << std::fixed << std::setprecision(1);
+        return findAreaOfPolygon(*minItem);
     }
     else {
-        std::cin.setstate(std::ios::failbit);
-        std::cout << "<INVALID COMMAND>\n";
+        return -1;
     }
 }
 
@@ -191,27 +173,15 @@ bool isRectangle(Polygon& pol) {
     return isRect;
 }
 
-void rects(std::vector<Polygon>& polygons) {
-    std::cout << std::count_if(polygons.begin(), polygons.end(), isRectangle) << '\n';
+int rects(std::vector<Polygon>& polygons) {
+    return std::count_if(polygons.begin(), polygons.end(), isRectangle);
 }
 
-void maxSeq(std::vector<Polygon>& polygons) {
+int maxSeq(std::vector<Polygon>& polygons) {
     Polygon polygon;
 
-    int temp = 0;
-    std::cin >> temp;
-
-    try{
-        if (!(std::cin >> polygon)) {
-            std::cin.setstate(std::ios::failbit);
-            std::cout << "<INVALID COMMAND>\n";
-            return;
-        }
-    }
-    catch(...){
-        std::cin.setstate(std::ios::failbit);
-        std::cout << "<INVALID COMMAND>\n";
-        return;
+    if (!(std::cin >> polygon)) {
+        return -1;
     }
     bool isSeries = false;
     int counter = 0;
@@ -231,5 +201,5 @@ void maxSeq(std::vector<Polygon>& polygons) {
     });
 
     generatedVector.push_back(0);
-    std::cout << *std::max_element(generatedVector.begin(), generatedVector.end()) << '\n';
+    return *std::max_element(generatedVector.begin(), generatedVector.end());
 }

@@ -35,6 +35,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
 
     Polygon polygon;
     long unsigned int corners = 0;
+
     in >> corners;
 
     if (corners < 3) {
@@ -42,13 +43,10 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
         return in;
     }
 
-    int temp = 0;
     for (long unsigned int i = 0; i < corners; ++i) {
         Point point;
-        in >> DelimiterIO{ '(' } >> IntIO{ temp };
-        point.x = temp;
-        in >> DelimiterIO{ ';' } >> IntIO{ temp };
-        point.y = temp;
+        in >> DelimiterIO{ '(' } >> IntIO{ point.x };
+        in >> DelimiterIO{ ';' } >> IntIO{ point.y };
         in >> DelimiterIO{ ')' };
         if (in) {
             polygon.points.push_back(point);
@@ -62,4 +60,29 @@ std::istream& operator>>(std::istream& in, Polygon& dest) {
         in.setstate(std::ios::failbit);
     }
     return in;
+}
+
+std::ostream& operator<<(std::ostream& out, const Point& dest) {
+    std::ostream::sentry sentry(out);
+    if (!sentry) {
+        return out;
+    }
+    return (out << '(' << dest.x << ';' << dest.y << ')');
+}
+
+std::ostream& operator<<(std::ostream& out, const Polygon& dest) {
+    std::ostream::sentry sentry(out);
+    if (!sentry) {
+        return out;
+    }
+
+    int s = dest.points.size();
+    out << s;
+    std::copy(
+        std::begin(dest.points),
+        std::end(dest.points),
+        std::ostream_iterator< Point >(std::cout << ' ')
+    );
+
+    return out;
 }

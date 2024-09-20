@@ -27,7 +27,14 @@ int main(int argc, char *argv[]) {
 
     in.close();
 
+    std::copy(
+        std::begin(polygons),
+        std::end(polygons),
+        std::ostream_iterator< Polygon >(std::cout, "\n")
+    );
+
     std::string cmd;
+    bool isError = true;
 
     while (!std::cin.eof()) {
         if (std::cin.fail()) {
@@ -36,31 +43,48 @@ int main(int argc, char *argv[]) {
         }
 
         std::cin >> cmd;
+        isError = true;
+ 
         if (std::cin.eof()) {
             break;
         }
+
         else if (cmd == "COUNT") {
-            count(polygons);
+            if (count(polygons) >= 0) {
+                std::cout << count(polygons) << '\n';
+                isError = false;
+            }
         }
         else if (cmd == "MAX") {
-            max(polygons);
+            if (max(polygons) >= 0) {
+                std::cout << max(polygons) << '\n';
+                isError = false;
+            }
         }
         else if (cmd == "MIN") {
-            min(polygons);
+            if (min(polygons) >= 0) {
+                std::cout << min(polygons) << '\n';
+                isError = false;
+            }
         }
         else if (cmd == "AREA") {
-            area(polygons);
+            if (area(polygons) >= 0) {
+                std::cout << area(polygons) << '\n';
+                isError = false;
+            }
         }
         else if (cmd == "RECTS") {
-            rects(polygons);
+            std::cout << rects(polygons) << '\n';
         }
         else if (cmd == "MAXSEQ") {
-            maxSeq(polygons);
+            if (maxSeq(polygons) >= 0) {
+                std::cout << maxSeq(polygons) << '\n';
+                isError = false;
+            }
         }
-        else if (cmd == "MAXSEQ") {
-            maxSeq(polygons);
-        }
-        else {
+
+        std::cout << std::fixed << std::setprecision(0);
+        if (isError) {
             std::cout << "<INVALID COMMAND>\n";
             std::cin.setstate(std::ios::failbit);
         }
