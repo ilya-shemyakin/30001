@@ -46,13 +46,15 @@ int main(int argc, char *argv[]) {
 
         std::cin >> cmd;
         isError = true;
+        dTemp = -1.0;
+        iTemp = -1;
 
         if (std::cin.eof()) {
             break;
         }
 
         else if (cmd == "COUNT") {
-            iTemp = count(polygons);    
+            iTemp = count(polygons);
             if (iTemp >= 0) {
                 std::cout << iTemp << '\n';
                 isError = false;
