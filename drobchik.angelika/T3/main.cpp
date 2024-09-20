@@ -1,6 +1,8 @@
 #include <fstream>
 #include "polygonCommands.h"
 
+extern const std::string IMPROPER_INPUT = "MESSAGE_ERROR: Improper input format";
+
 int main(int nArguments, char** file)
 {
     if (nArguments < 2) {
@@ -71,12 +73,12 @@ int main(int nArguments, char** file)
                 break;
             default:
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                throw std::invalid_argument("");
-                break;
+                throw std::invalid_argument(IMPROPER_INPUT);
             }
         }
-        catch (...) {
-            std::cout << "<INVALID COMMAND>\n";
+        catch (std::invalid_argument& e) {
+            std::cerr << e.what() << std::endl;
+            std::cin.clear();
         }
     }
 

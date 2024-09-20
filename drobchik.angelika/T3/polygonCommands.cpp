@@ -1,5 +1,7 @@
 #include "polygonCommands.h"
 
+extern const std::string IMPROPER_INPUT;
+
 using namespace std::placeholders;
 
 //shoelace formula, also known as Gauss's area formula
@@ -146,7 +148,7 @@ void lessarea(std::vector< Polygon >& polygons, std::istream& in, std::ostream& 
     Polygon dest;
     in >> dest;
     if (in.fail() || polygons.empty()) {
-        throw std::invalid_argument("");
+        throw std::invalid_argument(IMPROPER_INPUT);
     }
     else {
         out << std::count_if(polygons.begin(), polygons.end(),
@@ -162,7 +164,7 @@ void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& ou
     Polygon dest;
     in >> dest;
     if (in.fail() || polygons.empty()) {
-        throw std::invalid_argument("");
+        throw std::invalid_argument(IMPROPER_INPUT);
     }
     else {
         int currentCount = 0;

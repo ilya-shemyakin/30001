@@ -38,7 +38,6 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     std::istringstream input(str);
     if (!input || size < 3) {
         in.setstate(std::ios::failbit);
-        return in;
     }
 
     std::vector < Point > temp{};
