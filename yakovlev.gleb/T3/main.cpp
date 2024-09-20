@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
 
         if (std::cin.eof()) {
             break;
+            isError = false;
         }
 
         else if (cmd == "COUNT") {
