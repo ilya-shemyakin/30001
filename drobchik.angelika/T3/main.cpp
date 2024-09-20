@@ -1,7 +1,7 @@
 #include <fstream>
 #include "polygonCommands.h"
 
-extern const std::string IMPROPER_INPUT = "MESSAGE_ERROR: Improper input format";
+extern const std::string IMPROPER_INPUT = "<INVALID COMMAND>";
 
 int main(int nArguments, char** file)
 {
@@ -77,7 +77,7 @@ int main(int nArguments, char** file)
             }
         }
         catch (std::invalid_argument& e) {
-            std::cerr << e.what() << std::endl;
+            std::cout << e.what() << std::endl;
             std::cin.clear();
         }
     }
