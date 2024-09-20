@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
 
     std::string cmd;
     bool isError = true;
+    double dTemp = -1.0;
+    int iTemp = -1;
 
     while (!std::cin.eof()) {
         if (std::cin.fail()) {
@@ -50,26 +52,30 @@ int main(int argc, char *argv[]) {
         }
 
         else if (cmd == "COUNT") {
-            if (count(polygons) >= 0) {
-                std::cout << count(polygons) << '\n';
+            iTemp = count(polygons);    
+            if (iTemp >= 0) {
+                std::cout << iTemp << '\n';
                 isError = false;
             }
         }
         else if (cmd == "MAX") {
-            if (max(polygons) >= 0) {
-                std::cout << max(polygons) << '\n';
+            dTemp = max(polygons);
+            if (dTemp >= 0) {
+                std::cout << dTemp << '\n';
                 isError = false;
             }
         }
         else if (cmd == "MIN") {
-            if (min(polygons) >= 0) {
-                std::cout << min(polygons) << '\n';
+            dTemp = min(polygons);
+            if (dTemp >= 0) {
+                std::cout << dTemp << '\n';
                 isError = false;
             }
         }
         else if (cmd == "AREA") {
-            if (area(polygons) >= 0) {
-                std::cout << area(polygons) << '\n';
+            dTemp = area(polygons);
+            if (dTemp >= 0) {
+                std::cout << dTemp << '\n';
                 isError = false;
             }
         }
@@ -77,8 +83,9 @@ int main(int argc, char *argv[]) {
             std::cout << rects(polygons) << '\n';
         }
         else if (cmd == "MAXSEQ") {
-            if (maxSeq(polygons) >= 0) {
-                std::cout << maxSeq(polygons) << '\n';
+            iTemp = maxSeq(polygons);
+            if (iTemp >= 0) {
+                std::cout << iTemp << '\n';
                 isError = false;
             }
         }
