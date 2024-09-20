@@ -1,8 +1,6 @@
 #include <fstream>
 #include "polygonCommands.h"
 
-extern const std::string IMPROPER_INPUT = "<INVALID COMMAND>";
-
 int main(int nArguments, char** file)
 {
     if (nArguments < 2) {
@@ -73,11 +71,11 @@ int main(int nArguments, char** file)
                 break;
             default:
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                throw std::invalid_argument(IMPROPER_INPUT);
+                throw std::invalid_argument("");
             }
         }
         catch (std::invalid_argument& e) {
-            std::cout << e.what() << std::endl;
+            std::cout << "<INVALID COMMAND>" << std::endl;
             std::cin.clear();
         }
     }
