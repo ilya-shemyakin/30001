@@ -27,12 +27,6 @@ int main(int argc, char *argv[]) {
 
     in.close();
 
-    std::copy(
-        std::begin(polygons),
-        std::end(polygons),
-        std::ostream_iterator< Polygon >(std::cout, "\n")
-    );
-
     std::string cmd;
     bool isError = true;
     double dTemp = -1.0;
