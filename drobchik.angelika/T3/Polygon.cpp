@@ -14,17 +14,14 @@ std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
     return in;
 }
 
-std::istream& operator>>(std::istream& in, intIO&& dest)
+std::istream& operator>>(std::istream& in, Point& dest)
 {
     std::istream::sentry sentry(in);
     if (!sentry) {
         return in;
     }
-    in >> dest.ref;
-    if (!in) {
-        in.setstate(std::ios::failbit);
-    }
-    return in;
+    return in >> DelimiterIO{ '(' } >> dest.x >> DelimiterIO{ ';' }
+    >> dest.y >> DelimiterIO{ ')' };
 }
 
 std::istream& operator>>(std::istream& in, Polygon& dest)
@@ -33,32 +30,22 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     if (!sentry) {
         return in;
     }
-    iofmtguard fmtguard(in);
-
-    Polygon polygon;
+    dest.points.clear();
     size_t size = 0;
     in >> size;
-    if (size < 3 || in.fail())
-    {
+    std::string str;
+    std::getline(in, str, '\n');
+    std::istringstream input(str);
+    if (!input || size < 3) {
         in.setstate(std::ios::failbit);
         return in;
     }
 
-    int temp = 0;
-    for (size_t i = 0; i < size; ++i)
-    {
-        Point point;
-        in >> DelimiterIO{ '(' } >> intIO{ temp };
-        point.x = temp;
-        in >> DelimiterIO{ ';' } >> intIO{ temp };
-        point.y = temp;
-        in >> DelimiterIO{ ')' };
-        if (in) {
-            polygon.points.push_back(point);
-        }
-    }
-    if (polygon.points.size() == size) {
-        dest = polygon;
+    std::vector < Point > temp{};
+    std::copy(std::istream_iterator< Point >(input), std::istream_iterator< Point >(),
+        std::back_inserter(temp));
+    if (temp.size() == size && temp.size() >= 3) {
+        dest.points = temp;
     }
     else {
         in.setstate(std::ios::failbit);

@@ -34,7 +34,6 @@ int main(int nArguments, char** file)
         try {
             std::string command;
             std::string mode;
-            Polygon dest;
             std::map <std::string, int> cases;
             cases["AREA"] = 1;
             cases["MAX"] = 2;
@@ -65,13 +64,7 @@ int main(int nArguments, char** file)
                 count(polygon, mode, std::cout);
                 break;
             case 5:
-                std::cin >> dest;
-                if (!std::cin) {
-                    throw std::invalid_argument("");
-                }
-                else {
-                    lessarea(polygon, dest, std::cout);
-                }
+                lessarea(polygon, std::cin, std::cout);
                 break;
             case 6:
                 maxseq(polygon, std::cin, std::cout);

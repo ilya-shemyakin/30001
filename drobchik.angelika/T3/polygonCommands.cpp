@@ -141,24 +141,30 @@ void count(std::vector< Polygon >& polygons, std::string& mode, std::ostream& ou
     }
 }
 
-void lessarea(std::vector< Polygon >& polygons, Polygon& dest, std::ostream& out)
+void lessarea(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
-    out << std::count_if(polygons.begin(), polygons.end(),
-        [&dest](const Polygon& polygon)
-        {
-            return getArea(dest) > getArea(polygon);
-        }) << std::endl;
+    Polygon dest;
+    in >> dest;
+    if (in.fail() || polygons.empty()) {
+        throw std::invalid_argument("");
+    }
+    else {
+        out << std::count_if(polygons.begin(), polygons.end(),
+            [&dest](const Polygon& polygon)
+            {
+                return getArea(dest) > getArea(polygon);
+            }) << std::endl;
+    }
 }
 
-//как по другому реализовать
 void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
 {
     Polygon dest;
     in >> dest;
-    if (in.fail() || polygons.size() == 0) {
+    if (in.fail() || polygons.empty()) {
         throw std::invalid_argument("");
     }
-    else if {
+    else {
         int currentCount = 0;
         auto seqs = std::accumulate(polygons.begin(), polygons.end(), std::vector < size_t >(),
             [&dest, &currentCount](std::vector< size_t >& seqs, const Polygon& polygon)
@@ -177,8 +183,5 @@ void maxseq(std::vector< Polygon >& polygons, std::istream& in, std::ostream& ou
             });
         seqs.push_back(0);
         out << *std::max_element(seqs.begin(), seqs.end()) << std::endl;
-    }
-    else {
-        out << std::endl;
     }
 }

@@ -40,14 +40,6 @@ struct DelimiterIO {
     char del;
 };
 
-struct intIO {
-    int& ref;
-};
-
-struct DelStrIO {
-    std::string str;
-};
-
 class iofmtguard {
 public:
     iofmtguard(std::basic_ios<char>& s) noexcept;
@@ -61,7 +53,7 @@ private:
 };
 
 std::istream& operator>>(std::istream& in, DelimiterIO&& dest);
-std::istream& operator>>(std::istream& in, intIO&& dest);
+std::istream& operator>>(std::istream& in, Point& dest);
 std::istream& operator>>(std::istream& in, Polygon& dest);
 
 #endif
