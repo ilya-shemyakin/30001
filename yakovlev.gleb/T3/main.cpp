@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 
         std::cin >> cmd;
         isError = true;
- 
+
         if (std::cin.eof()) {
             break;
         }

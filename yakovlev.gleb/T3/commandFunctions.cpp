@@ -9,7 +9,8 @@ bool isEvenCountOfCorners(Polygon& pol) {
 }
 
 double findAreaOfPolygon(Polygon& pol) {
-    auto GaussianLacing = [] (double sum, const Point& point, const Point& nextPoint) {
+    auto GaussianLacing = [] (double sum, const Point& point,
+    const Point& nextPoint) {
         return sum + point.x * nextPoint.y - nextPoint.x * point.y;
     };
 
@@ -96,8 +97,7 @@ int count(std::vector<Polygon>& polygons) {
         }
     }
 }
-//Iofmtguard iofmtguard(std::cout);
-//std::cout << std::fixed << std::setprecision(1); для дробного значения
+
 double max(std::vector<Polygon>& polygons) {
     std::string temp;
     std::cin >> temp;
@@ -187,7 +187,8 @@ int maxSeq(std::vector<Polygon>& polygons) {
     int counter = 0;
 
     std::vector<int> generatedVector;
-    std::transform(polygons.begin(), polygons.end(), std::back_inserter(generatedVector),
+    std::transform(polygons.begin(), polygons.end(),
+    std::back_inserter(generatedVector),
         [&isSeries, &counter, &polygon] (Polygon& pol) mutable {
         if (pol == polygon) {
             ++counter;
