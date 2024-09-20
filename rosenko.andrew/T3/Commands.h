@@ -10,10 +10,13 @@
 
 #include "Polygon.h"
 
-bool isEven(const Polygon& polygon);
 bool isOdd(const Polygon& polygon);
+bool isEven(const Polygon& polygon);
 bool isDigit(char ch);
 double calcArea(const Polygon& polygon);
+double areaIfEven(double area, const Polygon& polygon);
+double areaIfOdd(double area, const Polygon& polygon);
+double areaIfMean(double area, const Polygon& polygon);
 
 void area(std::vector< Polygon >& polygons, std::istream& input, std::ostream& output);
 void max(std::vector< Polygon >& polygons, std::istream& input, std::ostream& output);

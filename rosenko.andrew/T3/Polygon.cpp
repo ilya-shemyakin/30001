@@ -5,7 +5,7 @@ bool Point::operator ==(const Point& other) const
     return ((other.x == this->x) && (other.y == this->y));
 }
 
-bool Polygon::operator==(const Polygon& other) const
+bool Polygon::operator ==(const Polygon& other) const
 {
     if (vertexes.size() != other.vertexes.size())
     {

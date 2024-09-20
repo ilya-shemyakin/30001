@@ -2,14 +2,14 @@
 
 using namespace std::placeholders;
 
-bool isEven(const Polygon& polygon)
-{
-    return !isOdd(polygon);
-}
-
 bool isOdd(const Polygon& polygon)
 {
     return polygon.vertexes.size() % 2 != 0;
+}
+
+bool isEven(const Polygon& polygon)
+{
+    return !isOdd(polygon);
 }
 
 bool isDigit(char ch)
@@ -35,6 +35,21 @@ double calcArea(const Polygon& polygon)
     return std::fabs(area);
 }
 
+double areaIfEven(double area, const Polygon& polygon)
+{
+    return area + (isEven(polygon) ? calcArea(polygon) : 0.0);
+}
+
+double areaIfOdd(double area, const Polygon& polygon)
+{
+    return area + (isOdd(polygon) ? calcArea(polygon) : 0.0);
+}
+
+double areaIfMean(double area, const Polygon& polygon)
+{
+    return area + calcArea(polygon);
+}
+
 void area(std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     output << std::fixed << std::setprecision(1);
@@ -45,20 +60,12 @@ void area(std::vector< Polygon >& polygons, std::istream& input, std::ostream& o
     if (cmd == "EVEN")
     {
         output << std::accumulate(polygons.begin(), polygons.end(), 0.0,
-            [](double area, const Polygon& polygon)
-            {
-                area += (isEven(polygon)) ? calcArea(polygon) : 0.0;
-                return area;
-            }) << std::endl;
+            std::bind(areaIfEven, _1, _2)) << std::endl;
     }
     else if (cmd == "ODD")
     {
         output << std::accumulate(polygons.begin(), polygons.end(), 0.0,
-            [](double area, const Polygon& polygon)
-            {
-                area += ((isOdd(polygon))) ? calcArea(polygon) : 0.0;
-                return area;
-            }) << std::endl;
+            std::bind(areaIfOdd, _1, _2)) << std::endl;
     }
     else if (cmd == "MEAN")
     {
@@ -67,11 +74,7 @@ void area(std::vector< Polygon >& polygons, std::istream& input, std::ostream& o
             throw std::invalid_argument("");
         }
         output << (std::accumulate(polygons.begin(), polygons.end(), 0.0,
-            [](double area, const Polygon& polygon)
-            {
-                area += calcArea(polygon);
-                return area;
-            })) / polygons.size() << std::endl;
+            std::bind(areaIfMean, _1, _2))) / polygons.size() << std::endl;
     }
     else if (std::all_of(cmd.begin(), cmd.end(), isDigit) == true)
     {
