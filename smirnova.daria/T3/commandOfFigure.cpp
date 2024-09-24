@@ -246,7 +246,7 @@ void countOfFigure(const std::vector< Polygon >& polygons, std::istream& input, 
 void countEven(const std::vector< Polygon >& polygons, std::ostream& output)
 {
 using namespace std::placeholders;
-    auto count = std::bind(std::equal_to<size_t>(),std::bind( //equal to сравнивает результат остатка от дел с 0
+    auto count = std::bind(std::equal_to<size_t>(),std::bind(
             std::modulus<size_t>(), //делит это количество точек на 2 и смотрит чет или нечет
             std::bind(
                     &std::vector<Point>::size, //узнает сколько точек есть в каждом полигоне
@@ -304,11 +304,9 @@ using namespace std::placeholders;
     {
         input.setstate(std::ios::failbit);
     }
-    auto identical = std::bind(equalPolygons, polygon, _2); //равна ди фигура вводному figure
+    auto identical = std::bind(equalPolygons, polygon, _2);
     auto last = std::unique(polygons.begin(), polygons.end(), identical);
- //проверяем все фигуры на этот признак Удаляет все элементы, кроме первого, из каждой последовательной группы эквивалентных элементов
     size_t countDelPolygons = std::distance(last, polygons.end());
-// Возвращает количество переходов от  first к  last
     polygons.erase(last, polygons.end());
     output << countDelPolygons << "\n";
 }
