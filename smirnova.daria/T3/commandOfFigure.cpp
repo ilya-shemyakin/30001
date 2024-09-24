@@ -305,7 +305,8 @@ using namespace std::placeholders;
         input.setstate(std::ios::failbit);
     }
     auto identical = std::bind(equalPolygons, polygon, _2); //равна ди фигура вводному figure
-    auto last = std::unique(polygons.begin(), polygons.end(), identical); //проверяем все фигуры на этот признак Удаляет все элементы, кроме первого, из каждой последовательной группы эквивалентных элементов
+    auto last = std::unique(polygons.begin(), polygons.end(), identical);
+ //проверяем все фигуры на этот признак Удаляет все элементы, кроме первого, из каждой последовательной группы эквивалентных элементов
     size_t countDelPolygons = std::distance(last, polygons.end());
 // Возвращает количество переходов от  first к  last
     polygons.erase(last, polygons.end());
