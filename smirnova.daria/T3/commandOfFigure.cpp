@@ -293,7 +293,7 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& input, 
         throw std::invalid_argument("");
     }
     auto intersect = std::bind(isIntersectionChecks, std::cref(polygon), _1);
-    out << std::count_if(polygons.cbegin(), polygons.cend(), intersect);
+    output << std::count_if(polygons.cbegin(), polygons.cend(), intersect);
 }
 void rmecho(std::vector<Polygon>& polygons, std::istream& input, std::ostream& output)
 {
