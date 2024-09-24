@@ -27,6 +27,6 @@ void countOfFigure(const std::vector< Polygon >& polygons, std::istream& input, 
 void countEven(const std::vector< Polygon >& polygons, std::ostream& output);
 void countOdd(const std::vector< Polygon >& polygons, std::ostream& output);
 void vertexCount(size_t num, const std::vector< Polygon >& polygons, std::ostream& output);
-void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
-void rmecho(std::vector< Polygon >& polygons, std::istream& in, std::ostream& out);
+void intersections(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output);
+void rmecho(std::vector< Polygon >& polygons, std::istream& input, std::ostream& output);
 #endif

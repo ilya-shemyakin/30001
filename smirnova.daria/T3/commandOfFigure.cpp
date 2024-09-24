@@ -283,7 +283,7 @@ void vertexCount(size_t num, const std::vector< Polygon >& polygons, std::ostrea
     output << result << "\n";
 }
 
-void intersections(const std::vector< Polygon >& polygons, std::istream& in, std::ostream& out)
+void intersections(const std::vector< Polygon >& polygons, std::istream& input, std::ostream& output)
 {
     using namespace std::placeholders;
     Polygon polygon;
@@ -295,7 +295,7 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
     auto intersect = std::bind(isIntersectionChecks, std::cref(polygon), _1);
     out << std::count_if(polygons.cbegin(), polygons.cend(), intersect);
 }
-void rmecho(std::vector<Polygon>& polygons, std::istream& in, std::ostream& out)
+void rmecho(std::vector<Polygon>& polygons, std::istream& input, std::ostream& output)
 {
 using namespace std::placeholders;
     Polygon polygon;
