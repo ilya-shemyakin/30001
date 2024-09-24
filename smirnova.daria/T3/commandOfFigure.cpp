@@ -297,20 +297,17 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& in, std
 }
 void rmecho(std::vector<Polygon>& polygons, std::istream& in, std::ostream& out)
 {
+using namespace std::placeholders;
     Polygon polygon;
-    in >> polygon;
-    if (!in or polygons.empty())
+    input >> polygon;
+    if (polygons.empty()  || !input)
     {
-        throw std::invalid_argument("");
+        input.setstate(std::ios::failbit);
     }
-    int result = 0;
-    for (size_t i = 1; i < polygons.size(); i++)
-    {
-        if (polygons[i] == polygon && polygons[i] == polygons[i - 1])
-        {
-            result += 1;
-            polygons.erase(polygons.begin() + i);
-        }
-    }
-    out << result << std::endl;
+    auto identical = std::bind(equalPolygons, polygon, _2); //равна ди фигура вводному figure
+    auto last = std::unique(polygons.begin(), polygons.end(), identical); //проверяем все фигуры на этот признак Удаляет все элементы, кроме первого, из каждой последовательной группы эквивалентных элементов
+    size_t countDelPolygons = std::distance(last, polygons.end());
+// Возвращает количество переходов от  first к  last
+    polygons.erase(last, polygons.end());
+    output << countDelPolygons << "\n";
 }
