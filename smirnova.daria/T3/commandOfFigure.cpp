@@ -287,8 +287,8 @@ void intersections(const std::vector< Polygon >& polygons, std::istream& input, 
 {
     using namespace std::placeholders;
     Polygon polygon;
-    in >> polygon;
-    if (polygons.empty() or !in)
+    input >> polygon;
+    if (polygons.empty() or !input)
     {
         throw std::invalid_argument("");
     }
