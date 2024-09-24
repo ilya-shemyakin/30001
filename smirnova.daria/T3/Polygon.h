@@ -7,7 +7,6 @@ struct Polygon
     std::vector< Point > points_;
 };
 std::istream& operator>>(std::istream& in, Polygon& polygon);
-bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject);
 bool isIntersectionChecks(const Polygon& firstObject, const Polygon& secondObject);
 bool equalPolygons(const Polygon& firstObject, const Polygon& secondObject);
 bool compareArea(const Polygon& lhs, const Polygon& rhs);
